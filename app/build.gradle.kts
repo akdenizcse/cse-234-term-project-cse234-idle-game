@@ -1,4 +1,5 @@
 plugins {
+    id("com.google.relay") version "0.3.12"
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }

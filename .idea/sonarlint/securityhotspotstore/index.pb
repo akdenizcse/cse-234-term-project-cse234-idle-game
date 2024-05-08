@@ -1,0 +1,19 @@
+
+P
+ app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
+C
+settings.gradle.kts,7/4/749edfcc96398253e5b3416184e95c46621da850
+@
+build.gradle.kts,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d
+D
+app/build.gradle.kts,d/2/d2a4383452aad84a18429a5844d31330a012a9e6
+f
+6app/src/main/java/com/example/idlegame/MainActivity.kt,e/c/ecb499b845f4b4501edb5fd87c972a825666e722
+h
+8app/src/main/java/com/example/idlegame/ui/theme/Color.kt,7/3/73aa7b1d3302552cd9feefc7138b72e3b03c2329
+h
+8app/src/main/java/com/example/idlegame/ui/theme/Theme.kt,d/2/d2200238434df5e8819bf86fd23d030fe788fa33
+g
+7app/src/main/java/com/example/idlegame/ui/theme/Type.kt,4/6/4691543a61c5827a35ee8049b823bbb7eed9f931
+i
+9app/src/main/java/com/example/idlegame/data/WeaponData.kt,9/1/91b9045f45c62f376245613e71dc2a04b3a8d2d3
