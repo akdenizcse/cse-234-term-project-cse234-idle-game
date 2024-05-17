@@ -1,8 +1,15 @@
 package com.example.idlegame.screen
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,6 +21,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,7 +54,16 @@ fun WeaponsScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
         Column() {
             Spacer(modifier = Modifier.height(60.dp))
-            LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            Image(painter = painterResource(id = R.drawable.weapons_background),
+                contentDescription = "Background for the weapon idle tab",
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.Crop)
+            Row(modifier = Modifier.fillMaxWidth().height(20.dp)) {
+                Box(modifier = Modifier.fillMaxSize().border(BorderStroke(1.dp, Color(0xFF515151))).background(Color(0xFF252525)))
+            }
+            LazyColumn(modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()) {
                 items(weapons) { weapon ->
                     Weapon(
                         title = weapon.title,
