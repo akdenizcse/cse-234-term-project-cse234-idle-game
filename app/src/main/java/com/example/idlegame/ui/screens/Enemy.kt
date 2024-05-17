@@ -25,7 +25,22 @@ import com.example.idlegame.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-data class Enemy(val name: String, var health: Int, val icon: @Composable (Enemy) -> Unit, val imageResource: MutableState<Int>, val isDead: MutableState<Boolean>)
+
+
+enum class LifeState {
+    ALIVE,
+    DEAD,
+    RESPAWNING
+
+}
+data class Enemy(
+    val name: String,
+    var health: Int,
+    val icon: @Composable (Enemy) -> Unit,
+    val imageResource: MutableState<Int>,
+    val lifeState: MutableState<LifeState>,
+    var isRespawning: MutableState<Boolean> = mutableStateOf(false)
+)
 
 val slimeEnemy = Enemy(
     name = "Slime",
@@ -35,32 +50,20 @@ val slimeEnemy = Enemy(
         Image(painterResource(id = imageResource), contentDescription = "Slime Icon", Modifier.size(64.dp))
     },
     imageResource = mutableStateOf(R.drawable.slime),
-    isDead = mutableStateOf(false)
-
-)
-val slimeEnemy2 = Enemy(
-    name = "Slime 2",
-    health = 30,
-    icon = { enemy: Enemy ->
-        val imageResource by enemy.imageResource
-        Image(painterResource(id = imageResource), contentDescription = "Slime Icon", Modifier.size(64.dp))
-    },
-    imageResource = mutableStateOf(R.drawable.slime),
-    isDead = mutableStateOf(false)
-
+    lifeState = mutableStateOf(LifeState.ALIVE)
 )
 
 @Composable
 fun Enemy(enemy: Enemy) {
-    val state = remember { mutableStateOf(enemy.health) }  // Local state for enemy health
+    val state = remember { mutableStateOf(enemy.health) }
     val scope = rememberCoroutineScope()
 
     DisposableEffect(Unit) {
         val listener: (EnemyHitEvent) -> Unit = { event ->
             if (event.enemy == enemy) {
                 state.value = Math.max(0, state.value - event.damage)
-                if (state.value == 0) {
-                    enemy.isDead.value = true
+                if (state.value == 0 && enemy.lifeState.value == LifeState.ALIVE) {
+                    enemy.lifeState.value = LifeState.DEAD
                     enemy.imageResource.value = R.drawable.slime_dead
                 }
             }
@@ -68,37 +71,48 @@ fun Enemy(enemy: Enemy) {
         EventBus.addListener(listener)
         onDispose { EventBus.removeListener(listener) }
     }
+
     Column(
         modifier = Modifier.padding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = enemy.name, style = MaterialTheme.typography.bodyLarge)
         Text(text = state.value.toString(), textAlign = TextAlign.Center)
-        Box(modifier = Modifier.clickable {
-            if (!enemy.isDead.value) {
-                damageEnemy(enemy, 1)  // Add clickable modifier to the icon
-                scope.launch {
-                    enemy.imageResource.value = R.drawable.slime_hit
-                    delay(500)  // wait for 500ms
-                    if (!enemy.isDead.value) {
-                        enemy.imageResource.value = R.drawable.slime
-                    }
-                    else {
-                        enemy.imageResource.value = R.drawable.slime_dead
-                        delay(2000)
-                        enemy.imageResource.value = R.drawable.slime
-                        state.value = enemy.health + 10
-                        enemy.health += 10
-                        enemy.isDead.value = false
+        Box(modifier = Modifier
+            .clickable {
+                if (enemy.lifeState.value == LifeState.ALIVE) {
+                    damageEnemy(enemy, 1)
+                    scope.launch {
+                        if (enemy.lifeState.value != LifeState.DEAD) {
+                            enemy.imageResource.value = R.drawable.slime_hit
+                        }
+                        delay(200)
+                        if (enemy.lifeState.value != LifeState.DEAD) {
+                            enemy.imageResource.value = R.drawable.slime
+                        } else if (enemy.lifeState.value == LifeState.DEAD) {
+                            if (!enemy.isRespawning.value) {
+                                enemy.isRespawning.value = true
+                                delay(2000)
+                                enemy.lifeState.value = LifeState.RESPAWNING
+                                enemy.imageResource.value = R.drawable.slime_dead
+                                if (enemy.lifeState.value == LifeState.RESPAWNING) {
+                                    state.value = enemy.health + 2
+                                    enemy.health = state.value
+                                    enemy.imageResource.value = R.drawable.slime
+                                    enemy.lifeState.value = LifeState.ALIVE
+                                    enemy.isRespawning.value = false
+                                }
+                            }
+                        }
                     }
                 }
             }
-        }.wrapContentSize()) {
+            .wrapContentSize()
+        ) {
             enemy.icon(enemy)
         }
     }
 }
-
 
 
 @Composable
@@ -132,6 +146,9 @@ object EventBus {
 }
 
 fun damageEnemy(enemy: Enemy, damage: Int) {
+    if (enemy.lifeState.value == LifeState.DEAD || enemy.lifeState.value == LifeState.RESPAWNING) {
+        return
+    }
     val event = EnemyHitEvent(enemy, damage)
     EventBus.triggerEvent(event)
     }
