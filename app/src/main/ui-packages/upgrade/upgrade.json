@@ -1,14 +1,14 @@
 {
-  "name": "weapon",
+  "name": "upgrade",
   "version": 33,
   "source-key": {
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
-    "node": "108:2",
-    "version": "5763190960",
-    "component-id": "86f8c214341e80623336ee8d5c9456fa26bb5c41"
+    "node": "165:28",
+    "version": "5763174855",
+    "component-id": "8a6ea4f588ac42d27e0ffb26cadddac6c7864595"
   },
-  "default": "Weapon",
+  "default": "Upgrade",
   "design": {
     "atoms": [
       {
@@ -22,11 +22,11 @@
       },
       {
         "type": "text",
-        "id": "level"
+        "id": "Material"
       },
       {
         "type": "text",
-        "id": "amount"
+        "id": "Description"
       },
       {
         "type": "group",
@@ -70,15 +70,15 @@
       }
     ],
     "modes": {
-      "Weapon": {
+      "Upgrade": {
         "rules": [
           {
             "id": "top_level",
             "is-structured": false,
             "children": [
               "Rectangle 1",
-              "level",
-              "amount",
+              "Material",
+              "Description",
               "Buy Button",
               "title",
               "PhotoLayout"
@@ -100,12 +100,12 @@
             "vector-content": "rectangle_1.svg"
           },
           {
-            "id": "level",
+            "id": "Material",
             "margin": {
-              "left": 85.0,
-              "top": 45.0,
-              "right": 165.0,
-              "bottom": 30.000006675720215
+              "left": 88.0,
+              "top": 36.0,
+              "right": 123.0,
+              "bottom": 45.00000762939453
             },
             "size-constraints": {
               "width-constraints": {
@@ -123,20 +123,20 @@
               "saturation": 0.0,
               "value": 1.0
             },
-            "text-content": "$level",
+            "text-content": "$material",
             "overflow": "visible",
             "max-lines": -1,
             "text-align": "left",
-            "text-size": 12.0,
+            "text-size": 9.0,
             "typeface": "Press Start 2P"
           },
           {
-            "id": "amount",
+            "id": "Description",
             "margin": {
               "left": 85.0,
-              "top": 62.0,
-              "right": 165.0,
-              "bottom": 13.000006675720215
+              "top": 56.0,
+              "right": 121.0,
+              "bottom": 15.000007629394531
             },
             "size-constraints": {
               "width-constraints": {
@@ -154,11 +154,11 @@
               "saturation": 0.0,
               "value": 1.0
             },
-            "text-content": "$income",
+            "text-content": "$description",
             "overflow": "visible",
             "max-lines": -1,
             "text-align": "left",
-            "text-size": 12.0,
+            "text-size": 9.0,
             "typeface": "Press Start 2P"
           },
           {
@@ -392,12 +392,12 @@
     }
   },
   "parameters": {
-    "level": {
+    "material": {
       "data-type": "text",
       "required": false,
       "description": ""
     },
-    "income": {
+    "description": {
       "data-type": "text",
       "required": false,
       "description": ""
@@ -425,14 +425,14 @@
   },
   "previews": [
     {
-      "design": "Weapon",
+      "design": "Upgrade",
       "size": {
         "width": 350.0,
         "height": 90.00000762939453
       },
       "parameters": {
-        "level": "LVL",
-        "income": "/s",
+        "material": "Diamond Upgrade",
+        "description": "It increases income by x2",
         "title": "titleaaasaaaaaaaa\n",
         "price": "123.31k",
         "weaponPicture": "photo.png"

@@ -17,3 +17,17 @@ g
 7app/src/main/java/com/example/idlegame/ui/theme/Type.kt,4/6/4691543a61c5827a35ee8049b823bbb7eed9f931
 i
 9app/src/main/java/com/example/idlegame/data/WeaponData.kt,9/1/91b9045f45c62f376245613e71dc2a04b3a8d2d3
+9
+	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+n
+>app/src/main/java/com/example/idlegame/screen/UpgradeScreen.kt,b/b/bb6df1d60f537031209811013643a2cf674ab52f
+j
+:app/src/main/java/com/example/idlegame/data/UpgradeData.kt,e/e/ee7c23417854ff9d82093f7468eab388d6b7f656
+A
+gradle.properties,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4
+x
+Happ/src/androidTest/java/com/example/idlegame/ExampleInstrumentedTest.kt,d/f/df3fb35580d5578a595583f5bb8c918f45f57e73
+g
+7app/src/main/java/com/example/idlegame/screen/Screen.kt,9/6/966836023902db27a6d58b367c76efa543aac148
+n
+>app/src/main/java/com/example/idlegame/screen/WeaponsScreen.kt,4/3/4387e5e6eb2f89b9b837f615124ccbc9a3f7d87f

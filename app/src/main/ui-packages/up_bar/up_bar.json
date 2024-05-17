@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "67:18",
-    "version": "5721916742",
+    "version": "5763174855",
     "component-id": "5aea5008597e00addbc5edd2f749e54ba26f82b7"
   },
   "default": "UpBar",
@@ -92,7 +92,7 @@
               "value": 0.3137254901960784
             },
             "arrangement": "row",
-            "main-axis-align": "start",
+            "cross-axis-align": "start",
             "children": [
               "Money Bar",
               "Gem Bar",

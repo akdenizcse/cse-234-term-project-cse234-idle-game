@@ -1,4 +1,3 @@
 {
-  "preview-theme": "androidx.compose.material3.MaterialTheme",
-  "ambient-translations-path": "app/src/main/ui-package-resources/style-mappings/m3_design_kit.json"
+  "preview-theme": "androidx.compose.material3.MaterialTheme"
 }
