@@ -44,13 +44,7 @@ fun WeaponsScreen() {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column() {
-            UpBar(
-                output = "120k/s",
-                onGear = {},
-                money = "911m",
-                gems = "30",
-                modifier = Modifier.fillMaxWidth()
-            )
+            Spacer(modifier = Modifier.height(60.dp))
             LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
                 items(weapons) { weapon ->
                     Weapon(
@@ -65,14 +59,6 @@ fun WeaponsScreen() {
             }
             Spacer(modifier = Modifier.height(60.dp))
         }
-
-//        DownBar(
-//            onWeaponsTab = {},
-//            onStoreTab = {},
-//            onUpgradesTab = { },
-//            design = Design.WeaponsTab,
-//            modifier = Modifier.align(Alignment.BottomCenter)
-//        )
     }
 }
 

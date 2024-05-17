@@ -28,14 +28,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.idlegame.ui.theme.IdleGameTheme
 import com.example.idlegame.downbar.Design
 import com.example.idlegame.downbar.DownBar
 import com.example.idlegame.screen.Screen
 import com.example.idlegame.screen.UpgradeScreen
 import com.example.idlegame.screen.WeaponsScreen
+import com.example.idlegame.upbar.UpBar
 
-class MainActivity : ComponentActivity() {
+ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -58,6 +63,14 @@ class MainActivity : ComponentActivity() {
      val design = remember { mutableStateOf(Design.WeaponsTab) }
 
      Box(modifier = Modifier.fillMaxSize()) {
+         UpBar(
+             output = "120k/s",
+             onGear = { },
+             money = "911m",
+             gems = "30",
+             modifier = Modifier.fillMaxWidth()
+         )
+
          when (screen.value) {
              Screen.WeaponsTab -> WeaponsScreen()
              Screen.StoreTab -> {}
@@ -82,7 +95,3 @@ class MainActivity : ComponentActivity() {
          )
      }
  }
-
-
-
-

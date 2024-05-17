@@ -42,13 +42,7 @@ fun UpgradeScreen() {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
-            UpBar(
-                output = "120k/s",
-                onGear = {},
-                money = "911m",
-                gems = "30",
-                modifier = Modifier.fillMaxWidth()
-            )
+            Spacer(modifier = Modifier.height(60.dp))
             LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
                 items(upgrades) { upgrade ->
                     Upgrade(
