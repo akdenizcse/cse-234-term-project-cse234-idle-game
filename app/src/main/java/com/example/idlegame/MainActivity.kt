@@ -1,4 +1,4 @@
- package com.example.idlegame
+package com.example.idlegame
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -36,11 +37,12 @@ import com.example.idlegame.ui.theme.IdleGameTheme
 import com.example.idlegame.downbar.Design
 import com.example.idlegame.downbar.DownBar
 import com.example.idlegame.screen.Screen
+import com.example.idlegame.screen.SettingsPopUp
 import com.example.idlegame.screen.UpgradeScreen
 import com.example.idlegame.screen.WeaponsScreen
 import com.example.idlegame.upbar.UpBar
 
- class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -50,6 +52,16 @@ import com.example.idlegame.upbar.UpBar
                     modifier = Modifier.fillMaxSize(),
                     color = Color(0xFF373737)
                 ) {
+//                    val navController = rememberNavController()
+//
+//                    NavHost(navController, startDestination = Screen.WeaponsTab.name) {
+//                        composable(Screen.WeaponsTab.name) {
+//                            Main(navController)
+//                        }
+//                        composable(Screen.SettingsTab.name) {
+//                            SettingsScreen()
+//                        }
+//                    }
                     Main()
                 }
             }
@@ -57,41 +69,48 @@ import com.example.idlegame.upbar.UpBar
     }
 }
 
- @Composable
- fun Main(){
-     val screen = remember { mutableStateOf(Screen.WeaponsTab) }
-     val design = remember { mutableStateOf(Design.WeaponsTab) }
+@Composable
+fun Main() {
+    val screen = remember { mutableStateOf(Screen.WeaponsTab) }
+    val design = remember { mutableStateOf(Design.WeaponsTab) }
+    val showSettingsDialog = remember { mutableStateOf(false) }
 
-     Box(modifier = Modifier.fillMaxSize()) {
-         UpBar(
-             output = "120k/s",
-             onGear = { },
-             money = "911m",
-             gems = "30",
-             modifier = Modifier.fillMaxWidth()
-         )
+    Box(modifier = Modifier.fillMaxSize()) {
+        UpBar(
+            output = "120k/s",
+            onGear = { showSettingsDialog.value = true },
+            money = "911m",
+            gems = "30",
+            modifier = Modifier.fillMaxWidth()
+        )
 
-         when (screen.value) {
-             Screen.WeaponsTab -> WeaponsScreen()
-             Screen.StoreTab -> {}
-             Screen.UpgradesTab -> UpgradeScreen()
-         }
+        when (screen.value) {
+            Screen.WeaponsTab -> WeaponsScreen()
+            Screen.StoreTab -> {}
+            Screen.UpgradesTab -> UpgradeScreen()
+        }
 
-         DownBar(
-             onWeaponsTab = {
-                 screen.value = Screen.WeaponsTab
-                 design.value = Design.WeaponsTab
-             },
-             onStoreTab = {
-                 screen.value = Screen.StoreTab
-                 design.value = Design.StoreTab
-             },
-             onUpgradesTab = {
-                 screen.value = Screen.UpgradesTab
-                 design.value = Design.UpgradeTab
-             },
-             design = design.value,
-             modifier = Modifier.align(Alignment.BottomCenter)
-         )
-     }
- }
+        DownBar(
+            onWeaponsTab = {
+                screen.value = Screen.WeaponsTab
+                design.value = Design.WeaponsTab
+            },
+            onStoreTab = {
+                screen.value = Screen.StoreTab
+                design.value = Design.StoreTab
+            },
+            onUpgradesTab = {
+                screen.value = Screen.UpgradesTab
+                design.value = Design.UpgradeTab
+            },
+            design = design.value,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
+
+        if (showSettingsDialog.value) { // If showSettingsDialog is true, show the dialog
+            Dialog(onDismissRequest = { showSettingsDialog.value = false }) {
+                SettingsPopUp(onClose = { showSettingsDialog.value = false })
+            }
+        }
+    }
+}
