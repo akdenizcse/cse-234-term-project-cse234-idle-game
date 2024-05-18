@@ -1,0 +1,104 @@
+{
+  "name": "component_button",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "FwddHdLXifvX1RSAN2MAkb",
+    "node": "209:17",
+    "version": "5792996950",
+    "component-id": "d34b67834cf476970a139ba7f01847815483b4ff"
+  },
+  "default": "Check=Disabled",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "image",
+        "id": "disabled"
+      },
+      {
+        "type": "image",
+        "id": "enabled"
+      }
+    ],
+    "modes": {
+      "Check=Disabled": {
+        "rules": [
+          {
+            "id": "top_level",
+            "is-structured": false,
+            "children": [
+              "disabled"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "disabled",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "image-content": "disabled.png",
+            "scale": "cover"
+          }
+        ]
+      },
+      "Check=Enabled": {
+        "rules": [
+          {
+            "id": "top_level",
+            "is-structured": false,
+            "children": [
+              "enabled"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "enabled",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "image-content": "enabled.png",
+            "scale": "cover"
+          }
+        ]
+      }
+    }
+  },
+  "previews": [
+    {
+      "design": "Check=Disabled",
+      "size": {
+        "width": 50.0,
+        "height": 50.0
+      }
+    },
+    {
+      "design": "Check=Enabled",
+      "size": {
+        "width": 50.0,
+        "height": 50.0
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}

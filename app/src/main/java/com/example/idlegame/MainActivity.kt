@@ -1,5 +1,7 @@
 package com.example.idlegame
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -33,6 +36,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.idlegame.componentbutton.Check
 import com.example.idlegame.ui.theme.IdleGameTheme
 import com.example.idlegame.downbar.Design
 import com.example.idlegame.downbar.DownBar
@@ -45,33 +49,48 @@ import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.upbar.UpBar
 
 class MainActivity : ComponentActivity() {
+    private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
+    private lateinit var sound: MutableState<Check>
+    private lateinit var music: MutableState<Check>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
+
         setContent {
             IdleGameTheme {
+                sound = remember { mutableStateOf(loadCheckState("sound")) }
+                music = remember { mutableStateOf(loadCheckState("music")) }
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = Color(0xFF373737)
                 ) {
-//                    val navController = rememberNavController()
-//
-//                    NavHost(navController, startDestination = Screen.WeaponsTab.name) {
-//                        composable(Screen.WeaponsTab.name) {
-//                            Main(navController)
-//                        }
-//                        composable(Screen.SettingsTab.name) {
-//                            SettingsScreen()
-//                        }
-//                    }
-                    Main()
+                    Main(sound, music)
                 }
             }
+        }
+    }
+    override fun onPause() {
+        super.onPause()
+        saveCheckState("sound", sound.value)
+        saveCheckState("music", music.value)
+    }
+
+    private fun loadCheckState(key: String): Check {
+        val state = sharedPreferences.getString(key, Check.Enabled.name)
+        return Check.valueOf(state ?: Check.Enabled.name)
+    }
+
+    private fun saveCheckState(key: String, check: Check) {
+        with(sharedPreferences.edit()) {
+            putString(key, check.name)
+            apply()
         }
     }
 }
 
 @Composable
-fun Main() {
+fun Main(sound: MutableState<Check>, music: MutableState<Check>) {
     val screen = remember { mutableStateOf(Screen.WeaponsTab) }
     val design = remember { mutableStateOf(Design.WeaponsTab) }
     val showSettingsDialog = remember { mutableStateOf(false) }
@@ -84,6 +103,12 @@ fun Main() {
             gems = "30",
             modifier = Modifier.fillMaxWidth()
         )
+
+        if (showSettingsDialog.value) {
+            Dialog(onDismissRequest = { showSettingsDialog.value = false }) {
+                SettingsPopUp(sound, music, onClose = { showSettingsDialog.value = false })
+            }
+        }
 
         when (screen.value) {
             Screen.WeaponsTab -> WeaponsScreen()
@@ -107,11 +132,5 @@ fun Main() {
             design = design.value,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
-
-        if (showSettingsDialog.value) { // If showSettingsDialog is true, show the dialog
-            Dialog(onDismissRequest = { showSettingsDialog.value = false }) {
-                SettingsPopUp(onClose = { showSettingsDialog.value = false })
-            }
-        }
     }
 }

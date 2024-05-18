@@ -59,7 +59,7 @@ fun WeaponsScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.Crop)
             Row(modifier = Modifier.fillMaxWidth().height(20.dp)) {
-                Box(modifier = Modifier.fillMaxSize().border(BorderStroke(1.dp, Color(0xFF515151))).background(Color(0xFF252525)))
+                Box(modifier = Modifier.fillMaxSize().background(Color(0xFF252525)))
             }
             LazyColumn(modifier = Modifier
                 .weight(1f)

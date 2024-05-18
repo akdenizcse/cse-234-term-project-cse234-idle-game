@@ -1,0 +1,464 @@
+{
+  "name": "settings",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "FwddHdLXifvX1RSAN2MAkb",
+    "node": "211:119",
+    "version": "5792996950",
+    "component-id": "c894e473fa4af17304b1be76809ddde85931b444"
+  },
+  "default": "Settings",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "group",
+        "id": "SettingsBar"
+      },
+      {
+        "type": "group",
+        "id": "Sound"
+      },
+      {
+        "type": "group",
+        "id": "Music"
+      },
+      {
+        "type": "group",
+        "id": "Group 1"
+      },
+      {
+        "type": "image",
+        "id": "cancel_red 1"
+      },
+      {
+        "type": "vector",
+        "id": "SettingsTriangle"
+      },
+      {
+        "type": "text",
+        "id": "title"
+      },
+      {
+        "type": "vector",
+        "id": "SoundTriangle"
+      },
+      {
+        "type": "image",
+        "id": "SpeakerOn 1"
+      },
+      {
+        "type": "adin_component",
+        "id": "ComponentButton",
+        "key": "component_button"
+      },
+      {
+        "type": "vector",
+        "id": "MusicTriangle"
+      },
+      {
+        "type": "image",
+        "id": "MusicNotes 1"
+      },
+      {
+        "type": "adin_component",
+        "id": "ComponentButton1",
+        "key": "component_button"
+      }
+    ],
+    "modes": {
+      "Settings": {
+        "rules": [
+          {
+            "id": "top_level",
+            "border-radius": 15.0,
+            "stroke-width": 3.0,
+            "stroke-alignment": "outside",
+            "stroke-color": {
+              "alpha": 0.2,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.3176470588235294
+            },
+            "children": [
+              "SettingsBar",
+              "Sound",
+              "Music"
+            ],
+            "item-spacing": 10.0,
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1450980392156863
+            },
+            "clip-content": false
+          },
+          {
+            "id": "SettingsBar",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 284.5
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "Group 1",
+              "cancel_red 1"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "Sound",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 120.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "SoundTriangle",
+              "SpeakerOn 1",
+              "ComponentButton"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "Music",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 120.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "MusicTriangle",
+              "MusicNotes 1",
+              "ComponentButton1"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "Group 1",
+            "border-radius": 15.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 248.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "SettingsTriangle",
+              "title"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "cancel_red 1",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 117.25
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "tap-handler": "$onCancel",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "image-content": "cancel_red_1.png",
+            "scale": "cover"
+          },
+          {
+            "id": "SettingsTriangle",
+            "border-radius": 15.0,
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 0.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 220.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "vector-content": "settings_triangle.svg"
+          },
+          {
+            "id": "title",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 0.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 248.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 30.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "Settings",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align-vertical": "center",
+            "text-size": 25.0,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "SoundTriangle",
+            "border-radius": 15.0,
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 0.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 120.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "vector-content": "sound_triangle.svg"
+          },
+          {
+            "id": "SpeakerOn 1",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": -25.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "image-content": "speaker_on_1.png",
+            "scale": "cover"
+          },
+          {
+            "id": "ComponentButton",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 25.5
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "tap-handler": "$onSound",
+            "design": "$soundDesign",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            }
+          },
+          {
+            "id": "MusicTriangle",
+            "border-radius": 15.0,
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 0.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 120.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "vector-content": "music_triangle.svg"
+          },
+          {
+            "id": "MusicNotes 1",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": -25.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              }
+            },
+            "image-content": "music_notes_1.png",
+            "scale": "cover"
+          },
+          {
+            "id": "ComponentButton1",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 25.5
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "tap-handler": "$onMusic",
+            "design": "$musicDesign",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "onCancel": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
+    "soundDesign": {
+      "data-type": "design-component_button",
+      "required": false,
+      "description": ""
+    },
+    "onSound": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
+    "musicDesign": {
+      "data-type": "design-component_button",
+      "required": false,
+      "description": ""
+    },
+    "onMusic": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    }
+  },
+  "previews": [
+    {
+      "design": "Settings",
+      "size": {
+        "width": 315.0,
+        "height": 200.0
+      },
+      "parameters": {
+        "soundDesign": "Check=Enabled",
+        "musicDesign": "Check=Enabled"
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}
