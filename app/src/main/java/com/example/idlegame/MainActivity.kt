@@ -38,6 +38,7 @@ import com.example.idlegame.downbar.Design
 import com.example.idlegame.downbar.DownBar
 import com.example.idlegame.screen.Screen
 import com.example.idlegame.screen.SettingsPopUp
+import com.example.idlegame.screen.StoreScreen
 import com.example.idlegame.screen.UpgradeScreen
 import com.example.idlegame.screen.WeaponsScreen
 import com.example.idlegame.upbar.UpBar
@@ -86,7 +87,7 @@ fun Main() {
 
         when (screen.value) {
             Screen.WeaponsTab -> WeaponsScreen()
-            Screen.StoreTab -> {}
+            Screen.StoreTab -> StoreScreen()
             Screen.UpgradesTab -> UpgradeScreen()
         }
 

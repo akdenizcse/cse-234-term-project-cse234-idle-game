@@ -1,0 +1,248 @@
+{
+  "name": "big_gem_buy",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "FwddHdLXifvX1RSAN2MAkb",
+    "node": "200:35",
+    "version": "5791996076",
+    "component-id": "be6d61f8f213fcc44089b88680dfdb9e236d05dd"
+  },
+  "default": "BigGemBuy",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "group",
+        "id": "65Gem"
+      },
+      {
+        "type": "group",
+        "id": "BuyButton"
+      },
+      {
+        "type": "image",
+        "id": "precious_pearl_4"
+      },
+      {
+        "type": "text",
+        "id": "65 Gem"
+      },
+      {
+        "type": "text",
+        "id": "TRY 50"
+      }
+    ],
+    "modes": {
+      "BigGemBuy": {
+        "rules": [
+          {
+            "id": "top_level",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "main-axis-align": "start",
+            "children": [
+              "65Gem",
+              "BuyButton"
+            ],
+            "item-spacing": -23.0,
+            "clip-content": false
+          },
+          {
+            "id": "65Gem",
+            "border-radius": 15.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 145.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 90.0
+              }
+            },
+            "stroke-width": 3.0,
+            "stroke-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1411764705882353
+            },
+            "is-structured": false,
+            "children": [
+              "precious_pearl_4",
+              "65 Gem"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 225.0,
+              "saturation": 0.17391304347826078,
+              "value": 0.27058823529411763
+            },
+            "clip-content": false
+          },
+          {
+            "id": "BuyButton",
+            "border-radius": 10.0,
+            "tap-handler": "$onBuy",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 70.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 34.0
+              }
+            },
+            "stroke-width": 2.0,
+            "stroke-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1411764705882353
+            },
+            "is-structured": false,
+            "children": [
+              "TRY 50"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 44.444444444444436,
+              "saturation": 0.8852459016393444,
+              "value": 0.9568627450980393
+            },
+            "clip-content": false
+          },
+          {
+            "id": "precious_pearl_4",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 35.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 5.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 75.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              }
+            },
+            "image-content": "$precious_pearl",
+            "scale": "cover"
+          },
+          {
+            "id": "65 Gem",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 22.5
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 45.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 100.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 21.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "$gemCount",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align-vertical": "center",
+            "text-size": 15.0,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "TRY 50",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 3.29052734375
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 12.331684112548828
+              }
+            },
+            "text-content": "$price",
+            "overflow": "visible",
+            "text-align-vertical": "center",
+            "text-size": 9.0,
+            "typeface": "Press Start 2P"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "onBuy": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
+    "precious_pearl": {
+      "data-type": "image",
+      "required": false,
+      "description": ""
+    },
+    "gemCount": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "price": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    }
+  },
+  "previews": [
+    {
+      "design": "BigGemBuy",
+      "size": {
+        "width": 145.0,
+        "height": 101.0
+      },
+      "parameters": {
+        "precious_pearl": "precious_pearl_4.png",
+        "gemCount": "65 Gem",
+        "price": "TRY 100"
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}
