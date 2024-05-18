@@ -22,6 +22,7 @@ import com.example.idlegame.R
 import com.example.idlegame.biggembuy.BigGemBuy
 import com.example.idlegame.gembuy.GemBuy
 import com.example.idlegame.gembuy.pressStart2P
+import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.ui.theme.IdleGameTheme
 
 @Composable
@@ -30,6 +31,7 @@ fun StoreScreen() {
         Column {
             Spacer(modifier = Modifier.height(60.dp))
             Spacer (modifier = Modifier.height(20.dp))
+
             Text(
                 text = "Gem Shop",
                 fontFamily = pressStart2P,
@@ -37,29 +39,31 @@ fun StoreScreen() {
                 color = Color.White,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
+
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 GemBuy(
                     onBuy = {},
                     preciousPearl = painterResource(R.drawable.gem_buy_precious_pearl),
                     gemCount = "2 Gem",
                     price = "Come at 6PM",
-                    modifier = Modifier.padding(8.dp, 8.dp)
+                    modifier = Modifier.padding(8.dp, 6.dp)
                 )
                 GemBuy(
                     onBuy = {},
                     preciousPearl = painterResource(R.drawable.gem_buy_precious_pearl),
-                    gemCount = "2 Gem",
-                    price = "Come at 6PM",
-                    modifier = Modifier.padding(8.dp, 8.dp)
+                    gemCount = "10 Gem",
+                    price = "TRY 10",
+                    modifier = Modifier.padding(8.dp, 6.dp)
                 )
                 GemBuy(
                     onBuy = {},
                     preciousPearl = painterResource(R.drawable.gem_buy_precious_pearl),
-                    gemCount = "2 Gem",
-                    price = "Come at 6PM",
-                    modifier = Modifier.padding(8.dp, 8.dp)
+                    gemCount = "25 Gem",
+                    price = "TRY 20",
+                    modifier = Modifier.padding(8.dp, 6.dp)
                 )
             }
+
             Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
                 BigGemBuy(
                     onBuy = {},
@@ -71,10 +75,36 @@ fun StoreScreen() {
                 BigGemBuy(
                     onBuy = {},
                     preciousPearl = painterResource(R.drawable.big_gem_buy_precious_pearl_4),
-                    gemCount = "65 Gem",
-                    price = "TRY 50",
+                    gemCount = "150 Gem",
+                    price = "TRY 100",
                     modifier = Modifier.padding(8.dp, 8.dp)
                 )
+            }
+
+            Spacer (modifier = Modifier.height(5.dp))
+            Text(
+                text = "Time Warps",
+                fontFamily = pressStart2P,
+                fontSize = 25.sp,
+                color = Color.White,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+
+            Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                TimeWarp(
+                    onBuy = {},
+                    days = "1-Day Time Warp",
+                    description = "Get 1 day worth income instantly!",
+                    amount = "That’s 10.36m!",
+                    price = "10",
+                    modifier = Modifier.padding(6.dp, 6.dp))
+                TimeWarp(
+                    onBuy = {},
+                    days = "7-Day Time Warp",
+                    description = "Get 7 days worth income instantly!",
+                    amount = "That’s 72.58m!",
+                    price = "50",
+                    modifier = Modifier.padding(6.dp, 6.dp))
             }
             Spacer(modifier = Modifier.height(60.dp))
         }

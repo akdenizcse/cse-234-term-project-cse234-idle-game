@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "200:35",
-    "version": "5791996076",
+    "version": "5792821984",
     "component-id": "be6d61f8f213fcc44089b88680dfdb9e236d05dd"
   },
   "default": "BigGemBuy",
@@ -18,7 +18,7 @@
       },
       {
         "type": "group",
-        "id": "65Gem"
+        "id": "Gem"
       },
       {
         "type": "group",
@@ -30,7 +30,7 @@
       },
       {
         "type": "text",
-        "id": "65 Gem"
+        "id": "Gem1"
       },
       {
         "type": "text",
@@ -52,14 +52,14 @@
             },
             "main-axis-align": "start",
             "children": [
-              "65Gem",
+              "Gem",
               "BuyButton"
             ],
             "item-spacing": -23.0,
             "clip-content": false
           },
           {
-            "id": "65Gem",
+            "id": "Gem",
             "border-radius": 15.0,
             "size-constraints": {
               "width-constraints": {
@@ -81,7 +81,7 @@
             "is-structured": false,
             "children": [
               "precious_pearl_4",
-              "65 Gem"
+              "Gem1"
             ],
             "background-color": {
               "alpha": 1.0,
@@ -128,12 +128,12 @@
             "id": "precious_pearl_4",
             "alignment": {
               "horizontal": {
-                "attachment": "start",
-                "offset": 35.0
+                "attachment": "center",
+                "offset": 0.0
               },
               "vertical": {
-                "attachment": "start",
-                "offset": 5.0
+                "attachment": "center",
+                "offset": -20.0
               }
             },
             "size-constraints": {
@@ -150,21 +150,21 @@
             "scale": "cover"
           },
           {
-            "id": "65 Gem",
+            "id": "Gem1",
             "alignment": {
               "horizontal": {
-                "attachment": "start",
-                "offset": 22.5
+                "attachment": "center",
+                "offset": -0.5
               },
               "vertical": {
-                "attachment": "start",
-                "offset": 45.0
+                "attachment": "center",
+                "offset": 10.5
               }
             },
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
-                "value": 100.0
+                "value": 120.0
               },
               "height-constraints": {
                 "sizing-mode": "fixed",
@@ -188,12 +188,12 @@
             "id": "TRY 50",
             "alignment": {
               "horizontal": {
-                "attachment": "start",
-                "offset": 3.29052734375
+                "attachment": "center",
+                "offset": -0.20947265625
               },
               "vertical": {
-                "attachment": "start",
-                "offset": 12.331684112548828
+                "attachment": "center",
+                "offset": -0.16831588745117188
               }
             },
             "text-content": "$price",
@@ -237,7 +237,7 @@
       },
       "parameters": {
         "precious_pearl": "precious_pearl_4.png",
-        "gemCount": "65 Gem",
+        "gemCount": "150 Gem",
         "price": "TRY 100"
       }
     }

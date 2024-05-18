@@ -41,6 +41,7 @@ import com.example.idlegame.screen.SettingsPopUp
 import com.example.idlegame.screen.StoreScreen
 import com.example.idlegame.screen.UpgradeScreen
 import com.example.idlegame.screen.WeaponsScreen
+import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.upbar.UpBar
 
 class MainActivity : ComponentActivity() {
@@ -48,7 +49,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             IdleGameTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = Color(0xFF373737)

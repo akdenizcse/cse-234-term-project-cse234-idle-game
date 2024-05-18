@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "199:8",
-    "version": "5791936090",
+    "version": "5792810558",
     "component-id": "756a95587fef766d73a8beef155e4e27899ba0ca"
   },
   "default": "GemBuy",
@@ -188,12 +188,12 @@
             "id": "Come at 6PM",
             "alignment": {
               "horizontal": {
-                "attachment": "start",
-                "offset": 5.0
+                "attachment": "center",
+                "offset": 0.0
               },
               "vertical": {
-                "attachment": "start",
-                "offset": 8.0
+                "attachment": "center",
+                "offset": 0.0
               }
             },
             "size-constraints": {
