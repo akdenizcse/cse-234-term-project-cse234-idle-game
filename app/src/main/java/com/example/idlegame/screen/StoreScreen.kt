@@ -22,6 +22,7 @@ import com.example.idlegame.R
 import com.example.idlegame.biggembuy.BigGemBuy
 import com.example.idlegame.gembuy.GemBuy
 import com.example.idlegame.gembuy.pressStart2P
+import com.example.idlegame.incomemultiplier.IncomeMultiplier
 import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.ui.theme.IdleGameTheme
 
@@ -81,7 +82,7 @@ fun StoreScreen() {
                 )
             }
 
-            Spacer (modifier = Modifier.height(5.dp))
+            Spacer (modifier = Modifier.height(8.dp))
             Text(
                 text = "Time Warps",
                 fontFamily = pressStart2P,
@@ -106,6 +107,33 @@ fun StoreScreen() {
                     price = "50",
                     modifier = Modifier.padding(6.dp, 6.dp))
             }
+
+            Spacer (modifier = Modifier.height(8.dp))
+            Text(
+                text = "Multipliers",
+                fontFamily = pressStart2P,
+                fontSize = 25.sp,
+                color = Color.White,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+
+            Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                IncomeMultiplier(
+                    onBuy = {},
+                    multiplierTitle = "2x Income\nMultiplier",
+                    description = "Applies a 2x Income Multiplier to all weapons! ",
+                    price = "100",
+                    modifier = Modifier.padding(6.dp, 6.dp)
+                )
+                IncomeMultiplier(
+                    onBuy = {},
+                    multiplierTitle = "4x Income\nMultiplier",
+                    description = "Applies a 4x Income Multiplier to all weapons! ",
+                    price = "300",
+                    modifier = Modifier.padding(6.dp, 6.dp)
+                )
+            }
+
             Spacer(modifier = Modifier.height(60.dp))
         }
     }

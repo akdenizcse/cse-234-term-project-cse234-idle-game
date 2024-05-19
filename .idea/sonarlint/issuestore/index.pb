@@ -35,5 +35,3 @@ n
 >app/src/main/java/com/example/idlegame/screen/SettingsPopUp.kt,e/e/ee9f1c0227c436e22879455d1e7eda2fd3a9d5a7
 l
 <app/src/main/java/com/example/idlegame/screen/StoreScreen.kt,e/e/ee6111ac83a9369f21a59c0a9028fbc79601b79e
-f
-6app/src/main/java/com/example/idlegame/NoIndication.kt,e/2/e273ebf8cfbbcdb194512ca7ac0bd753cffe70d9
