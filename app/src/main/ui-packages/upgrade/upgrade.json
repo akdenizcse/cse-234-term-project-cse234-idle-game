@@ -4,9 +4,9 @@
   "source-key": {
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
-    "node": "165:28",
-    "version": "5789877051",
-    "component-id": "8a6ea4f588ac42d27e0ffb26cadddac6c7864595"
+    "node": "238:98",
+    "version": "5804047578",
+    "component-id": "034d51ecd641d6f0c2fa55aad00ea4f16c219b7d"
   },
   "default": "Upgrade",
   "design": {
@@ -15,10 +15,6 @@
         "type": "group",
         "id": "top_level",
         "root": "true"
-      },
-      {
-        "type": "vector",
-        "id": "Rectangle 1"
       },
       {
         "type": "text",
@@ -30,7 +26,7 @@
       },
       {
         "type": "group",
-        "id": "Buy Button"
+        "id": "BuyFrame"
       },
       {
         "type": "text",
@@ -41,8 +37,8 @@
         "id": "PhotoLayout"
       },
       {
-        "type": "vector",
-        "id": "BuyRectangle"
+        "type": "group",
+        "id": "Texts"
       },
       {
         "type": "image",
@@ -74,38 +70,36 @@
         "rules": [
           {
             "id": "top_level",
+            "border-radius": 15.0,
+            "stroke-width": 3.0,
+            "stroke-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1411764705882353
+            },
             "is-structured": false,
             "children": [
-              "Rectangle 1",
               "Material",
               "Description",
-              "Buy Button",
+              "BuyFrame",
               "title",
               "PhotoLayout"
-            ]
-          },
-          {
-            "id": "Rectangle 1",
-            "border-radius": 15.0,
-            "size-constraints": {
-              "width-constraints": {
-                "sizing-mode": "proportional",
-                "value": 1.0
-              },
-              "height-constraints": {
-                "sizing-mode": "proportional",
-                "value": 1.0
-              }
-            },
-            "vector-content": "rectangle_1.svg"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 225.0,
+              "saturation": 0.17391304347826078,
+              "value": 0.27058823529411763
+            }
           },
           {
             "id": "Material",
             "margin": {
-              "left": 88.0,
-              "top": 36.0,
-              "right": 123.0,
-              "bottom": 45.00000762939453
+              "left": 87.0,
+              "top": 34.0,
+              "right": 124.0,
+              "bottom": 47.00000762939453
             },
             "size-constraints": {
               "width-constraints": {
@@ -133,10 +127,10 @@
           {
             "id": "Description",
             "margin": {
-              "left": 85.0,
-              "top": 56.0,
-              "right": 121.0,
-              "bottom": 15.000007629394531
+              "left": 84.0,
+              "top": 54.0,
+              "right": 122.0,
+              "bottom": 17.00000762939453
             },
             "size-constraints": {
               "width-constraints": {
@@ -162,29 +156,60 @@
             "typeface": "Press Start 2P"
           },
           {
-            "id": "Buy Button",
-            "margin": {
-              "left": 241.0,
-              "top": 45.0,
-              "right": 9.0,
-              "bottom": 10.000007629394531
+            "id": "BuyFrame",
+            "padding": {
+              "left": 4.0,
+              "top": 5.0,
+              "right": 4.0,
+              "bottom": 5.0
             },
-            "is-structured": false,
+            "border-radius": 10.0,
+            "alignment": {
+              "horizontal": {
+                "attachment": "end",
+                "offset": -7.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 15.499996185302734
+              }
+            },
+            "tap-handler": "$onBuy",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "stroke-width": 2.0,
+            "stroke-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1411764705882353
+            },
+            "arrangement": "row",
+            "main-axis-align": "end",
             "children": [
-              "BuyRectangle",
-              "bag_of_cash 2",
-              "buy",
-              "price"
+              "Texts",
+              "bag_of_cash 2"
             ],
-            "clip-content": false
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 44.444444444444436,
+              "saturation": 0.8852459016393444,
+              "value": 0.9568627450980393
+            }
           },
           {
             "id": "title",
             "margin": {
-              "left": 85.0,
-              "top": 20.0,
-              "right": 9.0,
-              "bottom": 40.00000762939453
+              "left": 84.0,
+              "top": 18.0,
+              "right": 10.0,
+              "bottom": 42.00000762939453
             },
             "size-constraints": {
               "width-constraints": {
@@ -214,11 +239,11 @@
             "alignment": {
               "horizontal": {
                 "attachment": "start",
-                "offset": 10.0
+                "offset": 9.0
               },
               "vertical": {
                 "attachment": "start",
-                "offset": 13.0
+                "offset": 11.0
               }
             },
             "size-constraints": {
@@ -237,33 +262,26 @@
             "clip-content": false
           },
           {
-            "id": "BuyRectangle",
-            "border-radius": 10.0,
-            "tap-handler": "$onBuy",
+            "id": "Texts",
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
-                "value": 100.0
+                "value": 70.0
               },
               "height-constraints": {
                 "sizing-mode": "fixed",
-                "value": 35.0
+                "value": 25.000001907348633
               }
             },
-            "vector-content": "buy_rectangle.svg"
+            "is-structured": false,
+            "children": [
+              "buy",
+              "price"
+            ],
+            "clip-content": false
           },
           {
             "id": "bag_of_cash 2",
-            "alignment": {
-              "horizontal": {
-                "attachment": "start",
-                "offset": 72.0
-              },
-              "vertical": {
-                "attachment": "start",
-                "offset": 5.0
-              }
-            },
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
@@ -279,20 +297,24 @@
           },
           {
             "id": "buy",
-            "margin": {
-              "left": 6.0,
-              "top": 5.0,
-              "right": 44.0,
-              "bottom": 19.999999046325684
+            "alignment": {
+              "horizontal": {
+                "attachment": "end",
+                "offset": -17.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": -7.500000476837158
+              }
             },
             "size-constraints": {
               "width-constraints": {
-                "sizing-mode": "proportional",
-                "value": 1.0
+                "sizing-mode": "fixed",
+                "value": 50.0
               },
               "height-constraints": {
-                "sizing-mode": "proportional",
-                "value": 1.0
+                "sizing-mode": "fixed",
+                "value": 10.000000953674316
               }
             },
             "text-content": "Buy 1",
@@ -304,20 +326,24 @@
           },
           {
             "id": "price",
-            "margin": {
-              "left": 6.0,
-              "top": 17.0,
-              "right": 24.0,
-              "bottom": 4.999998092651367
+            "alignment": {
+              "horizontal": {
+                "attachment": "end",
+                "offset": 0.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 6.0
+              }
             },
             "size-constraints": {
               "width-constraints": {
-                "sizing-mode": "proportional",
-                "value": 1.0
+                "sizing-mode": "fixed",
+                "value": 70.0
               },
               "height-constraints": {
-                "sizing-mode": "proportional",
-                "value": 1.0
+                "sizing-mode": "fixed",
+                "value": 13.000001907348633
               }
             },
             "text-content": "$price",
@@ -402,13 +428,13 @@
       "required": false,
       "description": ""
     },
-    "title": {
-      "data-type": "text",
+    "onBuy": {
+      "data-type": "void-callback",
       "required": false,
       "description": ""
     },
-    "onBuy": {
-      "data-type": "void-callback",
+    "title": {
+      "data-type": "text",
       "required": false,
       "description": ""
     },
