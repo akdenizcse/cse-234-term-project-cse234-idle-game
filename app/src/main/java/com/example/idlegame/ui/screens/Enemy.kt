@@ -1,4 +1,5 @@
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,11 +9,20 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.idlegame.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import android.graphics.BitmapFactory
+import android.graphics.Bitmap
 
 enum class LifeState {
     ALIVE,
@@ -34,11 +44,50 @@ val slimeEnemy = Enemy(
     health = 1,
     icon = { enemy: Enemy ->
         val imageResource by enemy.imageResource
-        Image(painterResource(id = imageResource), contentDescription = "Slime Icon", Modifier.size(64.dp))
+        Image(painterResource(id = imageResource), contentDescription = "Slime picture", modifier = Modifier.size(96.dp))
     },
     imageResource = mutableStateOf(R.drawable.slimeidle1), // Initial drawable
     lifeState = mutableStateOf(LifeState.ALIVE)
 )
+
+@Composable
+fun ProgressBar(currentHealth: Int, maxHealth: Int) {
+    val progress = currentHealth.toFloat() / maxHealth.toFloat()
+    Box(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+        LinearProgressIndicator(
+            progress = progress,
+            modifier = Modifier.fillMaxWidth().height(24.dp)
+        )
+        Text(
+            text = "$currentHealth/$maxHealth",
+            modifier = Modifier.align(Alignment.Center)
+        )
+    }
+}
+
+@Composable
+fun CustomProgressBar(currentHealth: Int, maxHealth: Int) {
+    val progress = currentHealth.toFloat() / maxHealth.toFloat()
+
+    Box(modifier = Modifier.width(100.dp).height(30.dp).padding(4.dp)) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            drawRoundRect(
+                color = Color.LightGray,
+                cornerRadius = CornerRadius(12f, 12f)
+            )
+            drawRoundRect(
+                color = Color.Red,
+                size = Size(size.width * progress, size.height),
+                cornerRadius = CornerRadius(12f, 12f)
+            )
+        }
+        Text(
+            text = "$currentHealth",
+            modifier = Modifier.align(Alignment.Center),
+            color = Color.White
+        )
+    }
+}
 
 @Composable
 fun Enemy(enemy: Enemy) {
@@ -50,25 +99,13 @@ fun Enemy(enemy: Enemy) {
         R.drawable.slimeidle1,
         R.drawable.slimeidle2,
         R.drawable.slimeidle3,
-        R.drawable.slimeidle4,
-        R.drawable.slimeidle5,
-        R.drawable.slimeidle6,
-        R.drawable.slimeidle7,
+        R.drawable.slimeidle0
     )
     val deathDrawableResources = listOf(
         R.drawable.slimedeath1,
         R.drawable.slimedeath2,
         R.drawable.slimedeath3,
         R.drawable.slimedeath4,
-        R.drawable.slimedeath5,
-        R.drawable.slimedeath6,
-        R.drawable.slimedeath7,
-        R.drawable.slimedeath8,
-        R.drawable.slimedeath9,
-        R.drawable.slimedeath10,
-        R.drawable.slimedeath11,
-        R.drawable.slimedeath12,
-        R.drawable.slimedeath13,
     )
 
     val infiniteTransition = rememberInfiniteTransition()
@@ -76,7 +113,7 @@ fun Enemy(enemy: Enemy) {
         initialValue = 0f,
         targetValue = (drawableResources.size - 1).toFloat(),
         animationSpec = infiniteRepeatable(
-            animation = tween(1000, easing = LinearEasing),
+            animation = tween(500, easing = LinearEasing),
             repeatMode = RepeatMode.Restart
         )
     )
@@ -88,7 +125,7 @@ fun Enemy(enemy: Enemy) {
             animate(
                 initialValue = 0f,
                 targetValue = (deathDrawableResources.size - 1).toFloat(),
-                animationSpec = tween(2000, easing = LinearEasing)
+                animationSpec = tween(500, easing = LinearEasing)
             ) { value, _ ->
                 deathFrameIndex = value
             }
@@ -108,7 +145,7 @@ fun Enemy(enemy: Enemy) {
                 state.value = Math.max(0, state.value - event.damage)
                 if (state.value == 0 && enemy.lifeState.value == LifeState.ALIVE) {
                     enemy.lifeState.value = LifeState.DEAD
-                    enemy.imageResource.value = R.drawable.slime_dead
+                    enemy.imageResource.value = R.drawable.slimedeath1
                 }
             }
         }
@@ -121,7 +158,7 @@ fun Enemy(enemy: Enemy) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = enemy.name, style = MaterialTheme.typography.bodyLarge)
-        Text(text = state.value.toString(), textAlign = TextAlign.Center)
+        CustomProgressBar(currentHealth = state.value, maxHealth = enemy.health)
         Box(
             modifier = Modifier
                 .clickable {
@@ -131,9 +168,9 @@ fun Enemy(enemy: Enemy) {
                             if (enemy.lifeState.value == LifeState.DEAD) {
                                 if (!enemy.isRespawning.value) {
                                     enemy.isRespawning.value = true
-                                    delay(2000)
+                                    delay(2500)
                                     enemy.lifeState.value = LifeState.RESPAWNING
-                                    enemy.imageResource.value = R.drawable.slime_dead
+                                    enemy.imageResource.value = R.drawable.slimedeath4 // death animation
                                     if (enemy.lifeState.value == LifeState.RESPAWNING) {
                                         state.value = enemy.health + 2
                                         enemy.health = state.value
@@ -152,7 +189,6 @@ fun Enemy(enemy: Enemy) {
         }
     }
 }
-
 @Composable
 fun Enemies(enemies: MutableList<Enemy>) {
     Column {
@@ -190,15 +226,40 @@ fun damageEnemy(enemy: Enemy, damage: Int) {
     EventBus.triggerEvent(event)
 }
 
-@Composable
-fun InfiniteTransition.AnimateDeathFrameIndex(
-    targetValue: Float,
-    animationSpec: InfiniteRepeatableSpec<Float>,
-    deathFrameIndex: MutableState<Float>
-) {
-    val frameIndex by animateFloatAsState(
-        targetValue = targetValue,
-        animationSpec = animationSpec
-    )
-    deathFrameIndex.value = frameIndex
+
+
+fun decodeSampledBitmapFromPath(path: String, reqWidth: Int, reqHeight: Int): Bitmap {
+    // First decode with inJustDecodeBounds=true to check dimensions
+    val options = BitmapFactory.Options().apply {
+        inJustDecodeBounds = true
+    }
+    BitmapFactory.decodeFile(path, options)
+
+    // Calculate inSampleSize
+    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight)
+
+    // Decode bitmap with inSampleSize set
+    options.inJustDecodeBounds = false
+    return BitmapFactory.decodeFile(path, options)
 }
+
+fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+    // Raw height and width of image
+    val (height: Int, width: Int) = options.run { outHeight to outWidth }
+    var inSampleSize = 1
+
+    if (height > reqHeight || width > reqWidth) {
+
+        val halfHeight: Int = height / 2
+        val halfWidth: Int = width / 2
+
+        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+        // height and width larger than the requested height and width.
+        while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+            inSampleSize *= 2
+        }
+    }
+
+    return inSampleSize
+}
+
