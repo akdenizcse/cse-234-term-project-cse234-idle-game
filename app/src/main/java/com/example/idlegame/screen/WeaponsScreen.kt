@@ -1,5 +1,6 @@
 package com.example.idlegame.screen
 
+import Enemy
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -33,6 +35,7 @@ import com.example.idlegame.downbar.DownBar
 import com.example.idlegame.ui.theme.IdleGameTheme
 import com.example.idlegame.upbar.UpBar
 import com.example.idlegame.weapon.Weapon
+import slimeEnemy
 
 @Composable
 fun WeaponsScreen() {
@@ -52,14 +55,26 @@ fun WeaponsScreen() {
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Column() {
+        Column {
             Spacer(modifier = Modifier.height(60.dp))
-            Image(painter = painterResource(id = R.drawable.weapons_background),
-                contentDescription = "Background for the weapon idle tab",
-                modifier = Modifier.fillMaxWidth(),
-                contentScale = ContentScale.Crop)
-            Row(modifier = Modifier.fillMaxWidth().height(20.dp)) {
-                Box(modifier = Modifier.fillMaxSize().background(Color(0xFF252525)))
+
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Image(painter = painterResource(id = R.drawable.weapons_background),
+                    contentDescription = "Background for the weapon idle tab",
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.Crop)
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter),
+                    contentAlignment = Alignment.Center)
+                {Enemy(slimeEnemy)}}
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .height(20.dp)) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFF252525))){
+                }
             }
             LazyColumn(modifier = Modifier
                 .weight(1f)
