@@ -1,10 +1,12 @@
 package com.example.idlegame
 
+import EnemyViewModel
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -52,6 +54,8 @@ class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
     private lateinit var sound: MutableState<Check>
     private lateinit var music: MutableState<Check>
+    private val enemyViewModel: EnemyViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
@@ -65,13 +69,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color(0xFF373737)
                 ) {
-                    Main(sound, music)
+                    Main(enemyViewModel,sound, music)
                 }
             }
         }
     }
     override fun onPause() {
         super.onPause()
+        enemyViewModel.resetEnemyState()
         saveCheckState("sound", sound.value)
         saveCheckState("music", music.value)
     }
@@ -87,10 +92,11 @@ class MainActivity : ComponentActivity() {
             apply()
         }
     }
+
 }
 
 @Composable
-fun Main(sound: MutableState<Check>, music: MutableState<Check>) {
+fun Main(enemyViewModel: EnemyViewModel,sound: MutableState<Check>, music: MutableState<Check>) {
     val screen = remember { mutableStateOf(Screen.WeaponsTab) }
     val design = remember { mutableStateOf(Design.WeaponsTab) }
     val showSettingsDialog = remember { mutableStateOf(false) }
@@ -111,7 +117,7 @@ fun Main(sound: MutableState<Check>, music: MutableState<Check>) {
         }
 
         when (screen.value) {
-            Screen.WeaponsTab -> WeaponsScreen()
+            Screen.WeaponsTab -> WeaponsScreen(enemyViewModel.slimeEnemy)
             Screen.StoreTab -> StoreScreen()
             Screen.UpgradesTab -> UpgradeScreen()
         }
@@ -120,6 +126,7 @@ fun Main(sound: MutableState<Check>, music: MutableState<Check>) {
             onWeaponsTab = {
                 screen.value = Screen.WeaponsTab
                 design.value = Design.WeaponsTab
+                enemyViewModel.resetEnemyState() // Reset enemy state when switching to Weapons tab
             },
             onStoreTab = {
                 screen.value = Screen.StoreTab
@@ -132,5 +139,6 @@ fun Main(sound: MutableState<Check>, music: MutableState<Check>) {
             design = design.value,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
+
     }
 }

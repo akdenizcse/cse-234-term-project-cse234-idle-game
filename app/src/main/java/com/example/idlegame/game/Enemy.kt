@@ -1,3 +1,5 @@
+import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -21,8 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import android.graphics.BitmapFactory
-import android.graphics.Bitmap
+import androidx.lifecycle.ViewModel
 
 enum class LifeState {
     ALIVE,
@@ -39,6 +40,29 @@ data class Enemy(
     var isRespawning: MutableState<Boolean> = mutableStateOf(false)
 )
 
+class EnemyViewModel : ViewModel() {
+    val lifeState = mutableStateOf(LifeState.ALIVE)
+    val slimeEnemy = Enemy(
+        name = "Slime",
+        health = 1,
+        icon = { enemy: Enemy ->
+            val imageResource by enemy.imageResource
+            Image(painterResource(id = imageResource), contentDescription = "Slime picture",
+                modifier = Modifier.size(96.dp))
+        },
+        imageResource = mutableStateOf(R.drawable.slimeidle1),
+        lifeState = lifeState
+
+    )
+    fun resetEnemyState() {
+        if (lifeState.value == LifeState.DEAD) {
+            lifeState.value = LifeState.ALIVE
+            slimeEnemy.health = slimeEnemy.health// Reset health or any other properties as needed
+        }
+    }
+
+}
+
 val slimeEnemy = Enemy(
     name = "Slime",
     health = 1,
@@ -47,16 +71,21 @@ val slimeEnemy = Enemy(
         Image(painterResource(id = imageResource), contentDescription = "Slime picture", modifier = Modifier.size(96.dp))
     },
     imageResource = mutableStateOf(R.drawable.slimeidle1), // Initial drawable
-    lifeState = mutableStateOf(LifeState.ALIVE)
+    lifeState =mutableStateOf(LifeState.ALIVE)
+
 )
 
 @Composable
 fun ProgressBar(currentHealth: Int, maxHealth: Int) {
     val progress = currentHealth.toFloat() / maxHealth.toFloat()
-    Box(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .padding(4.dp)) {
         LinearProgressIndicator(
             progress = progress,
-            modifier = Modifier.fillMaxWidth().height(24.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp)
         )
         Text(
             text = "$currentHealth/$maxHealth",
@@ -69,7 +98,10 @@ fun ProgressBar(currentHealth: Int, maxHealth: Int) {
 fun CustomProgressBar(currentHealth: Int, maxHealth: Int) {
     val progress = currentHealth.toFloat() / maxHealth.toFloat()
 
-    Box(modifier = Modifier.width(100.dp).height(30.dp).padding(4.dp)) {
+    Box(modifier = Modifier
+        .width(100.dp)
+        .height(30.dp)
+        .padding(4.dp)) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawRoundRect(
                 color = Color.LightGray,
@@ -170,11 +202,13 @@ fun Enemy(enemy: Enemy) {
                                     enemy.isRespawning.value = true
                                     delay(2500)
                                     enemy.lifeState.value = LifeState.RESPAWNING
-                                    enemy.imageResource.value = R.drawable.slimedeath4 // death animation
+                                    enemy.imageResource.value =
+                                        R.drawable.slimedeath4 // death animation
                                     if (enemy.lifeState.value == LifeState.RESPAWNING) {
                                         state.value = enemy.health + 2
                                         enemy.health = state.value
-                                        enemy.imageResource.value = drawableResources[frameIndex.toInt()] // back to idle animation
+                                        enemy.imageResource.value =
+                                            drawableResources[frameIndex.toInt()] // back to idle animation
                                         enemy.lifeState.value = LifeState.ALIVE
                                         enemy.isRespawning.value = false
                                     }
@@ -228,38 +262,4 @@ fun damageEnemy(enemy: Enemy, damage: Int) {
 
 
 
-fun decodeSampledBitmapFromPath(path: String, reqWidth: Int, reqHeight: Int): Bitmap {
-    // First decode with inJustDecodeBounds=true to check dimensions
-    val options = BitmapFactory.Options().apply {
-        inJustDecodeBounds = true
-    }
-    BitmapFactory.decodeFile(path, options)
-
-    // Calculate inSampleSize
-    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight)
-
-    // Decode bitmap with inSampleSize set
-    options.inJustDecodeBounds = false
-    return BitmapFactory.decodeFile(path, options)
-}
-
-fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
-    // Raw height and width of image
-    val (height: Int, width: Int) = options.run { outHeight to outWidth }
-    var inSampleSize = 1
-
-    if (height > reqHeight || width > reqWidth) {
-
-        val halfHeight: Int = height / 2
-        val halfWidth: Int = width / 2
-
-        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-        // height and width larger than the requested height and width.
-        while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
-            inSampleSize *= 2
-        }
-    }
-
-    return inSampleSize
-}
 

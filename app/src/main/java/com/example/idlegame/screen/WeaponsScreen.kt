@@ -1,6 +1,8 @@
 package com.example.idlegame.screen
 
 import Enemy
+import EnemyViewModel
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,11 +18,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.geometry.Size
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,10 +41,10 @@ import com.example.idlegame.downbar.DownBar
 import com.example.idlegame.ui.theme.IdleGameTheme
 import com.example.idlegame.upbar.UpBar
 import com.example.idlegame.weapon.Weapon
-import slimeEnemy
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
-fun WeaponsScreen() {
+fun WeaponsScreen(enemy: Enemy) {
     val weapons = listOf(
         WeaponData("Grim Reapersssss", "12 LVL", "/s", "802.12M", R.drawable.weapon_photo),
         WeaponData("title2", "11 LVL", "/s", "123.31k", R.drawable.weapon_photo),
@@ -53,7 +59,6 @@ fun WeaponsScreen() {
         WeaponData("title11", "2 LVL", "/s", "123.31k", R.drawable.weapon_photo),
         WeaponData("title12", "1 LVL", "/s", "123.31k", R.drawable.weapon_photo)
     )
-
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Spacer(modifier = Modifier.height(60.dp))
@@ -67,7 +72,7 @@ fun WeaponsScreen() {
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter),
                     contentAlignment = Alignment.Center)
-                {Enemy(slimeEnemy)}}
+                {Enemy(enemy)}}
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .height(20.dp)) {
@@ -99,6 +104,6 @@ fun WeaponsScreen() {
 @Composable
 fun WeaponsScreenPreview() {
     IdleGameTheme {
-        WeaponsScreen()
+        //WeaponsScreen(enemyViewModel.slimeEnemy )
     }
 }
