@@ -1,0 +1,23 @@
+Index: .idea/deploymentTargetSelector.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"deploymentTargetSelector\">\n    <selectionStates>\n      <SelectionState runConfigName=\"app\">\n        <option name=\"selectionMode\" value=\"DROPDOWN\" />\n        <DropdownSelection timestamp=\"2024-05-20T17:17:55.807012201Z\">\n          <Target type=\"DEFAULT_BOOT\">\n            <handle>\n              <DeviceId pluginId=\"LocalEmulator\" identifier=\"path=/home/cherub/.var/app/com.google.AndroidStudio/config/.android/avd/Pixel_7_API_33.avd\" />\n            </handle>\n          </Target>\n        </DropdownSelection>\n        <DialogSelection />\n      </SelectionState>\n    </selectionStates>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetSelector.xml b/.idea/deploymentTargetSelector.xml
+--- a/.idea/deploymentTargetSelector.xml	(revision ce09ebf38b54ad6246e5cc55784949bea9185962)
++++ b/.idea/deploymentTargetSelector.xml	(date 1716226106737)
+@@ -4,10 +4,10 @@
+     <selectionStates>
+       <SelectionState runConfigName="app">
+         <option name="selectionMode" value="DROPDOWN" />
+-        <DropdownSelection timestamp="2024-05-20T17:17:55.807012201Z">
++        <DropdownSelection timestamp="2024-05-20T17:26:28.292254569Z">
+           <Target type="DEFAULT_BOOT">
+             <handle>
+-              <DeviceId pluginId="LocalEmulator" identifier="path=/home/cherub/.var/app/com.google.AndroidStudio/config/.android/avd/Pixel_7_API_33.avd" />
++              <DeviceId pluginId="PhysicalDevice" identifier="serial=R5CT329HN1X" />
+             </handle>
+           </Target>
+         </DropdownSelection>

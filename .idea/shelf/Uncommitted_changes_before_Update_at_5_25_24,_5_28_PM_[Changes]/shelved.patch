@@ -1,0 +1,151 @@
+Index: app/src/main/java/com/example/idlegame/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.idlegame\n\nimport android.content.Context\nimport android.content.SharedPreferences\nimport android.os.Bundle\nimport androidx.activity.ComponentActivity\nimport androidx.activity.compose.setContent\nimport androidx.annotation.DrawableRes\nimport androidx.compose.foundation.layout.Arrangement\nimport androidx.compose.foundation.layout.Box\nimport androidx.compose.foundation.layout.Column\nimport androidx.compose.foundation.layout.Row\nimport androidx.compose.foundation.layout.Spacer\nimport androidx.compose.foundation.layout.fillMaxHeight\nimport androidx.compose.foundation.layout.fillMaxSize\nimport androidx.compose.foundation.layout.fillMaxWidth\nimport androidx.compose.foundation.layout.height\nimport androidx.compose.foundation.layout.padding\nimport androidx.compose.foundation.lazy.LazyColumn\nimport androidx.compose.foundation.lazy.items\nimport androidx.compose.material3.MaterialTheme\nimport androidx.compose.material3.Surface\nimport androidx.compose.material3.Text\nimport androidx.compose.runtime.Composable\nimport androidx.compose.runtime.MutableState\nimport androidx.compose.runtime.mutableStateOf\nimport androidx.compose.runtime.remember\nimport androidx.compose.ui.Alignment\nimport androidx.compose.ui.Modifier\nimport androidx.compose.ui.graphics.Color\nimport androidx.compose.ui.res.painterResource\nimport androidx.compose.ui.tooling.preview.Preview\nimport androidx.compose.ui.unit.dp\nimport androidx.compose.ui.window.Dialog\nimport androidx.navigation.NavController\nimport androidx.navigation.compose.NavHost\nimport androidx.navigation.compose.composable\nimport androidx.navigation.compose.rememberNavController\nimport com.example.idlegame.componentbutton.Check\nimport com.example.idlegame.ui.theme.IdleGameTheme\nimport com.example.idlegame.downbar.Design\nimport com.example.idlegame.downbar.DownBar\nimport com.example.idlegame.screen.Screen\nimport com.example.idlegame.screen.SettingsPopUp\nimport com.example.idlegame.screen.StoreScreen\nimport com.example.idlegame.screen.UpgradeScreen\nimport com.example.idlegame.screen.WeaponsScreen\nimport com.example.idlegame.timewarp.TimeWarp\nimport com.example.idlegame.upbar.UpBar\n\nclass MainActivity : ComponentActivity() {\n    private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed\n    private lateinit var sound: MutableState<Check>\n    private lateinit var music: MutableState<Check>\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        sharedPreferences = getSharedPreferences(\"settings\", Context.MODE_PRIVATE)\n\n        setContent {\n            IdleGameTheme {\n                sound = remember { mutableStateOf(loadCheckState(\"sound\")) }\n                music = remember { mutableStateOf(loadCheckState(\"music\")) }\n\n                Surface(\n                    modifier = Modifier.fillMaxSize(),\n                    color = Color(0xFF373737)\n                ) {\n                    Main(sound, music)\n                }\n            }\n        }\n    }\n    override fun onPause() {\n        super.onPause()\n        saveCheckState(\"sound\", sound.value)\n        saveCheckState(\"music\", music.value)\n    }\n\n    private fun loadCheckState(key: String): Check {\n        val state = sharedPreferences.getString(key, Check.Enabled.name)\n        return Check.valueOf(state ?: Check.Enabled.name)\n    }\n\n    private fun saveCheckState(key: String, check: Check) {\n        with(sharedPreferences.edit()) {\n            putString(key, check.name)\n            apply()\n        }\n    }\n}\n\n@Composable\nfun Main(sound: MutableState<Check>, music: MutableState<Check>) {\n    val screen = remember { mutableStateOf(Screen.WeaponsTab) }\n    val design = remember { mutableStateOf(Design.WeaponsTab) }\n    val showSettingsDialog = remember { mutableStateOf(false) }\n\n    Box(modifier = Modifier.fillMaxSize()) {\n        UpBar(\n            output = \"120k/s\",\n            onGear = { showSettingsDialog.value = true },\n            money = \"911m\",\n            gems = \"30\",\n            modifier = Modifier.fillMaxWidth()\n        )\n\n        if (showSettingsDialog.value) {\n            Dialog(onDismissRequest = { showSettingsDialog.value = false }) {\n                SettingsPopUp(sound, music, onClose = { showSettingsDialog.value = false })\n            }\n        }\n\n        when (screen.value) {\n            Screen.WeaponsTab -> WeaponsScreen()\n            Screen.StoreTab -> StoreScreen()\n            Screen.UpgradesTab -> UpgradeScreen()\n        }\n\n        DownBar(\n            onWeaponsTab = {\n                screen.value = Screen.WeaponsTab\n                design.value = Design.WeaponsTab\n            },\n            onStoreTab = {\n                screen.value = Screen.StoreTab\n                design.value = Design.StoreTab\n            },\n            onUpgradesTab = {\n                screen.value = Screen.UpgradesTab\n                design.value = Design.UpgradeTab\n            },\n            design = design.value,\n            modifier = Modifier.align(Alignment.BottomCenter)\n        )\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/idlegame/MainActivity.kt b/app/src/main/java/com/example/idlegame/MainActivity.kt
+--- a/app/src/main/java/com/example/idlegame/MainActivity.kt	(revision d27bca848e8b3b122bd7ef3bb9c7cd2b9528850c)
++++ b/app/src/main/java/com/example/idlegame/MainActivity.kt	(date 1716645547045)
+@@ -40,6 +40,7 @@
+ import com.example.idlegame.ui.theme.IdleGameTheme
+ import com.example.idlegame.downbar.Design
+ import com.example.idlegame.downbar.DownBar
++import com.example.idlegame.screen.LoginScreen
+ import com.example.idlegame.screen.Screen
+ import com.example.idlegame.screen.SettingsPopUp
+ import com.example.idlegame.screen.StoreScreen
+@@ -57,15 +58,26 @@
+         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
+ 
+         setContent {
++            val surfaceColor = remember { mutableStateOf(Color(0xFFFFFFFF)) } //0xFF373737
+             IdleGameTheme {
+                 sound = remember { mutableStateOf(loadCheckState("sound")) }
+                 music = remember { mutableStateOf(loadCheckState("music")) }
+ 
++                val username = sharedPreferences.getString("username", "Cherub") ?: ""
++                val password = sharedPreferences.getString("password", "Emre") ?: ""
++                val isLoggedIn = remember { mutableStateOf(false) }
++
+                 Surface(
+                     modifier = Modifier.fillMaxSize(),
+-                    color = Color(0xFF373737)
++                    color = surfaceColor.value
+                 ) {
+-                    Main(sound, music)
++                    if (isLoggedIn.value) {
++                        surfaceColor.value = Color(0xFF373737)
++                        Main(sound, music)
++                    } else {
++                        surfaceColor.value = Color(0xFFFFFFFF)
++                        LoginScreen(username, password, isLoggedIn)
++                    }
+                 }
+             }
+         }
+Index: gradle/libs.versions.toml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>[versions]\nagp = \"8.4.0\"\nkotlin = \"1.9.0\"\ncoreKtx = \"1.12.0\"\njunit = \"4.13.2\"\njunitVersion = \"1.1.5\"\nespressoCore = \"3.5.1\"\nlifecycleRuntimeKtx = \"2.7.0\"\nactivityCompose = \"1.8.2\"\ncomposeBom = \"2023.08.00\"\nnavigationCompose = \"2.7.7\"\n\n[libraries]\nandroidx-core-ktx = { group = \"androidx.core\", name = \"core-ktx\", version.ref = \"coreKtx\" }\njunit = { group = \"junit\", name = \"junit\", version.ref = \"junit\" }\nandroidx-junit = { group = \"androidx.test.ext\", name = \"junit\", version.ref = \"junitVersion\" }\nandroidx-espresso-core = { group = \"androidx.test.espresso\", name = \"espresso-core\", version.ref = \"espressoCore\" }\nandroidx-lifecycle-runtime-ktx = { group = \"androidx.lifecycle\", name = \"lifecycle-runtime-ktx\", version.ref = \"lifecycleRuntimeKtx\" }\nandroidx-activity-compose = { group = \"androidx.activity\", name = \"activity-compose\", version.ref = \"activityCompose\" }\nandroidx-compose-bom = { group = \"androidx.compose\", name = \"compose-bom\", version.ref = \"composeBom\" }\nandroidx-ui = { group = \"androidx.compose.ui\", name = \"ui\" }\nandroidx-ui-graphics = { group = \"androidx.compose.ui\", name = \"ui-graphics\" }\nandroidx-ui-tooling = { group = \"androidx.compose.ui\", name = \"ui-tooling\" }\nandroidx-ui-tooling-preview = { group = \"androidx.compose.ui\", name = \"ui-tooling-preview\" }\nandroidx-ui-test-manifest = { group = \"androidx.compose.ui\", name = \"ui-test-manifest\" }\nandroidx-ui-test-junit4 = { group = \"androidx.compose.ui\", name = \"ui-test-junit4\" }\nandroidx-material3 = { group = \"androidx.compose.material3\", name = \"material3\" }\nandroidx-navigation-compose = { group = \"androidx.navigation\", name = \"navigation-compose\", version.ref = \"navigationCompose\" }\n\n[plugins]\nandroidApplication = { id = \"com.android.application\", version.ref = \"agp\" }\njetbrainsKotlinAndroid = { id = \"org.jetbrains.kotlin.android\", version.ref = \"kotlin\" }\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradle/libs.versions.toml b/gradle/libs.versions.toml
+--- a/gradle/libs.versions.toml	(revision d27bca848e8b3b122bd7ef3bb9c7cd2b9528850c)
++++ b/gradle/libs.versions.toml	(date 1716645917579)
+@@ -1,5 +1,5 @@
+ [versions]
+-agp = "8.4.0"
++agp = "8.4.1"
+ kotlin = "1.9.0"
+ coreKtx = "1.12.0"
+ junit = "4.13.2"
+@@ -9,6 +9,7 @@
+ activityCompose = "1.8.2"
+ composeBom = "2023.08.00"
+ navigationCompose = "2.7.7"
++material3Android = "1.2.1"
+ 
+ [libraries]
+ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+@@ -26,6 +27,7 @@
+ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+ androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+ androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
++androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
+ 
+ [plugins]
+ androidApplication = { id = "com.android.application", version.ref = "agp" }
+Index: .idea/sonarlint/issuestore/index.pb
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\nP\n app/src/main/AndroidManifest.xml\u0012,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e\nC\n\u0013settings.gradle.kts\u0012,7/4/749edfcc96398253e5b3416184e95c46621da850\n@\n\u0010build.gradle.kts\u0012,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d\nD\n\u0014app/build.gradle.kts\u0012,d/2/d2a4383452aad84a18429a5844d31330a012a9e6\nf\n6app/src/main/java/com/example/idlegame/MainActivity.kt\u0012,e/c/ecb499b845f4b4501edb5fd87c972a825666e722\nh\n8app/src/main/java/com/example/idlegame/ui/theme/Color.kt\u0012,7/3/73aa7b1d3302552cd9feefc7138b72e3b03c2329\nh\n8app/src/main/java/com/example/idlegame/ui/theme/Theme.kt\u0012,d/2/d2200238434df5e8819bf86fd23d030fe788fa33\ng\n7app/src/main/java/com/example/idlegame/ui/theme/Type.kt\u0012,4/6/4691543a61c5827a35ee8049b823bbb7eed9f931\ni\n9app/src/main/java/com/example/idlegame/data/WeaponData.kt\u0012,9/1/91b9045f45c62f376245613e71dc2a04b3a8d2d3\n9\n\tREADME.md\u0012,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d\nn\n>app/src/main/java/com/example/idlegame/screen/UpgradeScreen.kt\u0012,b/b/bb6df1d60f537031209811013643a2cf674ab52f\nj\n:app/src/main/java/com/example/idlegame/data/UpgradeData.kt\u0012,e/e/ee7c23417854ff9d82093f7468eab388d6b7f656\nA\n\u0011gradle.properties\u0012,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4\nx\nHapp/src/androidTest/java/com/example/idlegame/ExampleInstrumentedTest.kt\u0012,d/f/df3fb35580d5578a595583f5bb8c918f45f57e73\ng\n7app/src/main/java/com/example/idlegame/screen/Screen.kt\u0012,9/6/966836023902db27a6d58b367c76efa543aac148\nn\n>app/src/main/java/com/example/idlegame/screen/WeaponsScreen.kt\u0012,4/3/4387e5e6eb2f89b9b837f615124ccbc9a3f7d87f\nn\n>app/src/main/java/com/example/idlegame/screen/SettingsPopUp.kt\u0012,e/e/ee9f1c0227c436e22879455d1e7eda2fd3a9d5a7\nl\n<app/src/main/java/com/example/idlegame/screen/StoreScreen.kt\u0012,e/e/ee6111ac83a9369f21a59c0a9028fbc79601b79e
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/sonarlint/issuestore/index.pb b/.idea/sonarlint/issuestore/index.pb
+--- a/.idea/sonarlint/issuestore/index.pb	(revision d27bca848e8b3b122bd7ef3bb9c7cd2b9528850c)
++++ b/.idea/sonarlint/issuestore/index.pb	(date 1716647300224)
+@@ -34,4 +34,10 @@
+ n
+ >app/src/main/java/com/example/idlegame/screen/SettingsPopUp.kt,e/e/ee9f1c0227c436e22879455d1e7eda2fd3a9d5a7
+ l
+-<app/src/main/java/com/example/idlegame/screen/StoreScreen.kt,e/e/ee6111ac83a9369f21a59c0a9028fbc79601b79e
+\ No newline at end of file
++<app/src/main/java/com/example/idlegame/screen/StoreScreen.kt,e/e/ee6111ac83a9369f21a59c0a9028fbc79601b79e
++d
++4app/src/main/java/com/example/idlegame/game/Enemy.kt,f/7/f749bf4b1f0883af3dcba323aea2650c1c2e6495
++l
++<app/src/main/java/com/example/idlegame/screen/LoginScreen.kt,a/d/ad2dc9341024876b007822a6a67777b7d1fb8aa5
++o
++?app/src/main/java/com/example/idlegame/screen/RegisterScreen.kt,c/f/cf5edb877670d5f8695c4b7fbd1231f6106f4d68
+\ No newline at end of file
+Index: .idea/deploymentTargetSelector.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"deploymentTargetSelector\">\n    <selectionStates>\n      <SelectionState runConfigName=\"app\">\n        <option name=\"selectionMode\" value=\"DROPDOWN\" />\n        <DropdownSelection timestamp=\"2024-05-22T08:10:01.925419100Z\">\n          <Target type=\"DEFAULT_BOOT\">\n            <handle>\n              <DeviceId pluginId=\"LocalEmulator\" identifier=\"path=C:\\Users\\bthny\\.android\\avd\\Pixel_7a_API_VanillaIceCream.avd\" />\n            </handle>\n          </Target>\n        </DropdownSelection>\n        <DialogSelection />\n      </SelectionState>\n    </selectionStates>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetSelector.xml b/.idea/deploymentTargetSelector.xml
+--- a/.idea/deploymentTargetSelector.xml	(revision d27bca848e8b3b122bd7ef3bb9c7cd2b9528850c)
++++ b/.idea/deploymentTargetSelector.xml	(date 1716401113838)
+@@ -4,10 +4,10 @@
+     <selectionStates>
+       <SelectionState runConfigName="app">
+         <option name="selectionMode" value="DROPDOWN" />
+-        <DropdownSelection timestamp="2024-05-22T08:10:01.925419100Z">
++        <DropdownSelection timestamp="2024-05-22T17:29:43.611304931Z">
+           <Target type="DEFAULT_BOOT">
+             <handle>
+-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\bthny\.android\avd\Pixel_7a_API_VanillaIceCream.avd" />
++              <DeviceId pluginId="LocalEmulator" identifier="path=/home/cherub/.var/app/com.google.AndroidStudio/config/.android/avd/Pixel_7_API_33.avd" />
+             </handle>
+           </Target>
+         </DropdownSelection>
+Index: .idea/sonarlint/securityhotspotstore/index.pb
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\nP\n app/src/main/AndroidManifest.xml\u0012,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e\nC\n\u0013settings.gradle.kts\u0012,7/4/749edfcc96398253e5b3416184e95c46621da850\n@\n\u0010build.gradle.kts\u0012,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d\nD\n\u0014app/build.gradle.kts\u0012,d/2/d2a4383452aad84a18429a5844d31330a012a9e6\nf\n6app/src/main/java/com/example/idlegame/MainActivity.kt\u0012,e/c/ecb499b845f4b4501edb5fd87c972a825666e722\nh\n8app/src/main/java/com/example/idlegame/ui/theme/Color.kt\u0012,7/3/73aa7b1d3302552cd9feefc7138b72e3b03c2329\nh\n8app/src/main/java/com/example/idlegame/ui/theme/Theme.kt\u0012,d/2/d2200238434df5e8819bf86fd23d030fe788fa33\ng\n7app/src/main/java/com/example/idlegame/ui/theme/Type.kt\u0012,4/6/4691543a61c5827a35ee8049b823bbb7eed9f931\ni\n9app/src/main/java/com/example/idlegame/data/WeaponData.kt\u0012,9/1/91b9045f45c62f376245613e71dc2a04b3a8d2d3\n9\n\tREADME.md\u0012,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d\nn\n>app/src/main/java/com/example/idlegame/screen/UpgradeScreen.kt\u0012,b/b/bb6df1d60f537031209811013643a2cf674ab52f\nj\n:app/src/main/java/com/example/idlegame/data/UpgradeData.kt\u0012,e/e/ee7c23417854ff9d82093f7468eab388d6b7f656\nA\n\u0011gradle.properties\u0012,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4\nx\nHapp/src/androidTest/java/com/example/idlegame/ExampleInstrumentedTest.kt\u0012,d/f/df3fb35580d5578a595583f5bb8c918f45f57e73\ng\n7app/src/main/java/com/example/idlegame/screen/Screen.kt\u0012,9/6/966836023902db27a6d58b367c76efa543aac148\nn\n>app/src/main/java/com/example/idlegame/screen/WeaponsScreen.kt\u0012,4/3/4387e5e6eb2f89b9b837f615124ccbc9a3f7d87f\nn\n>app/src/main/java/com/example/idlegame/screen/SettingsPopUp.kt\u0012,e/e/ee9f1c0227c436e22879455d1e7eda2fd3a9d5a7\nl\n<app/src/main/java/com/example/idlegame/screen/StoreScreen.kt\u0012,e/e/ee6111ac83a9369f21a59c0a9028fbc79601b79e
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/sonarlint/securityhotspotstore/index.pb b/.idea/sonarlint/securityhotspotstore/index.pb
+--- a/.idea/sonarlint/securityhotspotstore/index.pb	(revision d27bca848e8b3b122bd7ef3bb9c7cd2b9528850c)
++++ b/.idea/sonarlint/securityhotspotstore/index.pb	(date 1716647300224)
+@@ -34,4 +34,10 @@
+ n
+ >app/src/main/java/com/example/idlegame/screen/SettingsPopUp.kt,e/e/ee9f1c0227c436e22879455d1e7eda2fd3a9d5a7
+ l
+-<app/src/main/java/com/example/idlegame/screen/StoreScreen.kt,e/e/ee6111ac83a9369f21a59c0a9028fbc79601b79e
+\ No newline at end of file
++<app/src/main/java/com/example/idlegame/screen/StoreScreen.kt,e/e/ee6111ac83a9369f21a59c0a9028fbc79601b79e
++d
++4app/src/main/java/com/example/idlegame/game/Enemy.kt,f/7/f749bf4b1f0883af3dcba323aea2650c1c2e6495
++l
++<app/src/main/java/com/example/idlegame/screen/LoginScreen.kt,a/d/ad2dc9341024876b007822a6a67777b7d1fb8aa5
++o
++?app/src/main/java/com/example/idlegame/screen/RegisterScreen.kt,c/f/cf5edb877670d5f8695c4b7fbd1231f6106f4d68
+\ No newline at end of file

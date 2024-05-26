@@ -35,3 +35,7 @@ n
 >app/src/main/java/com/example/idlegame/screen/SettingsPopUp.kt,e/e/ee9f1c0227c436e22879455d1e7eda2fd3a9d5a7
 l
 <app/src/main/java/com/example/idlegame/screen/StoreScreen.kt,e/e/ee6111ac83a9369f21a59c0a9028fbc79601b79e
+d
+4app/src/main/java/com/example/idlegame/game/Enemy.kt,f/7/f749bf4b1f0883af3dcba323aea2650c1c2e6495
+o
+?app/src/main/java/com/example/idlegame/screen/RegisterScreen.kt,c/f/cf5edb877670d5f8695c4b7fbd1231f6106f4d68

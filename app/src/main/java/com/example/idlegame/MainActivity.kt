@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -96,9 +97,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Main(enemyViewModel: EnemyViewModel,sound: MutableState<Check>, music: MutableState<Check>) {
-    val screen = remember { mutableStateOf(Screen.WeaponsTab) }
-    val design = remember { mutableStateOf(Design.WeaponsTab) }
+fun Main(enemyViewModel: EnemyViewModel, sound: MutableState<Check>, music: MutableState<Check>) {
+    val navController = rememberNavController()
     val showSettingsDialog = remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -116,29 +116,32 @@ fun Main(enemyViewModel: EnemyViewModel,sound: MutableState<Check>, music: Mutab
             }
         }
 
-        when (screen.value) {
-            Screen.WeaponsTab -> WeaponsScreen(enemyViewModel.slimeEnemy)
-            Screen.StoreTab -> StoreScreen()
-            Screen.UpgradesTab -> UpgradeScreen()
+        NavHost(navController, startDestination = Screen.WeaponsTab.route) {
+            composable(Screen.WeaponsTab.route) { WeaponsScreen(enemyViewModel.slimeEnemy) }
+            composable(Screen.StoreTab.route) { StoreScreen() }
+            composable(Screen.UpgradesTab.route) { UpgradeScreen() }
         }
 
         DownBar(
             onWeaponsTab = {
-                screen.value = Screen.WeaponsTab
-                design.value = Design.WeaponsTab
-                enemyViewModel.resetEnemyState() // Reset enemy state when switching to Weapons tab
+                navController.navigate(Screen.WeaponsTab.route) {
+                    popUpTo(Screen.WeaponsTab.route) { inclusive = true }
+                }
+                enemyViewModel.resetEnemyState()
             },
-            onStoreTab = {
-                screen.value = Screen.StoreTab
-                design.value = Design.StoreTab
-            },
-            onUpgradesTab = {
-                screen.value = Screen.UpgradesTab
-                design.value = Design.UpgradeTab
-            },
-            design = design.value,
+            onStoreTab = { navController.navigate(Screen.StoreTab.route) },
+            onUpgradesTab = { navController.navigate(Screen.UpgradesTab.route) },
+            design = mapRouteToDesign(navController.currentBackStackEntry?.destination?.route),
             modifier = Modifier.align(Alignment.BottomCenter)
         )
+    }
+}
 
+fun mapRouteToDesign(route: String?): Design {
+    return when(route) {
+        Screen.WeaponsTab.route -> Design.WeaponsTab
+        Screen.StoreTab.route -> Design.StoreTab
+        Screen.UpgradesTab.route -> Design.UpgradeTab
+        else -> Design.WeaponsTab
     }
 }

@@ -200,7 +200,7 @@ fun Enemy(enemy: Enemy) {
                             if (enemy.lifeState.value == LifeState.DEAD) {
                                 if (!enemy.isRespawning.value) {
                                     enemy.isRespawning.value = true
-                                    delay(2500)
+                                    delay(1000)
                                     enemy.lifeState.value = LifeState.RESPAWNING
                                     enemy.imageResource.value =
                                         R.drawable.slimedeath4 // death animation
