@@ -39,3 +39,10 @@ d
 4app/src/main/java/com/example/idlegame/game/Enemy.kt,f/7/f749bf4b1f0883af3dcba323aea2650c1c2e6495
 o
 ?app/src/main/java/com/example/idlegame/screen/RegisterScreen.kt,c/f/cf5edb877670d5f8695c4b7fbd1231f6106f4d68
+l
+<app/src/main/java/com/example/idlegame/screen/LoginScreen.kt,a/d/ad2dc9341024876b007822a6a67777b7d1fb8aa5
+=
+.github/.keep,b/3/b38b39de5d21dd97caef02c5cf0bc50dedf08499
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302

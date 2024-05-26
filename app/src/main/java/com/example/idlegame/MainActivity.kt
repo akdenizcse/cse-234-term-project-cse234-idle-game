@@ -43,6 +43,7 @@ import com.example.idlegame.componentbutton.Check
 import com.example.idlegame.ui.theme.IdleGameTheme
 import com.example.idlegame.downbar.Design
 import com.example.idlegame.downbar.DownBar
+import com.example.idlegame.screen.LoginScreen
 import com.example.idlegame.screen.Screen
 import com.example.idlegame.screen.SettingsPopUp
 import com.example.idlegame.screen.StoreScreen

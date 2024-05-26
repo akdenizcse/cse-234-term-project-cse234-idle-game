@@ -1,14 +1,2 @@
 
-Tkotlin:S1172"5Remove this unused function parameter "isRegistered".(İ…ñÕ8·Õó€û1
-=kotlin:S125"Remove this commented out code.(ƒƒÆë8ÀÕó€û1
-Skotlin:S1481"4Remove this unused "confirmPassword" local variable.(ÚÅ¯Ã8ÃÕó€û1
-Lkotlin:S1481"-Remove this unused "password" local variable.(Í©Öî8ÃÕó€û1
-Lkotlin:S1481"-Remove this unused "username" local variable.(ú½î¶8ÄÕó€û1
-9kotlin:S1128"Remove this unused import.(¦ï½å8ÆÕó€û1
-9kotlin:S1128"Remove this unused import.(ÌÌ×–8ÆÕó€û1
->kotlin:S1128"Remove this unused import.(½…Ò¦ıÿÿÿÿ8ÆÕó€û1
-9kotlin:S1128"Remove this unused import.(²ßêº8ÆÕó€û1
-9kotlin:S1128	"Remove this unused import.(ŒàÕ÷8ÇÕó€û1
->kotlin:S1128
-"Remove this unused import.(¸çÁßûÿÿÿÿ8ÇÕó€û1
->kotlin:S1128"Remove this unused import.(ÏõÁŞşÿÿÿÿ8ÇÕó€û1
+Vkotlin:S1481"2Remove this unused "passwordAgain" local variable.(Ğğâşşÿÿÿÿ8ãõ®û1
