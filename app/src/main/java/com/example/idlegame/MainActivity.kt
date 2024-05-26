@@ -52,6 +52,7 @@ import com.example.idlegame.screen.UpgradeScreen
 import com.example.idlegame.screen.WeaponsScreen
 import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.upbar.UpBar
+import androidx.compose.runtime.LaunchedEffect
 
 class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
@@ -107,6 +108,7 @@ class MainActivity : ComponentActivity() {
 fun Main(enemyViewModel: EnemyViewModel, sound: MutableState<Check>, music: MutableState<Check>) {
     val navController = rememberNavController()
     val showSettingsDialog = remember { mutableStateOf(false) }
+    val design = remember { mutableStateOf(Design.WeaponsTab) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         UpBar(
@@ -131,14 +133,16 @@ fun Main(enemyViewModel: EnemyViewModel, sound: MutableState<Check>, music: Muta
 
         DownBar(
             onWeaponsTab = {
-                navController.navigate(Screen.WeaponsTab.route) {
-                    popUpTo(Screen.WeaponsTab.route) { inclusive = true }
-                }
+                navController.navigate(Screen.WeaponsTab.route)
                 enemyViewModel.resetEnemyState()
-            },
-            onStoreTab = { navController.navigate(Screen.StoreTab.route) },
-            onUpgradesTab = { navController.navigate(Screen.UpgradesTab.route) },
-            design = mapRouteToDesign(navController.currentBackStackEntry?.destination?.route),
+                design.value = Design.WeaponsTab },
+            onStoreTab = {
+                navController.navigate(Screen.StoreTab.route)
+                design.value = Design.StoreTab },
+            onUpgradesTab = {
+                navController.navigate(Screen.UpgradesTab.route)
+                design.value = Design.UpgradeTab },
+            design = design.value,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
