@@ -44,6 +44,7 @@ import com.example.idlegame.ui.theme.IdleGameTheme
 import com.example.idlegame.downbar.Design
 import com.example.idlegame.downbar.DownBar
 import com.example.idlegame.screen.LoginScreen
+import com.example.idlegame.screen.RegisterScreen
 import com.example.idlegame.screen.Screen
 import com.example.idlegame.screen.SettingsPopUp
 import com.example.idlegame.screen.StoreScreen
@@ -67,11 +68,17 @@ class MainActivity : ComponentActivity() {
                 sound = remember { mutableStateOf(loadCheckState("sound")) }
                 music = remember { mutableStateOf(loadCheckState("music")) }
 
+                val navController = rememberNavController()
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = Color(0xFF373737)
                 ) {
-                    Main(enemyViewModel,sound, music)
+                    NavHost(navController = navController, startDestination = "login") {
+                        composable("login") { LoginScreen(navController) }
+                        composable("register") { RegisterScreen(navController) }
+                        composable("main") { Main(enemyViewModel, sound, music) }
+                    }
                 }
             }
         }
@@ -94,7 +101,6 @@ class MainActivity : ComponentActivity() {
             apply()
         }
     }
-
 }
 
 @Composable
