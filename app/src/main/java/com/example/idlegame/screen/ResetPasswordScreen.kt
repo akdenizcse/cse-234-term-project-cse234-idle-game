@@ -1,5 +1,6 @@
 package com.example.idlegame.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
@@ -10,10 +11,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,9 +24,9 @@ import com.example.idlegame.gembuy.pressStart2P
 import com.example.idlegame.ui.theme.IdleGameTheme
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun ResetPasswordScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -56,20 +57,11 @@ fun LoginScreen(navController: NavHostController) {
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White)
             )
-            Spacer(modifier = Modifier.height(8.dp))
 
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text(text = "Password", fontFamily = pressStart2P, color = Color.White, fontSize = 12.sp) },
-                visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White)
-            )
             Spacer(modifier = Modifier.height(16.dp))
 
             ClickableText(
-                text = AnnotatedString("Forgot Password?"),
+                text = AnnotatedString("Remember your Password?"),
                 style = TextStyle(
                     color = Color.White,
                     fontFamily = pressStart2P,
@@ -77,8 +69,8 @@ fun LoginScreen(navController: NavHostController) {
                     fontWeight = FontWeight.Bold
                 ),
                 onClick = {
-                    navController.navigate("reset") {
-                        popUpTo("login") { inclusive = true }
+                    navController.navigate("login") {
+                    popUpTo("reset") { inclusive = true }
                     }
                 }
             )
@@ -87,12 +79,13 @@ fun LoginScreen(navController: NavHostController) {
             Button(
                 modifier = Modifier.fillMaxWidth(0.8f),
                 onClick = {
-                    navController.navigate("main") {
-                        popUpTo("login") { inclusive = true }
+                    navController.navigate("login") {
+                        popUpTo("reset") { inclusive = true }
                     }
+                    Toast.makeText(context, "Reset Password Email sent", Toast.LENGTH_SHORT).show()
                 }
             ) {
-                Text(text = "Sign In", fontFamily = pressStart2P, color = Color.White, modifier = Modifier.align(Alignment.CenterVertically))
+                Text(text = "Reset Password", fontFamily = pressStart2P, color = Color.White, modifier = Modifier.align(Alignment.CenterVertically))
             }
         }
 
@@ -110,7 +103,7 @@ fun LoginScreen(navController: NavHostController) {
                 ),
                 onClick = {
                     navController.navigate("register") {
-                        popUpTo("login") { inclusive = true }
+                        popUpTo("reset") { inclusive = true }
                     }
                 }
             )
@@ -120,13 +113,13 @@ fun LoginScreen(navController: NavHostController) {
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
+fun ResetPasswordScreenPreview() {
     IdleGameTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = Color(0xFF373737)
         ){
-            LoginScreen(navController = rememberNavController())
+            ResetPasswordScreen(navController = rememberNavController())
         }
     }
 }

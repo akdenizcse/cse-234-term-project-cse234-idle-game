@@ -46,3 +46,5 @@ l
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
+n
+>app/src/main/java/com/example/idlegame/screen/ResetPassword.kt,5/a/5a13e0c964d87bb6bf7c5336a3c8d7f4c3e91279

@@ -1,5 +1,6 @@
 package com.example.idlegame.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
@@ -10,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -24,9 +26,10 @@ import com.example.idlegame.ui.theme.IdleGameTheme
 
 @Composable
 fun RegisterScreen(navController: NavHostController) {
-    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordAgain by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -51,9 +54,9 @@ fun RegisterScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
-                label = { Text(text = "Username", fontFamily = pressStart2P, color = Color.White, fontSize = 12.sp) },
+                value = email,
+                onValueChange = { email = it },
+                label = { Text(text = "Email", fontFamily = pressStart2P, color = Color.White, fontSize = 12.sp) },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White)
             )
@@ -81,9 +84,12 @@ fun RegisterScreen(navController: NavHostController) {
 
             Button(
                 modifier = Modifier.fillMaxWidth(0.8f),
-                onClick = { navController.navigate("login") {
-                    popUpTo("register") { inclusive = true }
-                }})
+                onClick = {
+                    navController.navigate("login") {
+                        popUpTo("register") { inclusive = true }
+                    }
+                    Toast.makeText(context, "Account Created", Toast.LENGTH_SHORT).show()
+                })
             {
                 Text(text = "Sign Up", fontFamily = pressStart2P, color = Color.White, modifier = Modifier.align(Alignment.CenterVertically))
             }
@@ -101,9 +107,11 @@ fun RegisterScreen(navController: NavHostController) {
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
                 ),
-                onClick = { navController.navigate("login") {
-                    popUpTo("register") { inclusive = true }
-                }}
+                onClick = {
+                    navController.navigate("login") {
+                        popUpTo("register") { inclusive = true }
+                    }
+                }
             )
         }
     }

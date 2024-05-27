@@ -53,6 +53,7 @@ import com.example.idlegame.screen.WeaponsScreen
 import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.upbar.UpBar
 import androidx.compose.runtime.LaunchedEffect
+import com.example.idlegame.screen.ResetPasswordScreen
 
 class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
@@ -77,6 +78,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     NavHost(navController = navController, startDestination = "login") {
                         composable("login") { LoginScreen(navController) }
+                        composable("reset") { ResetPasswordScreen(navController) }
                         composable("register") { RegisterScreen(navController) }
                         composable("main") { Main(enemyViewModel, sound, music) }
                     }
@@ -145,14 +147,5 @@ fun Main(enemyViewModel: EnemyViewModel, sound: MutableState<Check>, music: Muta
             design = design.value,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
-    }
-}
-
-fun mapRouteToDesign(route: String?): Design {
-    return when(route) {
-        Screen.WeaponsTab.route -> Design.WeaponsTab
-        Screen.StoreTab.route -> Design.StoreTab
-        Screen.UpgradesTab.route -> Design.UpgradeTab
-        else -> Design.WeaponsTab
     }
 }
