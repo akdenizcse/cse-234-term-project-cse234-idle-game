@@ -24,6 +24,9 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.example.idlegame.gembuy.pressStart2P
+import androidx.compose.ui.text.TextStyle
+
 
 enum class LifeState {
     ALIVE,
@@ -89,6 +92,7 @@ fun ProgressBar(currentHealth: Int, maxHealth: Int) {
         )
         Text(
             text = "$currentHealth/$maxHealth",
+            style = TextStyle(fontFamily = pressStart2P, color = Color.White),
             modifier = Modifier.align(Alignment.Center)
         )
     }
@@ -114,8 +118,10 @@ fun CustomProgressBar(currentHealth: Int, maxHealth: Int) {
             )
         }
         Text(
+
             text = "$currentHealth",
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier.align(Alignment.BottomCenter),
+            style = TextStyle(fontFamily = pressStart2P, color = Color.White),
             color = Color.White
         )
     }
@@ -189,7 +195,7 @@ fun Enemy(enemy: Enemy) {
         modifier = Modifier.padding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = enemy.name, style = MaterialTheme.typography.bodyLarge)
+        Text(text = enemy.name, style = TextStyle(fontFamily = pressStart2P, color = Color.White))
         CustomProgressBar(currentHealth = state.value, maxHealth = enemy.health)
         Box(
             modifier = Modifier

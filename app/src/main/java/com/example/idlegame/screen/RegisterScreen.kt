@@ -5,9 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +32,7 @@ import com.example.idlegame.gembuy.pressStart2P
 import com.example.idlegame.ui.theme.IdleGameTheme
 import kotlin.random.Random
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6)) {
     var email by remember { mutableStateOf("") }
@@ -96,32 +100,41 @@ fun RegisterScreen(navController: NavHostController,randomIndex: Int = Random.ne
             }
             Spacer(modifier = Modifier.height(8.dp))
 
-            OutlinedTextField(
+            TextField(
                 value = email,
                 onValueChange = { email = it },
                 label = { Text(text = "Email", fontFamily = pressStart2P, color = Color.White, fontSize = 12.sp) },
                 modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White)
+                textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.Black.copy(alpha = 0.5f)
+                )
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            OutlinedTextField(
+            TextField(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text(text = "Password", fontFamily = pressStart2P, color = Color.White, fontSize = 12.sp) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White)
+                textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.Black.copy(alpha = 0.5f)
+                )
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            OutlinedTextField(
+            TextField(
                 value = passwordAgain,
                 onValueChange = { passwordAgain = it },
                 label = { Text(text = "Password Again", fontFamily = pressStart2P, color = Color.White, fontSize = 12.sp) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White)
+                textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.Black.copy(alpha = 0.5f)
+                )
             )
             Spacer(modifier = Modifier.height(4.dp))
 
