@@ -26,14 +26,24 @@ import androidx.navigation.compose.rememberNavController
 import com.example.idlegame.R
 import com.example.idlegame.gembuy.pressStart2P
 import com.example.idlegame.ui.theme.IdleGameTheme
+import kotlin.random.Random
 
 @Composable
-fun ResetPasswordScreen(navController: NavHostController) {
+fun ResetPasswordScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6)) {
     var email by remember { mutableStateOf("") }
     val context = LocalContext.current
 
 
-    val backgroundImage = painterResource(id = R.drawable.background)
+    val backgroundImages = listOf(
+        R.drawable.background0,
+        R.drawable.background1,
+        R.drawable.background2,
+        R.drawable.background3,
+        R.drawable.background4,
+        R.drawable.background5
+    )
+
+    val backgroundImage = painterResource(id = backgroundImages[randomIndex])
 
     // Set the image as the background
     Image(
@@ -103,12 +113,29 @@ fun ResetPasswordScreen(navController: NavHostController) {
             }
         }
 
-        Box( // Box for Alignment
+        Box(
             modifier = Modifier.fillMaxWidth()
-        ) {
+        ) { // Center within the Box
+            // Draw the outline by overlaying the same text with offset positions and a different color
+            for (dx in -1..1) {
+                for (dy in -1..1) {
+                    Text(
+                        text = "Don't have account?\n      Sign Up!",
+                        modifier = Modifier.offset(dx.dp, dy.dp).align(Alignment.Center),
+                        style = TextStyle(
+                            color = Color.Black, // Outline color
+                            fontFamily = pressStart2P,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                }
+            }
+
+            // Draw the main text
             ClickableText(
-                modifier = Modifier.align(Alignment.Center), // Center within the Box
                 text = AnnotatedString("Don't have account?\n      Sign Up!"),
+                modifier = Modifier.align(Alignment.Center),
                 style = TextStyle(
                     color = Color.White,
                     fontFamily = pressStart2P,
@@ -117,7 +144,7 @@ fun ResetPasswordScreen(navController: NavHostController) {
                 ),
                 onClick = {
                     navController.navigate("register") {
-                        popUpTo("reset") { inclusive = true }
+                        popUpTo("login") { inclusive = true }
                     }
                 }
             )

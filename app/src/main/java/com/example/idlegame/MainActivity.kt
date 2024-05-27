@@ -54,6 +54,7 @@ import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.upbar.UpBar
 import androidx.compose.runtime.LaunchedEffect
 import com.example.idlegame.screen.ResetPasswordScreen
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
@@ -64,6 +65,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val randomIndex = Random.nextInt(6)
 
         setContent {
             IdleGameTheme {
@@ -77,9 +79,9 @@ class MainActivity : ComponentActivity() {
                     color = Color(0xFF373737)
                 ) {
                     NavHost(navController = navController, startDestination = "login") {
-                        composable("login") { LoginScreen(navController) }
-                        composable("reset") { ResetPasswordScreen(navController) }
-                        composable("register") { RegisterScreen(navController) }
+                        composable("login") { LoginScreen(navController,randomIndex) }
+                        composable("reset") { ResetPasswordScreen(navController,randomIndex) }
+                        composable("register") { RegisterScreen(navController,randomIndex) }
                         composable("main") { Main(enemyViewModel, sound, music) }
                     }
                 }
