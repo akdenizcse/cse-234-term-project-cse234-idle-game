@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "234:56",
-    "version": "5804031413",
+    "version": "5854526450",
     "component-id": "b1dc0385439a8699b079970ab9663ea2a2292377"
   },
   "default": "Weapon",
@@ -42,7 +42,7 @@
       },
       {
         "type": "image",
-        "id": "bag_of_cash 2"
+        "id": "bag_of_cash"
       },
       {
         "type": "text",
@@ -194,7 +194,7 @@
             "main-axis-align": "end",
             "children": [
               "Texts",
-              "bag_of_cash 2"
+              "bag_of_cash"
             ],
             "background-color": {
               "alpha": 1.0,
@@ -281,7 +281,7 @@
             "clip-content": false
           },
           {
-            "id": "bag_of_cash 2",
+            "id": "bag_of_cash",
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
@@ -292,7 +292,7 @@
                 "value": 25.0
               }
             },
-            "image-content": "bag_of_cash_2.png",
+            "image-content": "bag_of_cash.png",
             "scale": "cover"
           },
           {

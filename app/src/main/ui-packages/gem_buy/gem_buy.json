@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "199:8",
-    "version": "5792810558",
+    "version": "5854526450",
     "component-id": "756a95587fef766d73a8beef155e4e27899ba0ca"
   },
   "default": "GemBuy",
@@ -26,7 +26,7 @@
       },
       {
         "type": "image",
-        "id": "precious_pearl"
+        "id": "precious"
       },
       {
         "type": "text",
@@ -80,7 +80,7 @@
             },
             "is-structured": false,
             "children": [
-              "precious_pearl",
+              "precious",
               "2 Gem"
             ],
             "background-color": {
@@ -125,7 +125,7 @@
             "clip-content": false
           },
           {
-            "id": "precious_pearl",
+            "id": "precious",
             "alignment": {
               "horizontal": {
                 "attachment": "start",
@@ -146,7 +146,7 @@
                 "value": 40.0
               }
             },
-            "image-content": "$precious_pearl",
+            "image-content": "precious.png",
             "scale": "cover"
           },
           {
@@ -222,11 +222,6 @@
       "required": false,
       "description": ""
     },
-    "precious_pearl": {
-      "data-type": "image",
-      "required": false,
-      "description": ""
-    },
     "gemCount": {
       "data-type": "text",
       "required": false,
@@ -246,7 +241,6 @@
         "height": 101.0
       },
       "parameters": {
-        "precious_pearl": "precious_pearl.png",
         "gemCount": "2 Gem",
         "price": "Come at 6PM"
       }

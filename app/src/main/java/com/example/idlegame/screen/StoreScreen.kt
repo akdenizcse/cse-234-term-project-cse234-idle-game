@@ -44,21 +44,18 @@ fun StoreScreen() {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 GemBuy(
                     onBuy = {},
-                    preciousPearl = painterResource(R.drawable.gem_buy_precious_pearl),
                     gemCount = "2 Gem",
                     price = "Come at 6PM",
                     modifier = Modifier.padding(8.dp, 6.dp)
                 )
                 GemBuy(
                     onBuy = {},
-                    preciousPearl = painterResource(R.drawable.gem_buy_precious_pearl),
                     gemCount = "10 Gem",
                     price = "TRY 10",
                     modifier = Modifier.padding(8.dp, 6.dp)
                 )
                 GemBuy(
                     onBuy = {},
-                    preciousPearl = painterResource(R.drawable.gem_buy_precious_pearl),
                     gemCount = "25 Gem",
                     price = "TRY 20",
                     modifier = Modifier.padding(8.dp, 6.dp)

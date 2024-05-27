@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "225:40",
-    "version": "5795594452",
+    "version": "5854526450",
     "component-id": "10e18521fb2c16ca97ea40acccd329ad5187128a"
   },
   "default": "IncomeMultiplier",
@@ -42,7 +42,7 @@
       },
       {
         "type": "image",
-        "id": "precious_pearl_multiplier"
+        "id": "precious"
       },
       {
         "type": "text",
@@ -137,7 +137,7 @@
             "arrangement": "row",
             "children": [
               "BuyText",
-              "precious_pearl_multiplier"
+              "precious"
             ],
             "item-spacing": 8.0,
             "background-color": {
@@ -263,7 +263,7 @@
             "clip-content": false
           },
           {
-            "id": "precious_pearl_multiplier",
+            "id": "precious",
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
@@ -274,7 +274,7 @@
                 "value": 23.0
               }
             },
-            "image-content": "precious_pearl_multiplier.png",
+            "image-content": "precious.png",
             "scale": "cover"
           },
           {

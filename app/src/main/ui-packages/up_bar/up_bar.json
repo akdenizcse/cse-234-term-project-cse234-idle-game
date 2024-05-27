@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "67:18",
-    "version": "5789877051",
+    "version": "5854526450",
     "component-id": "5aea5008597e00addbc5edd2f749e54ba26f82b7"
   },
   "default": "UpBar",
@@ -30,7 +30,7 @@
       },
       {
         "type": "image",
-        "id": "gear 1"
+        "id": "gear"
       },
       {
         "type": "vector",
@@ -42,7 +42,7 @@
       },
       {
         "type": "image",
-        "id": "bag_of_cash 1"
+        "id": "bag_of_cash"
       },
       {
         "type": "text",
@@ -58,7 +58,7 @@
       },
       {
         "type": "image",
-        "id": "precious_pearl 1"
+        "id": "precious"
       },
       {
         "type": "text",
@@ -97,7 +97,7 @@
               "Money Bar",
               "Gem Bar",
               "120k/s",
-              "gear 1"
+              "gear"
             ],
             "item-spacing": 16.0,
             "background-color": {
@@ -123,7 +123,7 @@
             "children": [
               "Rectangle 9",
               "Rectangle 10",
-              "bag_of_cash 1",
+              "bag_of_cash",
               "123"
             ],
             "clip-content": false
@@ -144,7 +144,7 @@
             "children": [
               "Rectangle 11",
               "Rectangle 12",
-              "precious_pearl 1",
+              "precious",
               "123_1"
             ],
             "clip-content": false
@@ -176,7 +176,7 @@
             "typeface": "Press Start 2P"
           },
           {
-            "id": "gear 1",
+            "id": "gear",
             "tap-handler": "$onGear",
             "size-constraints": {
               "width-constraints": {
@@ -188,7 +188,7 @@
                 "value": 40.0
               }
             },
-            "image-content": "gear_1.png",
+            "image-content": "gear.png",
             "scale": "cover"
           },
           {
@@ -227,7 +227,7 @@
             }
           },
           {
-            "id": "bag_of_cash 1",
+            "id": "bag_of_cash",
             "margin": {
               "left": 8.0,
               "top": 4.0,
@@ -244,7 +244,7 @@
                 "value": 1.0
               }
             },
-            "image-content": "bag_of_cash_1.png",
+            "image-content": "bag_of_cash.png",
             "scale": "cover"
           },
           {
@@ -314,7 +314,7 @@
             }
           },
           {
-            "id": "precious_pearl 1",
+            "id": "precious",
             "margin": {
               "left": 8.0,
               "top": 4.0,
@@ -331,7 +331,7 @@
                 "value": 1.0
               }
             },
-            "image-content": "precious_pearl_1.png",
+            "image-content": "precious.png",
             "scale": "cover"
           },
           {

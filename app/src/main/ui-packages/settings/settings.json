@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "211:119",
-    "version": "5792996950",
+    "version": "5854627268",
     "component-id": "c894e473fa4af17304b1be76809ddde85931b444"
   },
   "default": "Settings",
@@ -34,7 +34,7 @@
       },
       {
         "type": "image",
-        "id": "cancel_red 1"
+        "id": "cancel_red"
       },
       {
         "type": "vector",
@@ -50,7 +50,7 @@
       },
       {
         "type": "image",
-        "id": "SpeakerOn 1"
+        "id": "SpeakerOn"
       },
       {
         "type": "adin_component",
@@ -63,7 +63,7 @@
       },
       {
         "type": "image",
-        "id": "MusicNotes 1"
+        "id": "MusicNotes"
       },
       {
         "type": "adin_component",
@@ -104,7 +104,7 @@
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
-                "value": 284.5
+                "value": 284.75
               },
               "height-constraints": {
                 "sizing-mode": "fixed",
@@ -114,7 +114,7 @@
             "is-structured": false,
             "children": [
               "Group 1",
-              "cancel_red 1"
+              "cancel_red"
             ],
             "clip-content": false
           },
@@ -133,7 +133,7 @@
             "is-structured": false,
             "children": [
               "SoundTriangle",
-              "SpeakerOn 1",
+              "SpeakerOn",
               "ComponentButton"
             ],
             "clip-content": false
@@ -153,7 +153,7 @@
             "is-structured": false,
             "children": [
               "MusicTriangle",
-              "MusicNotes 1",
+              "MusicNotes",
               "ComponentButton1"
             ],
             "clip-content": false
@@ -179,11 +179,11 @@
             "clip-content": false
           },
           {
-            "id": "cancel_red 1",
+            "id": "cancel_red",
             "alignment": {
               "horizontal": {
                 "attachment": "center",
-                "offset": 117.25
+                "offset": 117.375
               },
               "vertical": {
                 "attachment": "center",
@@ -201,7 +201,7 @@
                 "value": 50.0
               }
             },
-            "image-content": "cancel_red_1.png",
+            "image-content": "cancel_red.png",
             "scale": "cover"
           },
           {
@@ -290,11 +290,11 @@
             "vector-content": "sound_triangle.svg"
           },
           {
-            "id": "SpeakerOn 1",
+            "id": "SpeakerOn",
             "alignment": {
               "horizontal": {
                 "attachment": "center",
-                "offset": -25.0
+                "offset": -25.5
               },
               "vertical": {
                 "attachment": "center",
@@ -311,7 +311,7 @@
                 "value": 50.0
               }
             },
-            "image-content": "speaker_on_1.png",
+            "image-content": "speaker_on.png",
             "scale": "cover"
           },
           {
@@ -365,11 +365,11 @@
             "vector-content": "music_triangle.svg"
           },
           {
-            "id": "MusicNotes 1",
+            "id": "MusicNotes",
             "alignment": {
               "horizontal": {
                 "attachment": "center",
-                "offset": -25.0
+                "offset": -25.5
               },
               "vertical": {
                 "attachment": "center",
@@ -386,7 +386,7 @@
                 "value": 40.0
               }
             },
-            "image-content": "music_notes_1.png",
+            "image-content": "music_notes.png",
             "scale": "cover"
           },
           {

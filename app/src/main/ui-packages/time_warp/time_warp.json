@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "211:97",
-    "version": "5792822939",
+    "version": "5854526450",
     "component-id": "40c65cdbbea0b2142a64a7907c9dbae280a05bcf"
   },
   "default": "TimeWarp",
@@ -26,7 +26,7 @@
       },
       {
         "type": "image",
-        "id": "clock_blue_1"
+        "id": "clock_blue"
       },
       {
         "type": "text",
@@ -46,7 +46,7 @@
       },
       {
         "type": "image",
-        "id": "precious_pearl_time"
+        "id": "precious"
       },
       {
         "type": "text",
@@ -100,7 +100,7 @@
             },
             "is-structured": false,
             "children": [
-              "clock_blue_1",
+              "clock_blue",
               "Days",
               "Description",
               "Amount"
@@ -142,7 +142,7 @@
             "arrangement": "row",
             "children": [
               "BuyText",
-              "precious_pearl_time"
+              "precious"
             ],
             "item-spacing": 8.0,
             "background-color": {
@@ -154,7 +154,7 @@
             "clip-content": false
           },
           {
-            "id": "clock_blue_1",
+            "id": "clock_blue",
             "alignment": {
               "horizontal": {
                 "attachment": "start",
@@ -172,10 +172,10 @@
               },
               "height-constraints": {
                 "sizing-mode": "fixed",
-                "value": 38.425201416015625
+                "value": 40.0
               }
             },
-            "image-content": "clock_blue_1.png",
+            "image-content": "clock_blue.png",
             "scale": "cover"
           },
           {
@@ -303,7 +303,7 @@
             "clip-content": false
           },
           {
-            "id": "precious_pearl_time",
+            "id": "precious",
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
@@ -314,7 +314,7 @@
                 "value": 23.0
               }
             },
-            "image-content": "precious_pearl_time.png",
+            "image-content": "precious.png",
             "scale": "cover"
           },
           {
