@@ -114,10 +114,10 @@ fun Main(enemyViewModel: EnemyViewModel, sound: MutableState<Check>, music: Muta
 
     Box(modifier = Modifier.fillMaxSize()) {
         UpBar(
-            output = "120k/s",
+            output = "1/s",
             onGear = { showSettingsDialog.value = true },
-            money = "911m",
-            gems = "30",
+            money = "10",
+            gems = "0",
             modifier = Modifier.fillMaxWidth()
         )
 
