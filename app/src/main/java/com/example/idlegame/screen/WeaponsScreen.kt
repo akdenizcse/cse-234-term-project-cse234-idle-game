@@ -46,18 +46,15 @@ import com.example.idlegame.weapon.Weapon
 @Composable
 fun WeaponsScreen(enemy: Enemy) {
     val weapons = listOf(
-        WeaponData("Grim Reapersssss", "12 LVL", "/s", "802.12M", R.drawable.weapon_photo),
-        WeaponData("title2", "11 LVL", "/s", "123.31k", R.drawable.weapon_photo),
-        WeaponData("title3", "10 LVL", "/s", "123.31k", R.drawable.weapon_photo),
-        WeaponData("title4", "9 LVL", "/s", "123.31k", R.drawable.weapon_photo),
-        WeaponData("title5", "8 LVL", "/s", "123.31k", R.drawable.weapon_photo),
-        WeaponData("title6", "7 LVL", "/s", "123.31k", R.drawable.weapon_photo),
-        WeaponData("title7", "6 LVL", "/s", "123.31k", R.drawable.weapon_photo),
-        WeaponData("title8", "5 LVL", "/s", "123.31k", R.drawable.weapon_photo),
-        WeaponData("title9", "4 LVL", "/s", "123.31k", R.drawable.weapon_photo),
-        WeaponData("title10", "3 LVL", "/s", "123.31k", R.drawable.weapon_photo),
-        WeaponData("title11", "2 LVL", "/s", "123.31k", R.drawable.weapon_photo),
-        WeaponData("title12", "1 LVL", "/s", "123.31k", R.drawable.weapon_photo)
+        WeaponData("Sword", "1 LVL", "1/s", "10", R.drawable.sword_wooden),
+        WeaponData("Dagger", "0 LVL", "0/s", "100", R.drawable.dagger_wooden),
+        WeaponData("Bow", "0 LVL", "0/s", "2k", R.drawable.bow_wooden),
+        WeaponData("Spear", "0 LVL", "0/s", "10k", R.drawable.spear_wooden),
+        WeaponData("Kunai", "0 LVL", "0/s", "50k", R.drawable.kunai_wooden),
+        WeaponData("Greatsword", "0 LVL", "0/s", "500k", R.drawable.greatsword_wooden),
+        WeaponData("Axe", "0 LVL", "0/s", "2m", R.drawable.axe_wooden),
+        WeaponData("Staff", "0 LVL", "0/s", "5m", R.drawable.staff_wooden),
+        WeaponData("Crossbow", "0 LVL", "0/s", "15m", R.drawable.crossbow_wooden)
     )
     Box(modifier = Modifier.fillMaxSize()) {
         Column {

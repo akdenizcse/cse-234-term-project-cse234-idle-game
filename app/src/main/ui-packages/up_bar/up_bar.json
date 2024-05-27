@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "67:18",
-    "version": "5854526450",
+    "version": "5855103008",
     "component-id": "5aea5008597e00addbc5edd2f749e54ba26f82b7"
   },
   "default": "UpBar",
@@ -75,14 +75,6 @@
               "top": 10.0,
               "right": 5.0,
               "bottom": 10.0
-            },
-            "size-constraints": {
-              "width-constraints": {
-                "sizing-mode": "shrink"
-              },
-              "height-constraints": {
-                "sizing-mode": "shrink"
-              }
             },
             "stroke-width": 1.0,
             "stroke-color": {

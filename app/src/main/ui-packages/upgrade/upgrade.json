@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "238:98",
-    "version": "5854526450",
+    "version": "5855001544",
     "component-id": "034d51ecd641d6f0c2fa55aad00ea4f16c219b7d"
   },
   "default": "Upgrade",
@@ -349,7 +349,7 @@
             "text-content": "$price",
             "overflow": "visible",
             "max-lines": -1,
-            "text-align": "left",
+            "text-align": "right",
             "text-size": 9.5,
             "typeface": "Press Start 2P"
           },

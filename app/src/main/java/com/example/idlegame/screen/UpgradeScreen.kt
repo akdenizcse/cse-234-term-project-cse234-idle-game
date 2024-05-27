@@ -26,18 +26,15 @@ import com.example.idlegame.upgrade.Upgrade
 @Composable
 fun UpgradeScreen() {
     val upgrades = listOf(
-        UpgradeData("Grim Reapersssss", "Diamond", "Increase income by 2x", "802.12M", R.drawable.weapon_photo),
-        UpgradeData("title2", "Diamond", "Increase income by 2x", "123.31k", R.drawable.weapon_photo),
-        UpgradeData("title3", "Diamond", "Increase income by 2x", "123.31k", R.drawable.weapon_photo),
-        UpgradeData("title4", "Diamond", "Increase income by 2x", "123.31k", R.drawable.weapon_photo),
-        UpgradeData("title5", "Diamond", "Increase income by 2x", "123.31k", R.drawable.weapon_photo),
-        UpgradeData("title6", "Diamond", "Increase income by 2x", "123.31k", R.drawable.weapon_photo),
-        UpgradeData("title7", "Diamond", "Increase income by 2x", "123.31k", R.drawable.weapon_photo),
-        UpgradeData("title8", "Diamond", "Increase income by 2x", "123.31k", R.drawable.weapon_photo),
-        UpgradeData("title9", "Diamond", "Increase income by 2x", "123.31k", R.drawable.weapon_photo),
-        UpgradeData("title10", "Diamond", "Increase income by 2x", "123.31k", R.drawable.weapon_photo),
-        UpgradeData("title11", "Diamond", "Increase income by 2x", "123.31k", R.drawable.weapon_photo),
-        UpgradeData("title12", "Diamond", "Increase income by 2x", "123.31k", R.drawable.weapon_photo)
+        UpgradeData("Sword", "Iron Upgrade", "Increase income by 2x", "1k", R.drawable.sword_iron),
+        UpgradeData("Dagger", "Iron Upgrade", "Increase income by 2x", "10k", R.drawable.dagger_iron),
+        UpgradeData("Bow", "Iron Upgrade", "Increase income by 2x", "200k", R.drawable.bow_iron),
+        UpgradeData("Spear", "Iron Upgrade", "Increase income by 2x", "1m", R.drawable.spear_iron),
+        UpgradeData("Kunai", "Iron Upgrade", "Increase income by 2x", "5m", R.drawable.kunai_iron),
+        UpgradeData("Greatsword", "Iron Upgrade", "Increase income by 2x", "50m", R.drawable.greatsword_iron),
+        UpgradeData("Axe", "Iron Upgrade", "Increase income by 2x", "200m", R.drawable.axe_iron),
+        UpgradeData("Staff", "Iron Upgrade", "Increase income by 2x", "500m", R.drawable.staff_iron),
+        UpgradeData("Crossbow", "Iron Upgrade", "Increase income by 2x", "1.5bn", R.drawable.crossbow_iron)
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
