@@ -66,12 +66,31 @@ fun ResetPasswordScreen(navController: NavHostController,randomIndex: Int = Rand
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Idle Game",
-                fontFamily = pressStart2P,
-                fontSize = 25.sp,
-                color = Color.White
-            )
+            Box { // Center within the Box
+                // Draw the outline by overlaying the same text with offset positions and a different color
+                for (dx in -1..1) {
+                    for (dy in -1..1) {
+                        Text(
+                            text = "Idle Game",
+                            modifier = Modifier.offset(dx.dp, dy.dp),
+                            style = TextStyle(
+                                color = Color.Black, // Outline color
+                                fontFamily = pressStart2P,
+                                fontSize = 25.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                    }
+                }
+
+                // Draw the main text
+                Text(
+                    text = "Idle Game",
+                    fontFamily = pressStart2P,
+                    fontSize = 25.sp,
+                    color = Color.White
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
@@ -84,20 +103,39 @@ fun ResetPasswordScreen(navController: NavHostController,randomIndex: Int = Rand
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ClickableText(
-                text = AnnotatedString("Remember your Password?"),
-                style = TextStyle(
-                    color = Color.White,
-                    fontFamily = pressStart2P,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                onClick = {
-                    navController.navigate("login") {
-                    popUpTo("reset") { inclusive = true }
+            Box { // Center within the Box
+                // Draw the outline by overlaying the same text with offset positions and a different color
+                for (dx in -1..1) {
+                    for (dy in -1..1) {
+                        Text(
+                            text = "Remember your Password?",
+                            modifier = Modifier.offset(dx.dp, dy.dp),
+                            style = TextStyle(
+                                color = Color.Black, // Outline color
+                                fontFamily = pressStart2P,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
                     }
                 }
-            )
+
+                // Draw the main text
+                ClickableText(
+                    text = AnnotatedString("Remember your Password?"),
+                    style = TextStyle(
+                        color = Color.White,
+                        fontFamily = pressStart2P,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    onClick = {
+                        navController.navigate("login") {
+                            popUpTo("reset") { inclusive = true }
+                        }
+                    }
+                )
+            }
             Spacer(modifier = Modifier.height(6.dp))
 
             Button(

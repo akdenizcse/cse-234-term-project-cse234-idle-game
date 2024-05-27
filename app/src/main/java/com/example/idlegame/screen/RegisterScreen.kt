@@ -69,12 +69,31 @@ fun RegisterScreen(navController: NavHostController,randomIndex: Int = Random.ne
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Idle Game",
-                fontFamily = pressStart2P,
-                fontSize = 25.sp,
-                color = Color.White
-            )
+            Box { // Center within the Box
+                // Draw the outline by overlaying the same text with offset positions and a different color
+                for (dx in -1..1) {
+                    for (dy in -1..1) {
+                        Text(
+                            text = "Idle Game",
+                            modifier = Modifier.offset(dx.dp, dy.dp),
+                            style = TextStyle(
+                                color = Color.Black, // Outline color
+                                fontFamily = pressStart2P,
+                                fontSize = 25.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                    }
+                }
+
+                // Draw the main text
+                Text(
+                    text = "Idle Game",
+                    fontFamily = pressStart2P,
+                    fontSize = 25.sp,
+                    color = Color.White
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
