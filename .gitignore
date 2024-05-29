@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+/.idea/sonarlint
+/.idea/shelf/
+/.idea/compiler.xml
+/.idea/misc.xml
+/.idea/vcs.xml

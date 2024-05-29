@@ -105,6 +105,7 @@ fun RegisterScreen(navController: NavHostController,randomIndex: Int = Random.ne
                 onValueChange = { email = it },
                 label = { Text(text = "Email", fontFamily = pressStart2P, color = Color.White, fontSize = 12.sp) },
                 modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
                 textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.Black.copy(alpha = 0.5f)
@@ -118,6 +119,7 @@ fun RegisterScreen(navController: NavHostController,randomIndex: Int = Random.ne
                 label = { Text(text = "Password", fontFamily = pressStart2P, color = Color.White, fontSize = 12.sp) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
                 textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.Black.copy(alpha = 0.5f)
@@ -131,6 +133,7 @@ fun RegisterScreen(navController: NavHostController,randomIndex: Int = Random.ne
                 label = { Text(text = "Password Again", fontFamily = pressStart2P, color = Color.White, fontSize = 12.sp) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
                 textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.Black.copy(alpha = 0.5f)

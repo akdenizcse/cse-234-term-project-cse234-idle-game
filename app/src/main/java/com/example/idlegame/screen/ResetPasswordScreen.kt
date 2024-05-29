@@ -102,6 +102,7 @@ fun ResetPasswordScreen(navController: NavHostController,randomIndex: Int = Rand
                 onValueChange = { email = it },
                 label = { Text(text = "Email", fontFamily = pressStart2P, color = Color.White, fontSize = 12.sp) },
                 modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
                 textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.Black.copy(alpha = 0.5f)
