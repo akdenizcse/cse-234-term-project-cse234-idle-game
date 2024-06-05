@@ -30,11 +30,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.idlegame.R
 import com.example.idlegame.gembuy.pressStart2P
 import com.example.idlegame.ui.theme.IdleGameTheme
+import com.google.firebase.auth.FirebaseAuth
 import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6)) {
+fun RegisterScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6), auth: FirebaseAuth) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordAgain by remember { mutableStateOf("") }
@@ -144,10 +145,26 @@ fun RegisterScreen(navController: NavHostController,randomIndex: Int = Random.ne
             Button(
                 modifier = Modifier.fillMaxWidth(0.8f),
                 onClick = {
-                    navController.navigate("login") {
-                        popUpTo("register") { inclusive = true }
+                    if (password != passwordAgain) {
+                        Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                    }else {
+                        auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    navController.navigate("login") {
+                                        popUpTo("register") { inclusive = true }
+                                    }
+                                    Toast.makeText(context, "Account Created", Toast.LENGTH_SHORT)
+                                        .show()
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "Authentication failed.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
                     }
-                    Toast.makeText(context, "Account Created", Toast.LENGTH_SHORT).show()
                 })
             {
                 Text(text = "Sign Up", fontFamily = pressStart2P, color = Color.White, modifier = Modifier.align(Alignment.CenterVertically))
@@ -201,7 +218,7 @@ fun RegisterScreenPreview() {
             modifier = Modifier.fillMaxSize(),
             color = Color(0xFF373737)
         ){
-            RegisterScreen(navController = rememberNavController())
+            RegisterScreen(navController = rememberNavController(), auth = FirebaseAuth.getInstance())
         }
     }
 }

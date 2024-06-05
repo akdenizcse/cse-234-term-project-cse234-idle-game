@@ -29,14 +29,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.idlegame.R
 import com.example.idlegame.gembuy.pressStart2P
 import com.example.idlegame.ui.theme.IdleGameTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResetPasswordScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6)) {
+fun ResetPasswordScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6), auth: FirebaseAuth) {
     var email by remember { mutableStateOf("") }
     val context = LocalContext.current
-
 
     val backgroundImages = listOf(
         R.drawable.background0,
@@ -149,10 +150,17 @@ fun ResetPasswordScreen(navController: NavHostController,randomIndex: Int = Rand
             Button(
                 modifier = Modifier.fillMaxWidth(0.8f),
                 onClick = {
-                    navController.navigate("login") {
-                        popUpTo("reset") { inclusive = true }
-                    }
-                    Toast.makeText(context, "Reset Password Email sent", Toast.LENGTH_SHORT).show()
+                    auth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                navController.navigate("login") {
+                                    popUpTo("reset") { inclusive = true }
+                                }
+                                Toast.makeText(context, "Reset Password Email sent", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(context, "Error sending reset password email", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                 }
             ) {
                 Text(text = "Reset Password", fontFamily = pressStart2P, color = Color.White, modifier = Modifier.align(Alignment.CenterVertically))
@@ -206,7 +214,7 @@ fun ResetPasswordScreenPreview() {
             modifier = Modifier.fillMaxSize(),
             color = Color(0xFF373737)
         ){
-            ResetPasswordScreen(navController = rememberNavController())
+            ResetPasswordScreen(navController = rememberNavController(), auth = FirebaseAuth.getInstance())
         }
     }
 }

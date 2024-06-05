@@ -54,6 +54,9 @@ import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.upbar.UpBar
 import androidx.compose.runtime.LaunchedEffect
 import com.example.idlegame.screen.ResetPasswordScreen
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
@@ -61,6 +64,9 @@ class MainActivity : ComponentActivity() {
     private lateinit var sound: MutableState<Check>
     private lateinit var music: MutableState<Check>
     private val enemyViewModel: EnemyViewModel by viewModels()
+    private val auth: FirebaseAuth by lazy {
+        Firebase.auth
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,9 +85,9 @@ class MainActivity : ComponentActivity() {
                     color = Color(0xFF373737)
                 ) {
                     NavHost(navController = navController, startDestination = "login") {
-                        composable("login") { LoginScreen(navController,randomIndex) }
-                        composable("reset") { ResetPasswordScreen(navController,randomIndex) }
-                        composable("register") { RegisterScreen(navController,randomIndex) }
+                        composable("login") { LoginScreen(navController,randomIndex, auth) }
+                        composable("reset") { ResetPasswordScreen(navController,randomIndex, auth) }
+                        composable("register") { RegisterScreen(navController,randomIndex, auth) }
                         composable("main") { Main(enemyViewModel, sound, music) }
                     }
                 }

@@ -1,5 +1,6 @@
 package com.example.idlegame.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
@@ -29,13 +31,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.idlegame.R
 import com.example.idlegame.gembuy.pressStart2P
 import com.example.idlegame.ui.theme.IdleGameTheme
+import com.google.firebase.auth.FirebaseAuth
 import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6)) {
+fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6), auth: FirebaseAuth) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     val backgroundImages = listOf(
         R.drawable.background0,
@@ -164,9 +168,17 @@ fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextI
             Button(
                 modifier = Modifier.fillMaxWidth(0.8f),
                 onClick = {
-                    navController.navigate("main") {
-                        popUpTo("login") { inclusive = true }
-                    }
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                navController.navigate("main") {
+                                    popUpTo("login") { inclusive = true }
+                                }
+                                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                 }
             ) {
                 Text(text = "Sign In", fontFamily = pressStart2P, color = Color.White, modifier = Modifier.align(Alignment.CenterVertically))
@@ -220,7 +232,7 @@ fun LoginScreenPreview() {
             modifier = Modifier.fillMaxSize(),
             color = Color(0xFF373737)
         ){
-            LoginScreen(navController = rememberNavController())
+            LoginScreen(navController = rememberNavController(), auth = FirebaseAuth.getInstance())
         }
     }
 }
