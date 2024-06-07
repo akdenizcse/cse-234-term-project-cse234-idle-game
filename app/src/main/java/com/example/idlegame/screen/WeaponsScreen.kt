@@ -3,6 +3,7 @@ package com.example.idlegame.screen
 import Enemy
 import EnemyViewModel
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.geometry.Size
@@ -38,13 +40,26 @@ import com.example.idlegame.R
 import com.example.idlegame.data.WeaponData
 import com.example.idlegame.downbar.Design
 import com.example.idlegame.downbar.DownBar
+import com.example.idlegame.game.PlayerViewModel
+import com.example.idlegame.game.WeaponGame
 import com.example.idlegame.ui.theme.IdleGameTheme
 import com.example.idlegame.upbar.UpBar
 import com.example.idlegame.weapon.Weapon
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun WeaponsScreen(enemy: Enemy) {
+fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
+
+
+    val GameWeapons = listOf(WeaponGame(1.0, 10.0, 0.1, 0.1),
+        WeaponGame(1.0, 100.0, 0.1, 0.1),
+        WeaponGame(1.0, 200.0, 0.1, 0.1),
+        WeaponGame(1.0, 500.0, 0.1, 0.1),
+        WeaponGame(1.0, 1000.0, 0.1, 0.1),
+        WeaponGame(1.0, 2000.0, 0.1, 0.1),
+        WeaponGame(1.0, 5000.0, 0.1, 0.1),
+        WeaponGame(1.0, 10000.0, 0.1, 0.1),
+        WeaponGame(1.0, 20000.0, 0.1, 0.1))
     val weapons = listOf(
         WeaponData("Sword", "1 LVL", "1/s", "10", R.drawable.sword_wooden),
         WeaponData("Dagger", "0 LVL", "0/s", "100", R.drawable.dagger_wooden),
@@ -81,14 +96,17 @@ fun WeaponsScreen(enemy: Enemy) {
             LazyColumn(modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()) {
-                items(weapons) { weapon ->
+                itemsIndexed(weapons) { index, weapon ->
+                    val gameWeapon = GameWeapons[index]
                     Weapon(
                         title = weapon.title,
-                        level = weapon.level,
-                        income = weapon.income,
-                        price = weapon.price,
+                        level = gameWeapon.level.toString() + " LVL", // Use the level from the gameWeapon
+                        income = gameWeapon.damage().toString() + "/s", // Use the damage from the gameWeapon as income
+                        price = gameWeapon.upgradeCost().toString(), // Use the upgradeCost from the gameWeapon as price
                         weaponPicture = painterResource(weapon.weaponPicture),
-                        modifier = Modifier.padding(5.dp, 8.dp)
+                        modifier = Modifier.padding(5.dp, 8.dp),
+                        onBuy = {playerViewModel.buyWeapon(gameWeapon)}
+
                     )
                 }
             }
