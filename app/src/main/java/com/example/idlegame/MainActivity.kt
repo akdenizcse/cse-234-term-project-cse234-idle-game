@@ -50,7 +50,6 @@ import com.example.idlegame.screen.SettingsPopUp
 import com.example.idlegame.screen.StoreScreen
 import com.example.idlegame.screen.UpgradeScreen
 import com.example.idlegame.screen.WeaponsScreen
-import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.upbar.UpBar
 import androidx.compose.runtime.LaunchedEffect
 import com.example.idlegame.game.PlayerViewModel
@@ -60,6 +59,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.delay
 import kotlin.random.Random
+import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
@@ -110,12 +110,12 @@ class MainActivity : ComponentActivity() {
         val state = sharedPreferences.getString(key, Check.Enabled.name)
         return Check.valueOf(state ?: Check.Enabled.name)
     }
-    private fun loadPlayerMoney(key: String): Int {
-        return sharedPreferences.getInt(key, 100)
+    private fun loadPlayerMoney(key: String): Double {
+        return sharedPreferences.getInt(key, 10).toDouble()
     }
-    private fun savePlayerMoney(key: String, money: Int) {
+    private fun savePlayerMoney(key: String, money: Double) {
         with(sharedPreferences.edit()) {
-            putInt(key, money)
+            putInt(key, money.roundToInt())
             apply()
         }
     }
@@ -145,7 +145,7 @@ fun Main(enemyViewModel: EnemyViewModel,playerViewModel: PlayerViewModel, sound:
         UpBar(
             output = "1/s",
             onGear = { showSettingsDialog.value = true },
-            money = playerViewModel.player.money.value.toString(),
+            money = playerViewModel.player.money.value.toInt().toString(),
             gems = "0",
             modifier = Modifier.fillMaxWidth()
         )

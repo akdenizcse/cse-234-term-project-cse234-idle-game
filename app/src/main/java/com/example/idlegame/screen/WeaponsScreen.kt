@@ -45,13 +45,14 @@ import com.example.idlegame.game.WeaponGame
 import com.example.idlegame.ui.theme.IdleGameTheme
 import com.example.idlegame.upbar.UpBar
 import com.example.idlegame.weapon.Weapon
+import java.util.Locale
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
 
 
-    val weapons = listOf(WeaponGame("Sword",R.drawable.sword_wooden,1.0, 10.0, 0.1, 0.1,level = 2),
+    val weapons = listOf(WeaponGame("Sword",R.drawable.sword_wooden,1.0, 10.0, 0.1, 0.1),
         WeaponGame("Dagger", R.drawable.dagger_wooden,1.0, 100.0, 0.1, 0.1),
         WeaponGame("Bow",R.drawable.bow_wooden,1.0, 200.0, 0.1, 0.1),
         WeaponGame("Spear",R.drawable.spear_wooden,1.0, 500.0, 0.1, 0.1),
@@ -60,6 +61,8 @@ fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
         WeaponGame("Axe",R.drawable.axe_wooden,1.0, 5000.0, 0.1, 0.1),
         WeaponGame("Staff",R.drawable.staff_wooden,1.0, 10000.0, 0.1, 0.1),
         WeaponGame("Crossbow",R.drawable.crossbow_wooden,1.0, 20000.0, 0.1, 0.1))
+    playerViewModel.setWeapons(weapons)
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Spacer(modifier = Modifier.height(60.dp))
@@ -85,11 +88,11 @@ fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
             LazyColumn(modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()) {
-                items(weapons) {  weapon ->
+                items(playerViewModel.weapons.value) {  weapon ->
                     Weapon(
                         title = weapon.title(),
                         level = weapon.level.value.toString() + " LVL", // Use the level from the gameWeapon
-                        income = weapon.damage().toString() + "/s", // Use the damage from the gameWeapon as income
+                        income = String.format(Locale.ROOT, "%.2f", weapon.damage()) + "/s", // Use the damage from the gameWeapon as income
                         price = weapon.upgradeCost().toString(), // Use the upgradeCost from the gameWeapon as price
                         weaponPicture = painterResource(weapon.picture()),
                         modifier = Modifier.padding(5.dp, 8.dp),
