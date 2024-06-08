@@ -76,7 +76,6 @@ class MainActivity : ComponentActivity() {
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val randomIndex = Random.nextInt(6)
         playerViewModel.player.money.value = loadPlayerMoney("playerMoney")
-        playerViewModel.player.gems.value = loadPlayerGems("playerGems")
 
         setContent {
             IdleGameTheme {
@@ -105,7 +104,6 @@ class MainActivity : ComponentActivity() {
         saveCheckState("sound", sound.value)
         saveCheckState("music", music.value)
         savePlayerMoney("playerMoney", playerViewModel.player.money.value)
-        savePlayerGems("playerGems", playerViewModel.player.gems.value)
     }
 
     private fun loadCheckState(key: String): Check {
@@ -118,17 +116,6 @@ class MainActivity : ComponentActivity() {
     private fun savePlayerMoney(key: String, money: Double) {
         with(sharedPreferences.edit()) {
             putInt(key, money.roundToInt())
-            apply()
-        }
-    }
-
-    private fun loadPlayerGems(key: String): Int {
-        return sharedPreferences.getInt(key, 0)
-    }
-
-    private fun savePlayerGems(key: String, gems: Int) {
-        with(sharedPreferences.edit()) {
-            putInt(key, gems)
             apply()
         }
     }
@@ -149,17 +136,17 @@ fun Main(enemyViewModel: EnemyViewModel,playerViewModel: PlayerViewModel, sound:
     val design = remember { mutableStateOf(Design.WeaponsTab) }
     LaunchedEffect(key1 = "earnMoney") {
         while (true) {
-            playerViewModel.earningsPerSecond.value = playerViewModel.earnMoney()
+            playerViewModel.earnMoney()
             delay(1000) // delay for 1 second
         }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
         UpBar(
-            output = playerViewModel.earningsPerSecond.value.toInt().toString()+"/s",
+            output = "1/s",
             onGear = { showSettingsDialog.value = true },
             money = playerViewModel.player.money.value.toInt().toString(),
-            gems = playerViewModel.player.gems.value.toString(),
+            gems = "0",
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -171,7 +158,7 @@ fun Main(enemyViewModel: EnemyViewModel,playerViewModel: PlayerViewModel, sound:
 
         NavHost(navController, startDestination = Screen.WeaponsTab.route) {
             composable(Screen.WeaponsTab.route) { WeaponsScreen(enemyViewModel.slimeEnemy,playerViewModel) }
-            composable(Screen.StoreTab.route) { StoreScreen(playerViewModel) }
+            composable(Screen.StoreTab.route) { StoreScreen() }
             composable(Screen.UpgradesTab.route) { UpgradeScreen() }
         }
 

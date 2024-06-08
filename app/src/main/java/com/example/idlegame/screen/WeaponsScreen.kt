@@ -51,6 +51,7 @@ import java.util.Locale
 @Composable
 fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
 
+
     val weapons = listOf(WeaponGame("Sword",R.drawable.sword_wooden,1.0, 10.0, 0.1, 0.1),
         WeaponGame("Dagger", R.drawable.dagger_wooden,1.0, 100.0, 0.1, 0.1),
         WeaponGame("Bow",R.drawable.bow_wooden,1.0, 200.0, 0.1, 0.1),
@@ -96,6 +97,7 @@ fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
                         weaponPicture = painterResource(weapon.picture()),
                         modifier = Modifier.padding(5.dp, 8.dp),
                         onBuy = {playerViewModel.buyWeapon(weapon)}
+
                     )
                 }
             }
@@ -108,6 +110,6 @@ fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
 @Composable
 fun WeaponsScreenPreview() {
     IdleGameTheme {
-        //WeaponsScreen(enemy = Enemy(), playerViewModel = PlayerViewModel())
+        //WeaponsScreen(enemyViewModel.slimeEnemy )
     }
 }

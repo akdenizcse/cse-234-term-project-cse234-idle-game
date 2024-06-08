@@ -1,6 +1,5 @@
 package com.example.idlegame.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,10 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.platform.LocalContext
 import com.example.idlegame.R
 import com.example.idlegame.biggembuy.BigGemBuy
-import com.example.idlegame.game.PlayerViewModel
 import com.example.idlegame.gembuy.GemBuy
 import com.example.idlegame.gembuy.pressStart2P
 import com.example.idlegame.incomemultiplier.IncomeMultiplier
@@ -30,9 +27,7 @@ import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.ui.theme.IdleGameTheme
 
 @Composable
-fun StoreScreen(playerViewModel: PlayerViewModel) {
-    val context = LocalContext.current
-
+fun StoreScreen() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
         Column {
             Spacer(modifier = Modifier.height(60.dp))
@@ -48,28 +43,19 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 GemBuy(
-                    onBuy = {
-                        playerViewModel.addGems(2)
-                        Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
-                    },
+                    onBuy = {},
                     gemCount = "2 Gem",
-                    price = "TRY 5",
+                    price = "Come at 6PM",
                     modifier = Modifier.padding(8.dp, 6.dp)
                 )
                 GemBuy(
-                    onBuy = {
-                        playerViewModel.addGems(10)
-                        Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
-                    },
+                    onBuy = {},
                     gemCount = "10 Gem",
                     price = "TRY 10",
                     modifier = Modifier.padding(8.dp, 6.dp)
                 )
                 GemBuy(
-                    onBuy = {
-                        playerViewModel.addGems(25)
-                        Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
-                    },
+                    onBuy = {},
                     gemCount = "25 Gem",
                     price = "TRY 20",
                     modifier = Modifier.padding(8.dp, 6.dp)
@@ -78,20 +64,14 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
 
             Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
                 BigGemBuy(
-                    onBuy = {
-                        playerViewModel.addGems(65)
-                        Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
-                    },
+                    onBuy = {},
                     preciousPearl = painterResource(R.drawable.big_gem_buy_precious_pearl_4),
                     gemCount = "65 Gem",
                     price = "TRY 50",
                     modifier = Modifier.padding(8.dp, 8.dp)
                 )
                 BigGemBuy(
-                    onBuy = {
-                        playerViewModel.addGems(150)
-                        Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
-                    },
+                    onBuy = {},
                     preciousPearl = painterResource(R.drawable.big_gem_buy_precious_pearl_4),
                     gemCount = "150 Gem",
                     price = "TRY 100",
@@ -110,36 +90,18 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
 
             Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 TimeWarp(
-                    onBuy = {
-                        if (playerViewModel.player.gems.value >= 50) {
-                            playerViewModel.player.gems.value -= 50
-                            val income = 1 * 60 * 60 * playerViewModel.earningsPerSecond.value.toInt()
-                            playerViewModel.player.money.value += income
-                            Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "Not enough gems!", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    hours = "1-Hour Time Warp",
-                    description = "Get 1 hour worth income instantly!",
-                    amount = "That’s ${1 * 60 * 60 * playerViewModel.earningsPerSecond.value.toInt()}!",
-                    price = "50",
+                    onBuy = {},
+                    days = "1-Day Time Warp",
+                    description = "Get 1 day worth income instantly!",
+                    amount = "That’s 10.36m!",
+                    price = "10",
                     modifier = Modifier.padding(6.dp, 6.dp))
                 TimeWarp(
-                    onBuy = {
-                        if (playerViewModel.player.gems.value >= 150) {
-                            playerViewModel.player.gems.value -= 150
-                            val income = 6 * 60 * 60 * playerViewModel.earningsPerSecond.value.toInt()
-                            playerViewModel.player.money.value += income
-                            Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "Not enough gems!", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    hours = "6-Hour Time Warp",
-                    description = "Get 6 hour worth income instantly!",
-                    amount = "That’s ${6 * 60 * 60 * playerViewModel.earningsPerSecond.value.toInt()}!",
-                    price = "150",
+                    onBuy = {},
+                    days = "7-Day Time Warp",
+                    description = "Get 7 days worth income instantly!",
+                    amount = "That’s 72.58m!",
+                    price = "50",
                     modifier = Modifier.padding(6.dp, 6.dp))
             }
 
@@ -178,6 +140,6 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
 @Composable
 fun StoreScreenPreview() {
     IdleGameTheme {
-        StoreScreen(playerViewModel = PlayerViewModel())
+        StoreScreen()
     }
 }

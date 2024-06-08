@@ -41,10 +41,12 @@ class WeaponGame(
 
     fun upgrade() {
         level.value++
+
     }
 
     fun upgradeMultiplier() {
         multiplier.value *= 2
+
     }
 
     override fun equals(other: Any?): Boolean {
@@ -52,7 +54,9 @@ class WeaponGame(
         if (javaClass != other?.javaClass) return false
 
         other as WeaponGame
+
         if (title != other.title) return false
+
         return true
     }
 
