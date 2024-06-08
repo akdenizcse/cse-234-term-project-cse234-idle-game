@@ -114,7 +114,7 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                         if (playerViewModel.player.gems.value >= 50) {
                             playerViewModel.player.gems.value -= 50
                             val income = 1 * 60 * 60 * playerViewModel.earningsPerSecond.value.toInt()
-                            playerViewModel.player.money.value += income
+                            playerViewModel.player.money.value += income.toBigDecimal()
                             Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(context, "Not enough gems!", Toast.LENGTH_SHORT).show()
@@ -130,7 +130,7 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                         if (playerViewModel.player.gems.value >= 150) {
                             playerViewModel.player.gems.value -= 150
                             val income = 6 * 60 * 60 * playerViewModel.earningsPerSecond.value.toInt()
-                            playerViewModel.player.money.value += income
+                            playerViewModel.player.money.value += income.toBigDecimal()
                             Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(context, "Not enough gems!", Toast.LENGTH_SHORT).show()

@@ -59,6 +59,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.delay
+import java.math.BigDecimal
 import kotlin.random.Random
 import kotlin.math.roundToInt
 
@@ -118,12 +119,14 @@ class MainActivity : ComponentActivity() {
         val state = sharedPreferences.getString(key, Check.Enabled.name)
         return Check.valueOf(state ?: Check.Enabled.name)
     }
-    private fun loadPlayerMoney(key: String): Double {
-        return sharedPreferences.getInt(key, 10).toDouble()
+    private fun loadPlayerMoney(key: String): BigDecimal {
+        val moneyInString = sharedPreferences.getString(key, "10")
+        return BigDecimal(moneyInString)
     }
-    private fun savePlayerMoney(key: String, money: Double) {
+
+    private fun savePlayerMoney(key: String, money: BigDecimal) {
         with(sharedPreferences.edit()) {
-            putInt(key, money.roundToInt())
+            putString(key, money.toString())
             apply()
         }
     }
@@ -165,7 +168,7 @@ fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, play
         UpBar(
             output = playerViewModel.earningsPerSecond.value.toInt().toString()+"/s",
             onGear = { showSettingsDialog.value = true },
-            money = playerViewModel.player.money.value.toInt().toString(),
+            money = playerViewModel.player.formattedMoney(),
             gems = playerViewModel.player.gems.value.toString(),
             modifier = Modifier.fillMaxWidth()
         )
@@ -186,7 +189,7 @@ fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, play
         NavHost(navController, startDestination = Screen.WeaponsTab.route) {
             composable(Screen.WeaponsTab.route) { WeaponsScreen(enemyViewModel.slimeEnemy,playerViewModel) }
             composable(Screen.StoreTab.route) { StoreScreen(playerViewModel) }
-            composable(Screen.UpgradesTab.route) { UpgradeScreen() }
+            composable(Screen.UpgradesTab.route) { UpgradeScreen(playerViewModel) }
         }
 
         DownBar(
