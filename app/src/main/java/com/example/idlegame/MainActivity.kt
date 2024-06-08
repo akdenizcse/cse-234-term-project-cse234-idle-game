@@ -1,6 +1,7 @@
 package com.example.idlegame
 
 import EnemyViewModel
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -90,10 +91,10 @@ class MainActivity : ComponentActivity() {
                     color = Color(0xFF373737)
                 ) {
                     NavHost(navController = navController, startDestination = "login") {
-                        composable("login") { LoginScreen(navController,randomIndex, auth) }
-                        composable("reset") { ResetPasswordScreen(navController,randomIndex, auth) }
-                        composable("register") { RegisterScreen(navController,randomIndex, auth) }
-                        composable("main") { Main(enemyViewModel,playerViewModel, sound, music) }
+                        composable("login") { LoginScreen(navController, randomIndex, auth) }
+                        composable("reset") { ResetPasswordScreen(navController, randomIndex, auth) }
+                        composable("register") { RegisterScreen(navController, randomIndex, auth) }
+                        composable("main") { Main(navController, enemyViewModel, playerViewModel, sound, music, auth) }
                     }
                 }
             }
@@ -106,6 +107,11 @@ class MainActivity : ComponentActivity() {
         saveCheckState("music", music.value)
         savePlayerMoney("playerMoney", playerViewModel.player.money.value)
         savePlayerGems("playerGems", playerViewModel.player.gems.value)
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+        finish()
     }
 
     private fun loadCheckState(key: String): Check {
@@ -143,10 +149,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Main(enemyViewModel: EnemyViewModel,playerViewModel: PlayerViewModel, sound: MutableState<Check>, music: MutableState<Check>) {
+fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, playerViewModel: PlayerViewModel, sound: MutableState<Check>, music: MutableState<Check>, auth: FirebaseAuth) {
     val navController = rememberNavController()
     val showSettingsDialog = remember { mutableStateOf(false) }
     val design = remember { mutableStateOf(Design.WeaponsTab) }
+
     LaunchedEffect(key1 = "earnMoney") {
         while (true) {
             playerViewModel.earningsPerSecond.value = playerViewModel.earnMoney()
@@ -165,7 +172,14 @@ fun Main(enemyViewModel: EnemyViewModel,playerViewModel: PlayerViewModel, sound:
 
         if (showSettingsDialog.value) {
             Dialog(onDismissRequest = { showSettingsDialog.value = false }) {
-                SettingsPopUp(sound, music, onClose = { showSettingsDialog.value = false })
+                SettingsPopUp(
+                    sound,
+                    music,
+                    onClose = { showSettingsDialog.value = false },
+                    auth = auth,
+                    mainNavController = navController,
+                    loginNavController = loginNavController
+                )
             }
         }
 
