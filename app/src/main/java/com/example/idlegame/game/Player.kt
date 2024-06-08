@@ -1,8 +1,6 @@
 package com.example.idlegame.game
 
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -20,26 +18,31 @@ class PlayerViewModel : ViewModel() {
         }
     }
 
+    fun upgradeWeapon(weapon: WeaponGame) {
+        viewModelScope.launch {
+            player.upgradeWeapon(weapon)
+        }
+    }
 }
-class Player(money: Int = 10, val weapons: MutableList<WeaponGame> = mutableListOf()) {
-    var money: MutableState<Int> = mutableStateOf(money)
+class Player(var money: Int = 10, val weapons: MutableList<WeaponGame> = mutableListOf()) {
     fun earnMoney() {
-        weapons.forEach { money.value += it.damage().toInt() }
+        weapons.filter { it.isActive }.forEach { money += it.damage().toInt() }
     }
 
     fun buyWeapon(weapon: WeaponGame) {
-        if (money.value >= weapon.upgradeCost()) {
-            money.value -= weapon.upgradeCost().toInt()
-            if (weapons.contains(weapon)) {
-                weapon.upgrade()
-            } else {
+        if (money >= weapon.upgradeCost()) {
+            money -= weapon.upgradeCost().toInt()
             weapons.add(weapon)
-                weapon.upgrade()
-            }
-
+            weapon.activate()
         }
     }
 
+    fun upgradeWeapon(weapon: WeaponGame) {
+        if (money >= weapon.upgradeCost()) {
+            money -= weapon.upgradeCost().toInt()
+            weapon.upgrade()
+        }
+    }
 }
 
 

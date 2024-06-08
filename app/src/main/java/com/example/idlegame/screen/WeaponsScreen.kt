@@ -51,15 +51,26 @@ import com.example.idlegame.weapon.Weapon
 fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
 
 
-    val weapons = listOf(WeaponGame("Sword",R.drawable.sword_wooden,1.0, 10.0, 0.1, 0.1,level = 2),
-        WeaponGame("Dagger", R.drawable.dagger_wooden,1.0, 100.0, 0.1, 0.1),
-        WeaponGame("Bow",R.drawable.bow_wooden,1.0, 200.0, 0.1, 0.1),
-        WeaponGame("Spear",R.drawable.spear_wooden,1.0, 500.0, 0.1, 0.1),
-        WeaponGame("Kunai",R.drawable.kunai_wooden,1.0, 1000.0, 0.1, 0.1),
-        WeaponGame("Greatsword",R.drawable.greatsword_wooden,1.0, 2000.0, 0.1, 0.1),
-        WeaponGame("Axe",R.drawable.axe_wooden,1.0, 5000.0, 0.1, 0.1),
-        WeaponGame("Staff",R.drawable.staff_wooden,1.0, 10000.0, 0.1, 0.1),
-        WeaponGame("Crossbow",R.drawable.crossbow_wooden,1.0, 20000.0, 0.1, 0.1))
+    val GameWeapons = listOf(WeaponGame(1.0, 10.0, 0.1, 0.1),
+        WeaponGame(1.0, 100.0, 0.1, 0.1),
+        WeaponGame(1.0, 200.0, 0.1, 0.1),
+        WeaponGame(1.0, 500.0, 0.1, 0.1),
+        WeaponGame(1.0, 1000.0, 0.1, 0.1),
+        WeaponGame(1.0, 2000.0, 0.1, 0.1),
+        WeaponGame(1.0, 5000.0, 0.1, 0.1),
+        WeaponGame(1.0, 10000.0, 0.1, 0.1),
+        WeaponGame(1.0, 20000.0, 0.1, 0.1))
+    val weapons = listOf(
+        WeaponData("Sword", "1 LVL", "1/s", "10", R.drawable.sword_wooden),
+        WeaponData("Dagger", "0 LVL", "0/s", "100", R.drawable.dagger_wooden),
+        WeaponData("Bow", "0 LVL", "0/s", "2k", R.drawable.bow_wooden),
+        WeaponData("Spear", "0 LVL", "0/s", "10k", R.drawable.spear_wooden),
+        WeaponData("Kunai", "0 LVL", "0/s", "50k", R.drawable.kunai_wooden),
+        WeaponData("Greatsword", "0 LVL", "0/s", "500k", R.drawable.greatsword_wooden),
+        WeaponData("Axe", "0 LVL", "0/s", "2m", R.drawable.axe_wooden),
+        WeaponData("Staff", "0 LVL", "0/s", "5m", R.drawable.staff_wooden),
+        WeaponData("Crossbow", "0 LVL", "0/s", "15m", R.drawable.crossbow_wooden)
+    )
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Spacer(modifier = Modifier.height(60.dp))
@@ -85,15 +96,16 @@ fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
             LazyColumn(modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()) {
-                items(weapons) {  weapon ->
+                itemsIndexed(weapons) { index, weapon ->
+                    val gameWeapon = GameWeapons[index]
                     Weapon(
-                        title = weapon.title(),
-                        level = weapon.level.value.toString() + " LVL", // Use the level from the gameWeapon
-                        income = weapon.damage().toString() + "/s", // Use the damage from the gameWeapon as income
-                        price = weapon.upgradeCost().toString(), // Use the upgradeCost from the gameWeapon as price
-                        weaponPicture = painterResource(weapon.picture()),
+                        title = weapon.title,
+                        level = gameWeapon.level.toString() + " LVL", // Use the level from the gameWeapon
+                        income = gameWeapon.damage().toString() + "/s", // Use the damage from the gameWeapon as income
+                        price = gameWeapon.upgradeCost().toString(), // Use the upgradeCost from the gameWeapon as price
+                        weaponPicture = painterResource(weapon.weaponPicture),
                         modifier = Modifier.padding(5.dp, 8.dp),
-                        onBuy = {playerViewModel.buyWeapon(weapon)}
+                        onBuy = {playerViewModel.buyWeapon(gameWeapon)}
 
                     )
                 }

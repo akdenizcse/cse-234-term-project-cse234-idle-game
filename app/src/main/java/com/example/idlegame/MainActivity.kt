@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val randomIndex = Random.nextInt(6)
-        playerViewModel.player.money.value = loadPlayerMoney("playerMoney")
+        playerViewModel.player.money = loadPlayerMoney("playerMoney")
 
         setContent {
             IdleGameTheme {
@@ -103,7 +103,7 @@ class MainActivity : ComponentActivity() {
         enemyViewModel.resetEnemyState()
         saveCheckState("sound", sound.value)
         saveCheckState("music", music.value)
-        savePlayerMoney("playerMoney", playerViewModel.player.money.value)
+        savePlayerMoney("playerMoney", playerViewModel.player.money)
     }
 
     private fun loadCheckState(key: String): Check {
@@ -145,7 +145,7 @@ fun Main(enemyViewModel: EnemyViewModel,playerViewModel: PlayerViewModel, sound:
         UpBar(
             output = "1/s",
             onGear = { showSettingsDialog.value = true },
-            money = playerViewModel.player.money.value.toString(),
+            money = playerViewModel.player.money.toString(),
             gems = "0",
             modifier = Modifier.fillMaxWidth()
         )
