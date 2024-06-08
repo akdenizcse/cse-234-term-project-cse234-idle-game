@@ -9,23 +9,40 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableDoubleStateOf
+import com.example.idlegame.util.NumberFormatter
+import java.math.BigDecimal
+import kotlin.math.absoluteValue
+import kotlin.math.floor
+import kotlin.math.log10
+import kotlin.math.pow
 
-class Player(money: Double = 10.0, gems: Int = 0, weapons: MutableList<WeaponGame> = mutableListOf()) {
-    var money: MutableState<Double> = mutableDoubleStateOf(money)
+class Player(money: BigDecimal = BigDecimal("10"), gems: Int = 0, weapons: MutableList<WeaponGame> = mutableListOf()) {
+    var money: MutableState<BigDecimal> = mutableStateOf(money)
     var gems: MutableState<Int> = mutableStateOf(gems)
     var weapons: MutableState<MutableList<WeaponGame>> = mutableStateOf(weapons)
-    fun earnMoney(): Double {
-        var moneyEarned = 0.0
+    fun earnMoney(): BigDecimal {
+        var moneyEarned:BigDecimal = BigDecimal("0")
         weapons.value.forEach {
             moneyEarned += it.damage()
             money.value += it.damage()
         }
         return moneyEarned
     }
+    fun formattedMoney(): String {
+        return NumberFormatter.formatLargeNumber(money.value)
+    }
 
     fun addGems(amount: Int) {
         gems.value += amount
     }
+
+    fun buyMultiplier(weapon: WeaponGame) {
+        if (money.value >= weapon.multiplierCost()) {
+            money.value -= weapon.multiplierCost()
+            weapon.upgradeMultiplier()
+        }
+    }
+
 
     fun buyWeapon(weapon: WeaponGame) {
         if (money.value >= weapon.upgradeCost()) {
@@ -39,16 +56,17 @@ class Player(money: Double = 10.0, gems: Int = 0, weapons: MutableList<WeaponGam
 }
 
 class PlayerViewModel : ViewModel() {
-    val player: Player = Player(money = 10.0, gems = 0)
-    val earningsPerSecond: MutableState<Double> = mutableStateOf(0.0)
+    val player: Player = Player(money = 10.toBigDecimal(), gems = 0)
+    val earningsPerSecond: MutableState<BigDecimal> = mutableStateOf(BigDecimal("0"))
     val weapons: State<MutableList<WeaponGame>> get() = player.weapons
-    fun earnMoney(): Double {
-        var moneyEarned = 0.0
+    fun earnMoney(): BigDecimal {
+        var moneyEarned:BigDecimal = BigDecimal("0")
         viewModelScope.launch {
             moneyEarned = player.earnMoney()
         }
         return moneyEarned
     }
+
 
     fun addGems(amount: Int) {
         viewModelScope.launch {
@@ -56,11 +74,17 @@ class PlayerViewModel : ViewModel() {
         }
     }
 
+    fun buyUpgrade(weapon: WeaponGame) {
+        viewModelScope.launch {
+            player.buyMultiplier(weapon)
+        }
+    }
     fun buyWeapon(weapon: WeaponGame) {
         viewModelScope.launch {
             player.buyWeapon(weapon)
         }
     }
+
 
     fun setWeapons(weapons: List<WeaponGame>) {
         player.weapons.value = weapons.toMutableList()
