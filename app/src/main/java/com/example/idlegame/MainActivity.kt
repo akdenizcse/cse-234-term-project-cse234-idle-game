@@ -50,7 +50,6 @@ import com.example.idlegame.screen.SettingsPopUp
 import com.example.idlegame.screen.StoreScreen
 import com.example.idlegame.screen.UpgradeScreen
 import com.example.idlegame.screen.WeaponsScreen
-import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.upbar.UpBar
 import androidx.compose.runtime.LaunchedEffect
 import com.example.idlegame.game.PlayerViewModel
@@ -60,6 +59,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.delay
 import kotlin.random.Random
+import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
@@ -76,6 +76,7 @@ class MainActivity : ComponentActivity() {
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val randomIndex = Random.nextInt(6)
         playerViewModel.player.money.value = loadPlayerMoney("playerMoney")
+        playerViewModel.player.gems.value = loadPlayerGems("playerGems")
 
         setContent {
             IdleGameTheme {
@@ -104,18 +105,30 @@ class MainActivity : ComponentActivity() {
         saveCheckState("sound", sound.value)
         saveCheckState("music", music.value)
         savePlayerMoney("playerMoney", playerViewModel.player.money.value)
+        savePlayerGems("playerGems", playerViewModel.player.gems.value)
     }
 
     private fun loadCheckState(key: String): Check {
         val state = sharedPreferences.getString(key, Check.Enabled.name)
         return Check.valueOf(state ?: Check.Enabled.name)
     }
-    private fun loadPlayerMoney(key: String): Int {
-        return sharedPreferences.getInt(key, 100)
+    private fun loadPlayerMoney(key: String): Double {
+        return sharedPreferences.getInt(key, 10).toDouble()
     }
-    private fun savePlayerMoney(key: String, money: Int) {
+    private fun savePlayerMoney(key: String, money: Double) {
         with(sharedPreferences.edit()) {
-            putInt(key, money)
+            putInt(key, money.roundToInt())
+            apply()
+        }
+    }
+
+    private fun loadPlayerGems(key: String): Int {
+        return sharedPreferences.getInt(key, 0)
+    }
+
+    private fun savePlayerGems(key: String, gems: Int) {
+        with(sharedPreferences.edit()) {
+            putInt(key, gems)
             apply()
         }
     }
@@ -136,17 +149,17 @@ fun Main(enemyViewModel: EnemyViewModel,playerViewModel: PlayerViewModel, sound:
     val design = remember { mutableStateOf(Design.WeaponsTab) }
     LaunchedEffect(key1 = "earnMoney") {
         while (true) {
-            playerViewModel.earnMoney()
+            playerViewModel.earningsPerSecond.value = playerViewModel.earnMoney()
             delay(1000) // delay for 1 second
         }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
         UpBar(
-            output = "1/s",
+            output = playerViewModel.earningsPerSecond.value.toInt().toString()+"/s",
             onGear = { showSettingsDialog.value = true },
-            money = playerViewModel.player.money.value.toString(),
-            gems = "0",
+            money = playerViewModel.player.money.value.toInt().toString(),
+            gems = playerViewModel.player.gems.value.toString(),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -158,7 +171,7 @@ fun Main(enemyViewModel: EnemyViewModel,playerViewModel: PlayerViewModel, sound:
 
         NavHost(navController, startDestination = Screen.WeaponsTab.route) {
             composable(Screen.WeaponsTab.route) { WeaponsScreen(enemyViewModel.slimeEnemy,playerViewModel) }
-            composable(Screen.StoreTab.route) { StoreScreen() }
+            composable(Screen.StoreTab.route) { StoreScreen(playerViewModel) }
             composable(Screen.UpgradesTab.route) { UpgradeScreen() }
         }
 
