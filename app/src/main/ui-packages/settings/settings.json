@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "211:119",
-    "version": "5855001544",
+    "version": "5951927271",
     "component-id": "c894e473fa4af17304b1be76809ddde85931b444"
   },
   "default": "Settings",
@@ -27,6 +27,10 @@
       {
         "type": "group",
         "id": "Music"
+      },
+      {
+        "type": "group",
+        "id": "Logout"
       },
       {
         "type": "group",
@@ -69,6 +73,14 @@
         "type": "adin_component",
         "id": "ComponentButton1",
         "key": "component_button"
+      },
+      {
+        "type": "vector",
+        "id": "Logout Triangle"
+      },
+      {
+        "type": "text",
+        "id": "Logout1"
       }
     ],
     "modes": {
@@ -76,6 +88,9 @@
         "rules": [
           {
             "id": "top_level",
+            "padding": {
+              "top": 5.0
+            },
             "border-radius": 15.0,
             "stroke-width": 3.0,
             "stroke-alignment": "outside",
@@ -85,10 +100,12 @@
               "saturation": 0.0,
               "value": 0.3176470588235294
             },
+            "main-axis-align": "start",
             "children": [
               "SettingsBar",
               "Sound",
-              "Music"
+              "Music",
+              "Logout"
             ],
             "item-spacing": 10.0,
             "background-color": {
@@ -104,7 +121,7 @@
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
-                "value": 284.75
+                "value": 300.0
               },
               "height-constraints": {
                 "sizing-mode": "fixed",
@@ -159,12 +176,33 @@
             "clip-content": false
           },
           {
+            "id": "Logout",
+            "border-radius": 15.0,
+            "tap-handler": "$onLogout",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 190.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "Logout Triangle",
+              "Logout1"
+            ],
+            "clip-content": false
+          },
+          {
             "id": "Group 1",
             "border-radius": 15.0,
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
-                "value": 248.0
+                "value": 261.2818298339844
               },
               "height-constraints": {
                 "sizing-mode": "fixed",
@@ -183,7 +221,7 @@
             "alignment": {
               "horizontal": {
                 "attachment": "center",
-                "offset": 117.375
+                "offset": 123.66111373901367
               },
               "vertical": {
                 "attachment": "center",
@@ -194,7 +232,7 @@
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
-                "value": 50.0
+                "value": 52.67778778076172
               },
               "height-constraints": {
                 "sizing-mode": "fixed",
@@ -220,7 +258,7 @@
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
-                "value": 220.0
+                "value": 231.78225708007812
               },
               "height-constraints": {
                 "sizing-mode": "fixed",
@@ -244,7 +282,7 @@
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
-                "value": 248.0
+                "value": 261.2818298339844
               },
               "height-constraints": {
                 "sizing-mode": "fixed",
@@ -413,12 +451,56 @@
                 "value": 50.0
               }
             }
+          },
+          {
+            "id": "Logout Triangle",
+            "border-radius": 15.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 190.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "vector-content": "logout_triangle.svg"
+          },
+          {
+            "id": "Logout1",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 17.75
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 13.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "Logout",
+            "overflow": "visible",
+            "text-align-vertical": "center",
+            "text-size": 25.0,
+            "typeface": "Press Start 2P"
           }
         ]
       }
     }
   },
   "parameters": {
+    "onLogout": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
     "onCancel": {
       "data-type": "void-callback",
       "required": false,
@@ -450,7 +532,7 @@
       "design": "Settings",
       "size": {
         "width": 315.0,
-        "height": 200.0
+        "height": 245.0
       },
       "parameters": {
         "soundDesign": "Check=Enabled",

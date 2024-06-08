@@ -1,6 +1,7 @@
 package com.example.idlegame
 
 import EnemyViewModel
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -50,19 +51,22 @@ import com.example.idlegame.screen.SettingsPopUp
 import com.example.idlegame.screen.StoreScreen
 import com.example.idlegame.screen.UpgradeScreen
 import com.example.idlegame.screen.WeaponsScreen
-import com.example.idlegame.timewarp.TimeWarp
 import com.example.idlegame.upbar.UpBar
 import androidx.compose.runtime.LaunchedEffect
+import com.example.idlegame.game.PlayerViewModel
 import com.example.idlegame.screen.ResetPasswordScreen
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.delay
 import kotlin.random.Random
+import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
     private lateinit var sound: MutableState<Check>
     private lateinit var music: MutableState<Check>
+    private val playerViewModel: PlayerViewModel by viewModels()
     private val enemyViewModel: EnemyViewModel by viewModels()
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
@@ -72,6 +76,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val randomIndex = Random.nextInt(6)
+        playerViewModel.player.money.value = loadPlayerMoney("playerMoney")
+        playerViewModel.player.gems.value = loadPlayerGems("playerGems")
 
         setContent {
             IdleGameTheme {
@@ -85,10 +91,10 @@ class MainActivity : ComponentActivity() {
                     color = Color(0xFF373737)
                 ) {
                     NavHost(navController = navController, startDestination = "login") {
-                        composable("login") { LoginScreen(navController,randomIndex, auth) }
-                        composable("reset") { ResetPasswordScreen(navController,randomIndex, auth) }
-                        composable("register") { RegisterScreen(navController,randomIndex, auth) }
-                        composable("main") { Main(enemyViewModel, sound, music) }
+                        composable("login") { LoginScreen(navController, randomIndex, auth) }
+                        composable("reset") { ResetPasswordScreen(navController, randomIndex, auth) }
+                        composable("register") { RegisterScreen(navController, randomIndex, auth) }
+                        composable("main") { Main(navController, enemyViewModel, playerViewModel, sound, music, auth) }
                     }
                 }
             }
@@ -99,11 +105,38 @@ class MainActivity : ComponentActivity() {
         enemyViewModel.resetEnemyState()
         saveCheckState("sound", sound.value)
         saveCheckState("music", music.value)
+        savePlayerMoney("playerMoney", playerViewModel.player.money.value)
+        savePlayerGems("playerGems", playerViewModel.player.gems.value)
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+        finish()
     }
 
     private fun loadCheckState(key: String): Check {
         val state = sharedPreferences.getString(key, Check.Enabled.name)
         return Check.valueOf(state ?: Check.Enabled.name)
+    }
+    private fun loadPlayerMoney(key: String): Double {
+        return sharedPreferences.getInt(key, 10).toDouble()
+    }
+    private fun savePlayerMoney(key: String, money: Double) {
+        with(sharedPreferences.edit()) {
+            putInt(key, money.roundToInt())
+            apply()
+        }
+    }
+
+    private fun loadPlayerGems(key: String): Int {
+        return sharedPreferences.getInt(key, 0)
+    }
+
+    private fun savePlayerGems(key: String, gems: Int) {
+        with(sharedPreferences.edit()) {
+            putInt(key, gems)
+            apply()
+        }
     }
 
     private fun saveCheckState(key: String, check: Check) {
@@ -112,32 +145,47 @@ class MainActivity : ComponentActivity() {
             apply()
         }
     }
+
 }
 
 @Composable
-fun Main(enemyViewModel: EnemyViewModel, sound: MutableState<Check>, music: MutableState<Check>) {
+fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, playerViewModel: PlayerViewModel, sound: MutableState<Check>, music: MutableState<Check>, auth: FirebaseAuth) {
     val navController = rememberNavController()
     val showSettingsDialog = remember { mutableStateOf(false) }
     val design = remember { mutableStateOf(Design.WeaponsTab) }
 
+    LaunchedEffect(key1 = "earnMoney") {
+        while (true) {
+            playerViewModel.earningsPerSecond.value = playerViewModel.earnMoney()
+            delay(1000) // delay for 1 second
+        }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         UpBar(
-            output = "1/s",
+            output = playerViewModel.earningsPerSecond.value.toInt().toString()+"/s",
             onGear = { showSettingsDialog.value = true },
-            money = "10",
-            gems = "0",
+            money = playerViewModel.player.money.value.toInt().toString(),
+            gems = playerViewModel.player.gems.value.toString(),
             modifier = Modifier.fillMaxWidth()
         )
 
         if (showSettingsDialog.value) {
             Dialog(onDismissRequest = { showSettingsDialog.value = false }) {
-                SettingsPopUp(sound, music, onClose = { showSettingsDialog.value = false })
+                SettingsPopUp(
+                    sound,
+                    music,
+                    onClose = { showSettingsDialog.value = false },
+                    auth = auth,
+                    mainNavController = navController,
+                    loginNavController = loginNavController
+                )
             }
         }
 
         NavHost(navController, startDestination = Screen.WeaponsTab.route) {
-            composable(Screen.WeaponsTab.route) { WeaponsScreen(enemyViewModel.slimeEnemy) }
-            composable(Screen.StoreTab.route) { StoreScreen() }
+            composable(Screen.WeaponsTab.route) { WeaponsScreen(enemyViewModel.slimeEnemy,playerViewModel) }
+            composable(Screen.StoreTab.route) { StoreScreen(playerViewModel) }
             composable(Screen.UpgradesTab.route) { UpgradeScreen() }
         }
 

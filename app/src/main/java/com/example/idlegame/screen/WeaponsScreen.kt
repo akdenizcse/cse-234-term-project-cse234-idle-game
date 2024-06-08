@@ -3,6 +3,7 @@ package com.example.idlegame.screen
 import Enemy
 import EnemyViewModel
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.geometry.Size
@@ -38,24 +40,28 @@ import com.example.idlegame.R
 import com.example.idlegame.data.WeaponData
 import com.example.idlegame.downbar.Design
 import com.example.idlegame.downbar.DownBar
+import com.example.idlegame.game.PlayerViewModel
+import com.example.idlegame.game.WeaponGame
 import com.example.idlegame.ui.theme.IdleGameTheme
 import com.example.idlegame.upbar.UpBar
 import com.example.idlegame.weapon.Weapon
+import java.util.Locale
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun WeaponsScreen(enemy: Enemy) {
-    val weapons = listOf(
-        WeaponData("Sword", "1 LVL", "1/s", "10", R.drawable.sword_wooden),
-        WeaponData("Dagger", "0 LVL", "0/s", "100", R.drawable.dagger_wooden),
-        WeaponData("Bow", "0 LVL", "0/s", "2k", R.drawable.bow_wooden),
-        WeaponData("Spear", "0 LVL", "0/s", "10k", R.drawable.spear_wooden),
-        WeaponData("Kunai", "0 LVL", "0/s", "50k", R.drawable.kunai_wooden),
-        WeaponData("Greatsword", "0 LVL", "0/s", "500k", R.drawable.greatsword_wooden),
-        WeaponData("Axe", "0 LVL", "0/s", "2m", R.drawable.axe_wooden),
-        WeaponData("Staff", "0 LVL", "0/s", "5m", R.drawable.staff_wooden),
-        WeaponData("Crossbow", "0 LVL", "0/s", "15m", R.drawable.crossbow_wooden)
-    )
+fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
+
+    val weapons = listOf(WeaponGame("Sword",R.drawable.sword_wooden,1.0, 10.0, 0.1, 0.1),
+        WeaponGame("Dagger", R.drawable.dagger_wooden,1.0, 100.0, 0.1, 0.1),
+        WeaponGame("Bow",R.drawable.bow_wooden,1.0, 200.0, 0.1, 0.1),
+        WeaponGame("Spear",R.drawable.spear_wooden,1.0, 500.0, 0.1, 0.1),
+        WeaponGame("Kunai",R.drawable.kunai_wooden,1.0, 1000.0, 0.1, 0.1),
+        WeaponGame("Greatsword",R.drawable.greatsword_wooden,1.0, 2000.0, 0.1, 0.1),
+        WeaponGame("Axe",R.drawable.axe_wooden,1.0, 5000.0, 0.1, 0.1),
+        WeaponGame("Staff",R.drawable.staff_wooden,1.0, 10000.0, 0.1, 0.1),
+        WeaponGame("Crossbow",R.drawable.crossbow_wooden,1.0, 20000.0, 0.1, 0.1))
+    playerViewModel.setWeapons(weapons)
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Spacer(modifier = Modifier.height(60.dp))
@@ -81,14 +87,15 @@ fun WeaponsScreen(enemy: Enemy) {
             LazyColumn(modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()) {
-                items(weapons) { weapon ->
+                items(playerViewModel.weapons.value) {  weapon ->
                     Weapon(
-                        title = weapon.title,
-                        level = weapon.level,
-                        income = weapon.income,
-                        price = weapon.price,
-                        weaponPicture = painterResource(weapon.weaponPicture),
-                        modifier = Modifier.padding(5.dp, 8.dp)
+                        title = weapon.title(),
+                        level = weapon.level.value.toString() + " LVL", // Use the level from the gameWeapon
+                        income = String.format(Locale.ROOT, "%.2f", weapon.damage()) + "/s", // Use the damage from the gameWeapon as income
+                        price = weapon.upgradeCost().toString(), // Use the upgradeCost from the gameWeapon as price
+                        weaponPicture = painterResource(weapon.picture()),
+                        modifier = Modifier.padding(5.dp, 8.dp),
+                        onBuy = {playerViewModel.buyWeapon(weapon)}
                     )
                 }
             }
@@ -101,6 +108,6 @@ fun WeaponsScreen(enemy: Enemy) {
 @Composable
 fun WeaponsScreenPreview() {
     IdleGameTheme {
-        //WeaponsScreen(enemyViewModel.slimeEnemy )
+        //WeaponsScreen(enemy = Enemy(), playerViewModel = PlayerViewModel())
     }
 }
