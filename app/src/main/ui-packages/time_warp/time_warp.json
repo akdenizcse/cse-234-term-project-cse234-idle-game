@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "211:97",
-    "version": "5951503130",
+    "version": "5855001544",
     "component-id": "40c65cdbbea0b2142a64a7907c9dbae280a05bcf"
   },
   "default": "TimeWarp",
@@ -30,7 +30,7 @@
       },
       {
         "type": "text",
-        "id": "hours"
+        "id": "Days"
       },
       {
         "type": "text",
@@ -101,7 +101,7 @@
             "is-structured": false,
             "children": [
               "clock_blue",
-              "hours",
+              "Days",
               "Description",
               "Amount"
             ],
@@ -179,7 +179,7 @@
             "scale": "cover"
           },
           {
-            "id": "hours",
+            "id": "Days",
             "alignment": {
               "horizontal": {
                 "attachment": "start",
@@ -206,7 +206,7 @@
               "saturation": 0.0,
               "value": 1.0
             },
-            "text-content": "$hours",
+            "text-content": "$days",
             "overflow": "visible",
             "max-lines": -1,
             "text-align": "left",
@@ -288,7 +288,7 @@
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "fixed",
-                "value": 32.0
+                "value": 30.0
               },
               "height-constraints": {
                 "sizing-mode": "fixed",
@@ -320,8 +320,6 @@
           {
             "id": "Buy",
             "margin": {
-              "left": 0.5,
-              "right": 1.5,
               "bottom": 15.0
             },
             "size-constraints": {
@@ -343,7 +341,8 @@
           {
             "id": "Price",
             "margin": {
-              "top": 12.0
+              "top": 12.0,
+              "right": 6.0
             },
             "size-constraints": {
               "width-constraints": {
@@ -372,7 +371,7 @@
       "required": false,
       "description": ""
     },
-    "hours": {
+    "days": {
       "data-type": "text",
       "required": false,
       "description": ""
@@ -401,10 +400,10 @@
         "height": 105.0
       },
       "parameters": {
-        "hours": "1-Day Time Warp",
+        "days": "1-Day Time Warp",
         "description": "Get 1 day worth income instantly!",
         "amount": "That’s 10.36m!",
-        "price": "150"
+        "price": "10"
       }
     }
   ],

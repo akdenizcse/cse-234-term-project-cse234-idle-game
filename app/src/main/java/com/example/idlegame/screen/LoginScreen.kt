@@ -167,7 +167,7 @@ fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextI
 
             Button(
                 modifier = Modifier.fillMaxWidth(0.8f),
-                onClick = /*{
+                onClick = {
                     auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
@@ -179,11 +179,7 @@ fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextI
                                 Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
                             }
                         }
-                }*/{
-                    navController.navigate("main") {
-                        popUpTo("login") { inclusive = true }
-                    }
-                },
+                }
             ) {
                 Text(text = "Sign In", fontFamily = pressStart2P, color = Color.White, modifier = Modifier.align(Alignment.CenterVertically))
             }
