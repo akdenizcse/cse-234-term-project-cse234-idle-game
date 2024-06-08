@@ -35,15 +35,16 @@ import java.util.Locale
 fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
 
     val weapons = listOf(
-        WeaponGame("Sword",BigDecimal("1.0"), BigDecimal("10.0"), 0.1, 0.1,weaponImages = List(8) { R.drawable.sword_wooden ; R.drawable.sword_iron;R.drawable.sword_silver;R.drawable.sword_gold;R.drawable.sword_cobalt;R.drawable.sword_mythril;R.drawable.sword_amethyst;R.drawable.sword_stell }),
-        WeaponGame("Dagger",BigDecimal("1.0"), BigDecimal("100.0"), 0.1, 0.1, weaponImages = List(8) { R.drawable.dagger_wooden ; R.drawable.dagger_iron;R.drawable.dagger_silver;R.drawable.dagger_gold;R.drawable.dagger_cobalt;R.drawable.dagger_myhtril;R.drawable.dagger_amethyst;R.drawable.dagger_stell }),
-        WeaponGame("Bow",BigDecimal("1.0"), BigDecimal("200.0"), 0.1, 0.1, weaponImages = List(8) { R.drawable.bow_wooden ; R.drawable.bow_iron;R.drawable.bow_silver;R.drawable.bow_gold;R.drawable.bow_cobalt;R.drawable.bow_mythril;R.drawable.bow_amethyst;R.drawable.bow_steel }),
-        WeaponGame("Spear",BigDecimal("1.0"), BigDecimal("500.0"), 0.1, 0.1, weaponImages = List(8) { R.drawable.spear_wooden ; R.drawable.spear_iron;R.drawable.spear_silver;R.drawable.spear_gold;R.drawable.spear_cobalt;R.drawable.spear_myhtril;R.drawable.spear_amethyst;R.drawable.spear_stell }),
-        WeaponGame("Kunai",BigDecimal("1.0"), BigDecimal("1000.0"), 0.1, 0.1, weaponImages = List(8) { R.drawable.kunai_wooden ; R.drawable.kunai_iron;R.drawable.kunai_silver;R.drawable.kunai_gold;R.drawable.kunai_cobalt;R.drawable.kunai_myhtril;R.drawable.kunai_amethyst;R.drawable.kunai_stell }),
-        WeaponGame("Greatsword",BigDecimal("1.0"), BigDecimal("2000.0"), 0.1, 0.1, weaponImages = List(8) { R.drawable.greatsword_wooden ; R.drawable.greatsword_iron;R.drawable.greatsword_silver;R.drawable.greatsword_gold;R.drawable.greatsword_cobalt;R.drawable.greatsword_myhtril;R.drawable.greatsword_amethyst;R.drawable.greatsword_stell }),
-        WeaponGame("Axe",BigDecimal("1.0"), BigDecimal("5000.0"), 0.1, 0.1, weaponImages = List(8) { R.drawable.axe_wooden ; R.drawable.axe_iron;R.drawable.axe_silver;R.drawable.axe_gold;R.drawable.axe_cobalt;R.drawable.axe_myhtril;R.drawable.axe_amethyst;R.drawable.axe_stell }),
-        WeaponGame("Staff",BigDecimal("1.0"), BigDecimal("10000.0"), 0.1, 0.1, weaponImages = List(8) { R.drawable.staff_wooden ; R.drawable.staff_iron;R.drawable.staff_silver;R.drawable.staff_gold;R.drawable.staff_cobalt;R.drawable.staff_myhtril;R.drawable.staff_amethyst;R.drawable.staff_stell }),
-        WeaponGame("Crossbow",BigDecimal("1.0"), BigDecimal("20000.0"), 0.1, 0.1, weaponImages = List(8) { R.drawable.crossbow_wooden ; R.drawable.crossbow_iron;R.drawable.crossbow_silver;R.drawable.crossbow_gold;R.drawable.crossbow_cobalt;R.drawable.crossbow_myhtril;R.drawable.crossbow_amethyst;R.drawable.crossbow_stell })
+        WeaponGame("Sword",BigDecimal("1.0"), BigDecimal("10.0"), 0.1, 0.1,
+            weaponImages = listOf( R.drawable.sword_wooden , R.drawable.sword_iron,R.drawable.sword_silver,R.drawable.sword_gold,R.drawable.sword_cobalt,R.drawable.sword_mythril,R.drawable.sword_amethyst,R.drawable.sword_stell )),
+        WeaponGame("Dagger",BigDecimal("1.0"), BigDecimal("100.0"), 0.1, 0.1,
+            weaponImages = listOf(R.drawable.dagger_wooden, R.drawable.dagger_iron, R.drawable.dagger_silver, R.drawable.dagger_gold, R.drawable.dagger_cobalt, R.drawable.dagger_myhtril, R.drawable.dagger_amethyst, R.drawable.dagger_stell)),
+        WeaponGame("Bow", BigDecimal("1.0"), BigDecimal("200.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.bow_wooden, R.drawable.bow_iron, R.drawable.bow_silver, R.drawable.bow_gold, R.drawable.bow_cobalt, R.drawable.bow_mythril, R.drawable.bow_amethyst, R.drawable.bow_steel)),WeaponGame("Spear", BigDecimal("1.0"), BigDecimal("500.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.spear_wooden, R.drawable.spear_iron, R.drawable.spear_silver, R.drawable.spear_gold, R.drawable.spear_cobalt, R.drawable.spear_myhtril, R.drawable.spear_amethyst, R.drawable.spear_stell)),
+        WeaponGame("Kunai", BigDecimal("1.0"), BigDecimal("1000.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.kunai_wooden, R.drawable.kunai_iron, R.drawable.kunai_silver, R.drawable.kunai_gold, R.drawable.kunai_cobalt, R.drawable.kunai_myhtril, R.drawable.kunai_amethyst, R.drawable.kunai_stell)),
+        WeaponGame("Greatsword", BigDecimal("1.0"), BigDecimal("2000.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.greatsword_wooden, R.drawable.greatsword_iron, R.drawable.greatsword_silver, R.drawable.greatsword_gold, R.drawable.greatsword_cobalt, R.drawable.greatsword_myhtril, R.drawable.greatsword_amethyst, R.drawable.greatsword_stell)),
+        WeaponGame("Axe", BigDecimal("1.0"), BigDecimal("5000.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.axe_wooden, R.drawable.axe_iron, R.drawable.axe_silver, R.drawable.axe_gold, R.drawable.axe_cobalt, R.drawable.axe_myhtril, R.drawable.axe_amethyst, R.drawable.axe_stell)),
+        WeaponGame("Staff", BigDecimal("1.0"), BigDecimal("10000.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.staff_wooden, R.drawable.staff_iron, R.drawable.staff_silver, R.drawable.staff_gold, R.drawable.staff_cobalt, R.drawable.staff_myhtril, R.drawable.staff_amethyst, R.drawable.staff_stell)),
+        WeaponGame("Crossbow", BigDecimal("1.0"), BigDecimal("20000.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.crossbow_wooden, R.drawable.crossbow_iron, R.drawable.crossbow_silver, R.drawable.crossbow_gold, R.drawable.crossbow_cobalt, R.drawable.crossbow_myhtril, R.drawable.crossbow_amethyst, R.drawable.crossbow_stell))
         )
     playerViewModel.setWeapons(weapons)
 
@@ -76,7 +77,7 @@ fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
                     Weapon(
                         title = weapon.title(),
                         level = weapon.level.value.toString() + " LVL", // Use the level from the gameWeapon
-                        income = String.format(Locale.ROOT, "%.2f", weapon.damage()) + "/s", // Use the damage from the gameWeapon as income
+                        income = weapon.formattedDamage() + "/s", // Use the damage from the gameWeapon as income
                         price = weapon.formattedUpgradeCost(), // Use the upgradeCost from the gameWeapon as price
                         weaponPicture = painterResource(weapon.picture()),
                         modifier = Modifier.padding(5.dp, 8.dp),

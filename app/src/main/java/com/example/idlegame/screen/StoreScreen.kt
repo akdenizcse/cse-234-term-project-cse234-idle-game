@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
 import com.example.idlegame.R
 import com.example.idlegame.biggembuy.BigGemBuy
+import com.example.idlegame.game.NumberFormatter.formatLargeNumber
 import com.example.idlegame.game.PlayerViewModel
 import com.example.idlegame.gembuy.GemBuy
 import com.example.idlegame.gembuy.pressStart2P
@@ -113,8 +114,8 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                     onBuy = {
                         if (playerViewModel.player.gems.value >= 50) {
                             playerViewModel.player.gems.value -= 50
-                            val income = 1 * 60 * 60 * playerViewModel.earningsPerSecond.value.toInt()
-                            playerViewModel.player.money.value += income.toBigDecimal()
+                            val income = playerViewModel.earningsPerSecond.value.multiply(3600.toBigDecimal())
+                            playerViewModel.player.money.value += income
                             Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(context, "Not enough gems!", Toast.LENGTH_SHORT).show()
@@ -122,15 +123,15 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                     },
                     hours = "1-Hour Time Warp",
                     description = "Get 1 hour worth income instantly!",
-                    amount = "That’s ${1 * 60 * 60 * playerViewModel.earningsPerSecond.value.toInt()}!",
+                    amount = "That’s ${  formatLargeNumber(playerViewModel.earningsPerSecond.value.multiply(3600.toBigDecimal())) }!",
                     price = "50",
                     modifier = Modifier.padding(6.dp, 6.dp))
                 TimeWarp(
                     onBuy = {
                         if (playerViewModel.player.gems.value >= 150) {
                             playerViewModel.player.gems.value -= 150
-                            val income = 6 * 60 * 60 * playerViewModel.earningsPerSecond.value.toInt()
-                            playerViewModel.player.money.value += income.toBigDecimal()
+                            val income = playerViewModel.earningsPerSecond.value.multiply(3600.toBigDecimal()).multiply(6.toBigDecimal())
+                            playerViewModel.player.money.value += income
                             Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(context, "Not enough gems!", Toast.LENGTH_SHORT).show()
@@ -138,7 +139,7 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                     },
                     hours = "6-Hour Time Warp",
                     description = "Get 6 hour worth income instantly!",
-                    amount = "That’s ${6 * 60 * 60 * playerViewModel.earningsPerSecond.value.toInt()}!",
+                    amount = "That’s ${formatLargeNumber(playerViewModel.earningsPerSecond.value.multiply(3600.toBigDecimal()).multiply(6.toBigDecimal()))}!",
                     price = "150",
                     modifier = Modifier.padding(6.dp, 6.dp))
             }

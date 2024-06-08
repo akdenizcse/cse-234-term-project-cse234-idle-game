@@ -159,14 +159,14 @@ fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, play
 
     LaunchedEffect(key1 = "earnMoney") {
         while (true) {
-            playerViewModel.earningsPerSecond.value = playerViewModel.earnMoney()
+            playerViewModel.earnMoney()
             delay(1000) // delay for 1 second
         }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
         UpBar(
-            output = playerViewModel.earningsPerSecond.value.toInt().toString()+"/s",
+            output = playerViewModel.formattedearningsPerSecond()+"/s",
             onGear = { showSettingsDialog.value = true },
             money = playerViewModel.player.formattedMoney(),
             gems = playerViewModel.player.gems.value.toString(),

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
+import com.example.idlegame.game.NumberFormatter.formatLargeNumber
 import java.math.BigDecimal
 
 
@@ -52,14 +53,18 @@ class Player(money: BigDecimal = BigDecimal("10"), gems: Int = 0, weapons: Mutab
 
 class PlayerViewModel : ViewModel() {
     val player: Player = Player(money = 10.toBigDecimal(), gems = 0)
-    val earningsPerSecond: MutableState<BigDecimal> = mutableStateOf(BigDecimal("0"))
+    val earningsPerSecond: MutableState<BigDecimal> = mutableStateOf(BigDecimal.ZERO)
     val weapons: State<MutableList<WeaponGame>> get() = player.weapons
     fun earnMoney(): BigDecimal {
         var moneyEarned:BigDecimal = BigDecimal("0")
         viewModelScope.launch {
             moneyEarned = player.earnMoney()
         }
+        earningsPerSecond.value = moneyEarned
         return moneyEarned
+    }
+    fun formattedearningsPerSecond(): String {
+        return formatLargeNumber(earningsPerSecond.value)
     }
 
 

@@ -28,13 +28,18 @@ fun UpgradeScreen(playerViewModel: PlayerViewModel) {
                 items(playerViewModel.weapons.value) { upgrade ->
                     Upgrade(
                         title = upgrade.title(),
-                        material = upgrade.material()+" Upgrade",
+                        material = upgrade.material() + if (!upgrade.isUpgradeMaxed()) {" Upgrade"} else {""},
                         description = "Increase income by 2x",
                         price = upgrade.formattedMultiplierCost(),
                         weaponPicture = painterResource(upgrade.picture(1)),
                         modifier = Modifier.padding(5.dp, 8.dp),
                         onBuy = {
-                            playerViewModel.buyUpgrade(upgrade)
+                            if (upgrade.isUpgradeMaxed()) {
+                                // Display a message to the user
+                                println("The upgrade for ${upgrade.title()} has reached its maximum level.")
+                            } else {
+                                playerViewModel.buyUpgrade(upgrade)
+                            }
                         }
                     )
                 }

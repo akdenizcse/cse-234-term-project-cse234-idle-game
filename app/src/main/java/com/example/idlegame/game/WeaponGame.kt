@@ -27,10 +27,13 @@ class WeaponGame(
         updateWeaponImage(indexPlus)
         return weaponPicture.value
     }
+
     private fun updateWeaponImage(indexPlus: Int = 0) {
         val upgradeLevel = log2(multiplier.value).roundToInt()+indexPlus
-        weaponPicture.value = weaponImages.getOrNull(upgradeLevel) ?: weaponPicture.value
+        val imageIndex = upgradeLevel.coerceAtMost(weaponImages.size - 1)
+        weaponPicture.value = weaponImages[imageIndex]
     }
+
 
     fun damage(): BigDecimal {
         return if (level.value > 0) {
@@ -57,6 +60,10 @@ class WeaponGame(
     fun formattedUpgradeCost(): String {
         return NumberFormatter.formatLargeNumber(upgradeCost())
     }
+    fun isUpgradeMaxed(): Boolean {
+        // Assuming the maximum upgrade level is the size of the weaponImages list
+        return log2(multiplier.value).roundToInt() >= weaponImages.size - 1
+    }
 
     fun formattedMultiplierCost(): String {
         return NumberFormatter.formatLargeNumber(multiplierCost())
@@ -71,6 +78,7 @@ class WeaponGame(
             8 -> return "Mythril"
             16 -> return "Amethyst"
             32 -> return "Steel"
+            64 -> return "Maxed out!"
             else -> return "Wooden"
         }
         return material
