@@ -19,16 +19,16 @@ class WeaponGame(
     fun title(): String {
         return title
     }
-
     fun picture(): Int {
         return weaponPicture
     }
 
-    fun damage(): Double {
+
+    fun damage(): Int {
         return if (level.value > 0) {
-            baseDamage * Math.pow(1 + damageGrowthRate, (level.value - 1).toDouble()) * multiplier.value
+            (baseDamage * Math.pow(1 + damageGrowthRate, (level.value - 1).toDouble()) * multiplier.value).toInt()
         } else {
-            0.0
+            0
         }
     }
 
@@ -39,6 +39,8 @@ class WeaponGame(
         return (baseCost * Math.pow(1 + costGrowthRate, (level.value).toDouble())).toInt()
     }
 
+
+
     fun upgrade() {
         level.value++
 
@@ -47,20 +49,5 @@ class WeaponGame(
     fun upgradeMultiplier() {
         multiplier.value *= 2
 
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as WeaponGame
-
-        if (title != other.title) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return title.hashCode()
     }
 }

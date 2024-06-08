@@ -1,18 +1,14 @@
 package com.example.idlegame.game
 
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableDoubleStateOf
 
 class PlayerViewModel : ViewModel() {
-    val player: Player = Player(money = 10.0)
-    val weapons: State<MutableList<WeaponGame>> get() = player.weapons
+    val player: Player = Player(money = 10)
     fun earnMoney() {
         viewModelScope.launch {
             player.earnMoney()
@@ -24,24 +20,20 @@ class PlayerViewModel : ViewModel() {
         }
     }
 
-    fun setWeapons(weapons: List<WeaponGame>) {
-        player.weapons.value = weapons.toMutableList()
-    }
 }
-class Player(money: Double, weapons: MutableList<WeaponGame> = mutableListOf()) {
-    var money: MutableState<Double> = mutableDoubleStateOf(money)
-    var weapons: MutableState<MutableList<WeaponGame>> = mutableStateOf(weapons)
+class Player(money: Int = 10, val weapons: MutableList<WeaponGame> = mutableListOf()) {
+    var money: MutableState<Int> = mutableStateOf(money)
     fun earnMoney() {
-        weapons.value.forEach { money.value += it.damage() }
+        weapons.forEach { money.value += it.damage().toInt() }
     }
 
     fun buyWeapon(weapon: WeaponGame) {
         if (money.value >= weapon.upgradeCost()) {
-            money.value -= weapon.upgradeCost()
-            if (weapons.value.contains(weapon)) {
+            money.value -= weapon.upgradeCost().toInt()
+            if (weapons.contains(weapon)) {
                 weapon.upgrade()
             } else {
-                weapons.value.add(weapon)
+            weapons.add(weapon)
                 weapon.upgrade()
             }
 
