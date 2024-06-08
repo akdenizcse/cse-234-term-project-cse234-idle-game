@@ -31,7 +31,7 @@ fun UpgradeScreen(playerViewModel: PlayerViewModel) {
                         material = upgrade.material()+" Upgrade",
                         description = "Increase income by 2x",
                         price = upgrade.formattedMultiplierCost(),
-                        weaponPicture = painterResource(upgrade.picture()),
+                        weaponPicture = painterResource(upgrade.picture(1)),
                         modifier = Modifier.padding(5.dp, 8.dp),
                         onBuy = {
                             playerViewModel.buyUpgrade(upgrade)

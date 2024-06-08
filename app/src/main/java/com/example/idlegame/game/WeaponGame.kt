@@ -1,11 +1,8 @@
 package com.example.idlegame.game
 
-import androidx.annotation.DrawableRes
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.example.idlegame.util.NumberFormatter
 import java.math.BigDecimal
-import java.math.RoundingMode
 import kotlin.math.log2
 import kotlin.math.roundToInt
 
@@ -21,12 +18,13 @@ class WeaponGame(
 ) {
     var level: MutableState<Int> = mutableStateOf(level)
     var multiplier: MutableState<Double> = mutableStateOf(multiplier)
-    var weaponPicture: MutableState<Int> = mutableStateOf(weaponImages[0])
+    var weaponPicture: MutableState<Int> = mutableStateOf(weaponImages.get(0))
     fun title(): String {
         return title
     }
 
-    fun picture(): Int {
+    fun picture(indexPlus: Int = 0): Int {
+        updateWeaponImage(indexPlus)
         return weaponPicture.value
     }
     private fun updateWeaponImage(indexPlus: Int = 0) {
@@ -84,7 +82,6 @@ class WeaponGame(
 
     fun upgradeMultiplier() {
         multiplier.value *= 2
-        updateWeaponImage()
     }
 
     override fun equals(other: Any?): Boolean {

@@ -1,4 +1,4 @@
-package com.example.idlegame.util
+package com.example.idlegame.game
 
 import java.math.BigDecimal
 import kotlin.math.absoluteValue

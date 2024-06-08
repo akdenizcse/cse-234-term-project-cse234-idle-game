@@ -1,20 +1,15 @@
 package com.example.idlegame.game
 
 
-import android.util.Log
+
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableDoubleStateOf
-import com.example.idlegame.util.NumberFormatter
 import java.math.BigDecimal
-import kotlin.math.absoluteValue
-import kotlin.math.floor
-import kotlin.math.log10
-import kotlin.math.pow
+
 
 class Player(money: BigDecimal = BigDecimal("10"), gems: Int = 0, weapons: MutableList<WeaponGame> = mutableListOf()) {
     var money: MutableState<BigDecimal> = mutableStateOf(money)
