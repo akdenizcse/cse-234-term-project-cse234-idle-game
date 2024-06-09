@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "67:18",
-    "version": "5952864718",
+    "version": "5954014559",
     "component-id": "5aea5008597e00addbc5edd2f749e54ba26f82b7"
   },
   "default": "UpBar",
@@ -54,7 +54,7 @@
       },
       {
         "type": "text",
-        "id": "123"
+        "id": "gemcount"
       },
       {
         "type": "text",
@@ -70,12 +70,6 @@
         "rules": [
           {
             "id": "top_level",
-            "padding": {
-              "left": 5.0,
-              "top": 10.0,
-              "right": 5.0,
-              "bottom": 10.0
-            },
             "stroke-width": 1.0,
             "stroke-color": {
               "alpha": 1.0,
@@ -83,23 +77,30 @@
               "saturation": 0.0,
               "value": 0.3137254901960784
             },
-            "arrangement": "row",
-            "cross-axis-align": "start",
+            "is-structured": false,
             "children": [
               "currency",
               "setting and per  second"
             ],
-            "item-spacing": 6.0,
             "background-color": {
               "alpha": 1.0,
               "hue": 0.0,
               "saturation": 0.0,
               "value": 0.1411764705882353
-            },
-            "clip-content": false
+            }
           },
           {
             "id": "currency",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 9.5
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 10.0
+              }
+            },
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "shrink"
@@ -110,7 +111,6 @@
             },
             "arrangement": "row",
             "main-axis-align": "start",
-            "cross-axis-align": "start",
             "children": [
               "Money Bar",
               "Gem Bar"
@@ -120,6 +120,16 @@
           },
           {
             "id": "setting and per  second",
+            "alignment": {
+              "horizontal": {
+                "attachment": "end",
+                "offset": -9.5
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 10.0
+              }
+            },
             "size-constraints": {
               "width-constraints": {
                 "sizing-mode": "shrink"
@@ -130,12 +140,11 @@
             },
             "arrangement": "row",
             "main-axis-align": "end",
-            "cross-axis-align": "start",
             "children": [
               "persecond",
               "gear"
             ],
-            "item-spacing": 5.0,
+            "item-spacing": 9.0,
             "clip-content": false
           },
           {
@@ -174,7 +183,7 @@
             "children": [
               "OuterGem",
               "precious",
-              "123"
+              "gemcount"
             ],
             "clip-content": false
           },
@@ -196,9 +205,9 @@
           {
             "id": "bag_of_cash",
             "margin": {
-              "left": 8.0,
+              "left": 3.5,
               "top": 4.0,
-              "right": 64.0,
+              "right": 68.5,
               "bottom": 4.0
             },
             "size-constraints": {
@@ -217,9 +226,9 @@
           {
             "id": "coin",
             "margin": {
-              "left": 36.0,
-              "right": 2.0,
-              "bottom": 1.0
+              "left": 34.5,
+              "top": 1.0,
+              "right": 3.5
             },
             "size-constraints": {
               "width-constraints": {
@@ -263,9 +272,9 @@
           {
             "id": "precious",
             "margin": {
-              "left": 8.0,
+              "left": 3.5,
               "top": 4.0,
-              "right": 64.0,
+              "right": 68.5,
               "bottom": 4.0
             },
             "size-constraints": {
@@ -282,11 +291,11 @@
             "scale": "cover"
           },
           {
-            "id": "123",
+            "id": "gemcount",
             "margin": {
-              "left": 45.0,
-              "right": 3.0,
-              "bottom": 1.0
+              "left": 37.5,
+              "top": 1.0,
+              "right": 4.5
             },
             "size-constraints": {
               "width-constraints": {
