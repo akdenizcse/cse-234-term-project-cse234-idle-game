@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.idlegame.MainActivity
 import com.example.idlegame.R
 import com.example.idlegame.gembuy.pressStart2P
 import com.example.idlegame.ui.theme.IdleGameTheme
@@ -36,7 +37,7 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6), auth: FirebaseAuth) {
+fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6), auth: FirebaseAuth, startUserDataSaveTimer: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -167,10 +168,11 @@ fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextI
 
             Button(
                 modifier = Modifier.fillMaxWidth(0.8f),
-                onClick = /*{
+                onClick = {
                     auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
+                                startUserDataSaveTimer()
                                 navController.navigate("main") {
                                     popUpTo("login") { inclusive = true }
                                 }
@@ -179,11 +181,11 @@ fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextI
                                 Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
                             }
                         }
-                }*/{
-                    navController.navigate("main") {
-                        popUpTo("login") { inclusive = true }
-                    }
-                },
+                }
+//                    navController.navigate("main") {
+//                        popUpTo("login") { inclusive = true }
+//                    }
+
             ) {
                 Text(text = "Sign In", fontFamily = pressStart2P, color = Color.White, modifier = Modifier.align(Alignment.CenterVertically))
             }
@@ -236,7 +238,7 @@ fun LoginScreenPreview() {
             modifier = Modifier.fillMaxSize(),
             color = Color(0xFF373737)
         ){
-            LoginScreen(navController = rememberNavController(), auth = FirebaseAuth.getInstance())
+            //LoginScreen(navController = rememberNavController(), auth = FirebaseAuth.getInstance())
         }
     }
 }

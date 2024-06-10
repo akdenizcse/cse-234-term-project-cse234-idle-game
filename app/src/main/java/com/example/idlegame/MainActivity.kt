@@ -58,10 +58,13 @@ import com.example.idlegame.screen.ResetPasswordScreen
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.delay
 import java.math.BigDecimal
 import kotlin.random.Random
-import kotlin.math.roundToInt
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 
 class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
@@ -72,6 +75,16 @@ class MainActivity : ComponentActivity() {
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
     }
+    private val userId: String? by lazy {
+        auth.currentUser?.uid
+    }
+
+    private val db: FirebaseFirestore by lazy {
+        FirebaseFirestore.getInstance()
+    }
+
+    private lateinit var handler: Handler
+    private lateinit var runnableCode: Runnable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +105,7 @@ class MainActivity : ComponentActivity() {
                     color = Color(0xFF373737)
                 ) {
                     NavHost(navController = navController, startDestination = "login") {
-                        composable("login") { LoginScreen(navController, randomIndex, auth) }
+                        composable("login") { LoginScreen(navController, randomIndex, auth, ::startUserDataSaveTimer) }
                         composable("reset") { ResetPasswordScreen(navController, randomIndex, auth) }
                         composable("register") { RegisterScreen(navController, randomIndex, auth) }
                         composable("main") { Main(navController, enemyViewModel, playerViewModel, sound, music, auth) }
@@ -108,6 +121,15 @@ class MainActivity : ComponentActivity() {
         saveCheckState("music", music.value)
         savePlayerMoney("playerMoney", playerViewModel.player.money.value)
         savePlayerGems("playerGems", playerViewModel.player.gems.value)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(this::handler.isInitialized && this::runnableCode.isInitialized) {
+            handler.removeCallbacks(runnableCode)
+        }
+        // Call the method to save user data to Firestore
+        saveUserData()
     }
 
     @SuppressLint("MissingSuperCall")
@@ -149,6 +171,65 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    fun startUserDataSaveTimer() {
+        handler = Handler(Looper.getMainLooper())
+        runnableCode = object : Runnable {
+            override fun run() {
+                // Call the method to save data to Firestore
+                saveUserData()
+                handler.postDelayed(this, 300000) // Repeat every 5 minutes
+            }
+        }
+
+        // Start the initial runnable task by posting through the handler
+        handler.post(runnableCode)
+    }
+
+    fun saveUserData() {
+        val userData = hashMapOf(
+            "enemy hp" to enemyViewModel.slimeEnemy.health,
+            "coins" to playerViewModel.player.money.value,
+            "gems" to playerViewModel.player.gems.value,
+            //"global multiplier" to playerViewModel.globalMultiplier.value
+        )
+
+        userId?.let { uid ->
+            db.collection("users").document(uid)
+                .set(userData)
+                .addOnSuccessListener {
+                    Log.d("Firestore", "User data successfully written!")
+                }
+                .addOnFailureListener { e ->
+                    Log.w("Firestore", "Error writing user data", e)
+                }
+
+            // Save each weapon data to a separate document in the "weapons" collection
+            playerViewModel.weapons.value.forEach { weapon ->
+                val weaponData = hashMapOf(
+                    "level" to weapon.level.value,
+                    "income" to weapon.formattedDamage(),
+                    "price" to weapon.formattedUpgradeCost()
+                )
+
+                db.collection("weapons").document("${weapon.title()}_$uid")
+                    .set(weaponData)
+                    .addOnSuccessListener {
+                        Log.d("Firestore", "Weapon data successfully written!")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w("Firestore", "Error writing weapon data", e)
+                    }
+            }
+        }
+    }
+
+    fun logout() {
+        if(this::handler.isInitialized && this::runnableCode.isInitialized) {
+            // Stop the runnableCode from being executed again
+            handler.removeCallbacks(runnableCode)
+        }
+        auth.signOut()
+    }
 }
 
 @Composable
@@ -179,9 +260,7 @@ fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, play
                     sound,
                     music,
                     onClose = { showSettingsDialog.value = false },
-                    auth = auth,
-                    mainNavController = navController,
-                    loginNavController = loginNavController
+                    navController = loginNavController,
                 )
             }
         }
