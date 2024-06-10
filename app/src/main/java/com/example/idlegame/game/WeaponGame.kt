@@ -6,6 +6,7 @@ import java.math.BigDecimal
 import kotlin.math.log2
 import kotlin.math.roundToInt
 
+
 class WeaponGame(
     private val title: String,
     private val baseDamage: BigDecimal,
@@ -13,11 +14,12 @@ class WeaponGame(
     private val damageGrowthRate: Double,
     private val costGrowthRate: Double,
     level: Int = 0,
-    multiplier: Double = 1.0,
-    private val weaponImages: List<Int>
+    multiplier: Int = 1,
+    private val weaponImages: List<Int>,
+    private val Player: Player
 ) {
     var level: MutableState<Int> = mutableStateOf(level)
-    var multiplier: MutableState<Double> = mutableStateOf(multiplier)
+    var multiplier: MutableState<Int> = mutableStateOf(multiplier)
     var weaponPicture: MutableState<Int> = mutableStateOf(weaponImages.get(0))
     fun title(): String {
         return title
@@ -29,7 +31,7 @@ class WeaponGame(
     }
 
     private fun updateWeaponImage(indexPlus: Int = 0) {
-        val upgradeLevel = log2(multiplier.value).roundToInt()+indexPlus
+        val upgradeLevel = (multiplier.value/2)+indexPlus
         val imageIndex = upgradeLevel.coerceAtMost(weaponImages.size - 1)
         weaponPicture.value = weaponImages[imageIndex]
     }
@@ -37,7 +39,8 @@ class WeaponGame(
 
     fun damage(): BigDecimal {
         return if (level.value > 0) {
-            baseDamage.multiply(BigDecimal(1 + damageGrowthRate).pow((level.value - 1))) * BigDecimal(multiplier.value)
+            val baseDamage = baseDamage.multiply(BigDecimal(1 + damageGrowthRate).pow((level.value - 1))) * BigDecimal(multiplier.value)
+            baseDamage * Player.globalModifier.value
         } else {
             BigDecimal.ZERO
         }
@@ -62,7 +65,7 @@ class WeaponGame(
     }
     fun isUpgradeMaxed(): Boolean {
         // Assuming the maximum upgrade level is the size of the weaponImages list
-        return log2(multiplier.value).roundToInt() >= weaponImages.size - 1
+        return multiplier.value/2 >= weaponImages.size - 1
     }
 
     fun formattedMultiplierCost(): String {
@@ -70,15 +73,15 @@ class WeaponGame(
     }
 
     fun material(): String {
-        val material = when (multiplier.value.toInt() / 2) {
+        val material = when (multiplier.value/ 2) {
             0 -> return "Iron"
             1 -> return "Silver"
             2 -> return "Gold"
-            4 -> return "Cobalt"
-            8 -> return "Mythril"
-            16 -> return "Amethyst"
-            32 -> return "Steel"
-            64 -> return "Maxed out!"
+            3 -> return "Cobalt"
+            4 -> return "Mythril"
+            5 -> return "Amethyst"
+            6 -> return "Steel"
+            7 -> return "Maxed out!"
             else -> return "Wooden"
         }
         return material
@@ -89,7 +92,10 @@ class WeaponGame(
     }
 
     fun upgradeMultiplier() {
-        multiplier.value *= 2
+        return if(multiplier.value==1){
+            multiplier.value += 1} else {
+            multiplier.value += 2
+        }
     }
 
     override fun equals(other: Any?): Boolean {
