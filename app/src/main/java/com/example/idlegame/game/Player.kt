@@ -56,6 +56,7 @@ class PlayerViewModel : ViewModel() {
     val player: Player = Player(money = 10.toBigDecimal(), gems = 0)
     val earningsPerSecond: MutableState<BigDecimal> = mutableStateOf(BigDecimal.ZERO)
     val weapons: State<MutableList<WeaponGame>> get() = player.weapons
+    var globalModifier: MutableState<BigDecimal> = mutableStateOf(BigDecimal("0"))
 
     fun earnMoney(): BigDecimal {
         var moneyEarned:BigDecimal = BigDecimal("0")

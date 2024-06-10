@@ -5,7 +5,7 @@
     "type": "figma",
     "file": "FwddHdLXifvX1RSAN2MAkb",
     "node": "238:98",
-    "version": "5855001544",
+    "version": "5954044116",
     "component-id": "034d51ecd641d6f0c2fa55aad00ea4f16c219b7d"
   },
   "default": "Upgrade",
@@ -98,7 +98,7 @@
             "margin": {
               "left": 87.0,
               "top": 34.0,
-              "right": 124.0,
+              "right": 110.0,
               "bottom": 47.00000762939453
             },
             "size-constraints": {
@@ -457,7 +457,7 @@
         "height": 90.00000762939453
       },
       "parameters": {
-        "material": "Diamond Upgrade",
+        "material": "Amethyst Upgrade",
         "description": "It increases income by x2",
         "title": "titleaaasaaaaaaaa\n",
         "price": "123.31k",
