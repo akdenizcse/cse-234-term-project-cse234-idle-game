@@ -78,6 +78,7 @@ class MainActivity : ComponentActivity() {
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val randomIndex = Random.nextInt(6)
         playerViewModel.player.money.value = loadPlayerMoney("playerMoney")
+        playerViewModel.getOfflineEarnings()
         playerViewModel.player.gems.value = loadPlayerGems("playerGems")
 
         setContent {
@@ -108,6 +109,8 @@ class MainActivity : ComponentActivity() {
         saveCheckState("music", music.value)
         savePlayerMoney("playerMoney", playerViewModel.player.money.value)
         savePlayerGems("playerGems", playerViewModel.player.gems.value)
+        playerViewModel.player.lastActiveTime.value = playerViewModel.player.getCurrentTime()
+
     }
 
     @SuppressLint("MissingSuperCall")
