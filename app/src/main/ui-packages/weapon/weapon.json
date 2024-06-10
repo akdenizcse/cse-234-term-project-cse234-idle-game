@@ -1,0 +1,471 @@
+{
+  "name": "weapon",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "FwddHdLXifvX1RSAN2MAkb",
+    "node": "234:56",
+    "version": "5855001544",
+    "component-id": "b1dc0385439a8699b079970ab9663ea2a2292377"
+  },
+  "default": "Weapon",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "text",
+        "id": "level"
+      },
+      {
+        "type": "text",
+        "id": "amount"
+      },
+      {
+        "type": "group",
+        "id": "BuyFrame"
+      },
+      {
+        "type": "text",
+        "id": "title"
+      },
+      {
+        "type": "group",
+        "id": "PhotoLayout"
+      },
+      {
+        "type": "group",
+        "id": "Texts"
+      },
+      {
+        "type": "image",
+        "id": "bag_of_cash"
+      },
+      {
+        "type": "text",
+        "id": "buy"
+      },
+      {
+        "type": "text",
+        "id": "price"
+      },
+      {
+        "type": "group",
+        "id": "PhotoLayout_synth"
+      },
+      {
+        "type": "image",
+        "id": "photo"
+      },
+      {
+        "type": "vector",
+        "id": "Rectangle 8"
+      }
+    ],
+    "modes": {
+      "Weapon": {
+        "rules": [
+          {
+            "id": "top_level",
+            "border-radius": 15.0,
+            "stroke-width": 3.0,
+            "stroke-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1411764705882353
+            },
+            "is-structured": false,
+            "children": [
+              "level",
+              "amount",
+              "BuyFrame",
+              "title",
+              "PhotoLayout"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 225.0,
+              "saturation": 0.17391304347826078,
+              "value": 0.27058823529411763
+            }
+          },
+          {
+            "id": "level",
+            "margin": {
+              "left": 84.0,
+              "top": 43.0,
+              "right": 166.0,
+              "bottom": 32.000006675720215
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "$level",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "text-size": 12.0,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "amount",
+            "margin": {
+              "left": 84.0,
+              "top": 60.0,
+              "right": 166.0,
+              "bottom": 15.000006675720215
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "$income",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "text-size": 12.0,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "BuyFrame",
+            "padding": {
+              "left": 4.0,
+              "top": 5.0,
+              "right": 4.0,
+              "bottom": 5.0
+            },
+            "border-radius": 10.0,
+            "alignment": {
+              "horizontal": {
+                "attachment": "end",
+                "offset": -10.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 15.499996185302734
+              }
+            },
+            "tap-handler": "$onBuy",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "stroke-width": 2.0,
+            "stroke-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1411764705882353
+            },
+            "arrangement": "row",
+            "main-axis-align": "end",
+            "children": [
+              "Texts",
+              "bag_of_cash"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 44.444444444444436,
+              "saturation": 0.8852459016393444,
+              "value": 0.9568627450980393
+            }
+          },
+          {
+            "id": "title",
+            "margin": {
+              "left": 84.0,
+              "top": 18.0,
+              "right": 10.0,
+              "bottom": 42.00000762939453
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "$title",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "text-size": 15.0,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "PhotoLayout",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 9.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 11.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "PhotoLayout_synth",
+              "photo"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "Texts",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 70.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 25.000001907348633
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "buy",
+              "price"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "bag_of_cash",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 25.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 25.0
+              }
+            },
+            "image-content": "bag_of_cash.png",
+            "scale": "cover"
+          },
+          {
+            "id": "buy",
+            "alignment": {
+              "horizontal": {
+                "attachment": "end",
+                "offset": -17.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": -7.500000476837158
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 10.000000953674316
+              }
+            },
+            "text-content": "Buy 1",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "text-size": 10.0,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "price",
+            "alignment": {
+              "horizontal": {
+                "attachment": "end",
+                "offset": 0.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 6.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 70.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 13.000001907348633
+              }
+            },
+            "text-content": "$price",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "right",
+            "text-size": 9.5,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "PhotoLayout_synth",
+            "opacity": 100.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "arrangement": "row",
+            "main-axis-align": "start",
+            "cross-axis-align": "start",
+            "children": [
+              "Rectangle 8"
+            ],
+            "item-spacing": 10.0,
+            "clip-content": false
+          },
+          {
+            "id": "photo",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 0.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 50.0
+              }
+            },
+            "image-content": "$weaponPicture",
+            "scale": "cover"
+          },
+          {
+            "id": "Rectangle 8",
+            "border-radius": 10.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 64.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 64.0
+              }
+            },
+            "vector-content": "rectangle_8.svg"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "level": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "income": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "onBuy": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
+    "title": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "price": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "weaponPicture": {
+      "data-type": "image",
+      "required": false,
+      "description": ""
+    }
+  },
+  "previews": [
+    {
+      "design": "Weapon",
+      "size": {
+        "width": 350.0,
+        "height": 90.00000762939453
+      },
+      "parameters": {
+        "level": "LVL",
+        "income": "/s",
+        "title": "titleaaasaaaaaaaa\n",
+        "price": "123.31k",
+        "weaponPicture": "photo.png"
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}

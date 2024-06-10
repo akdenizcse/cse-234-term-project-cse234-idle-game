@@ -1,0 +1,252 @@
+{
+  "name": "gem_buy",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "FwddHdLXifvX1RSAN2MAkb",
+    "node": "199:8",
+    "version": "5855001544",
+    "component-id": "756a95587fef766d73a8beef155e4e27899ba0ca"
+  },
+  "default": "GemBuy",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "group",
+        "id": "2Gem"
+      },
+      {
+        "type": "group",
+        "id": "BuyButton"
+      },
+      {
+        "type": "image",
+        "id": "precious"
+      },
+      {
+        "type": "text",
+        "id": "2 Gem"
+      },
+      {
+        "type": "text",
+        "id": "Come at 6PM"
+      }
+    ],
+    "modes": {
+      "GemBuy": {
+        "rules": [
+          {
+            "id": "top_level",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "main-axis-align": "start",
+            "children": [
+              "2Gem",
+              "BuyButton"
+            ],
+            "item-spacing": -23.0,
+            "clip-content": false
+          },
+          {
+            "id": "2Gem",
+            "border-radius": 15.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 100.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 90.0
+              }
+            },
+            "stroke-width": 3.0,
+            "stroke-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1411764705882353
+            },
+            "is-structured": false,
+            "children": [
+              "precious",
+              "2 Gem"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 225.0,
+              "saturation": 0.17391304347826078,
+              "value": 0.27058823529411763
+            },
+            "clip-content": false
+          },
+          {
+            "id": "BuyButton",
+            "border-radius": 10.0,
+            "tap-handler": "$onBuy",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 70.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 34.0
+              }
+            },
+            "stroke-width": 2.0,
+            "stroke-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1411764705882353
+            },
+            "is-structured": false,
+            "children": [
+              "Come at 6PM"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 44.444444444444436,
+              "saturation": 0.8852459016393444,
+              "value": 0.9568627450980393
+            },
+            "clip-content": false
+          },
+          {
+            "id": "precious",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 30.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 5.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              }
+            },
+            "image-content": "precious.png",
+            "scale": "cover"
+          },
+          {
+            "id": "2 Gem",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 0.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 45.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 100.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 27.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "$gemCount",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align-vertical": "center",
+            "text-size": 15.0,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "Come at 6PM",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 0.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 0.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 60.0
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "text-content": "$price",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align-vertical": "center",
+            "text-size": 9.0,
+            "typeface": "Press Start 2P"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "onBuy": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
+    "gemCount": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "price": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    }
+  },
+  "previews": [
+    {
+      "design": "GemBuy",
+      "size": {
+        "width": 100.0,
+        "height": 101.0
+      },
+      "parameters": {
+        "gemCount": "2 Gem",
+        "price": "Come at 6PM"
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}

@@ -1,0 +1,409 @@
+{
+  "name": "up_bar",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "FwddHdLXifvX1RSAN2MAkb",
+    "node": "67:18",
+    "version": "5954014559",
+    "component-id": "5aea5008597e00addbc5edd2f749e54ba26f82b7"
+  },
+  "default": "UpBar",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "group",
+        "id": "currency"
+      },
+      {
+        "type": "group",
+        "id": "setting and per  second"
+      },
+      {
+        "type": "group",
+        "id": "Money Bar"
+      },
+      {
+        "type": "group",
+        "id": "Gem Bar"
+      },
+      {
+        "type": "vector",
+        "id": "OuterCoin"
+      },
+      {
+        "type": "image",
+        "id": "bag_of_cash"
+      },
+      {
+        "type": "text",
+        "id": "coin"
+      },
+      {
+        "type": "vector",
+        "id": "OuterGem"
+      },
+      {
+        "type": "image",
+        "id": "precious"
+      },
+      {
+        "type": "text",
+        "id": "gemcount"
+      },
+      {
+        "type": "text",
+        "id": "persecond"
+      },
+      {
+        "type": "image",
+        "id": "gear"
+      }
+    ],
+    "modes": {
+      "UpBar": {
+        "rules": [
+          {
+            "id": "top_level",
+            "stroke-width": 1.0,
+            "stroke-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.3137254901960784
+            },
+            "is-structured": false,
+            "children": [
+              "currency",
+              "setting and per  second"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1411764705882353
+            }
+          },
+          {
+            "id": "currency",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 9.5
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 10.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "arrangement": "row",
+            "main-axis-align": "start",
+            "children": [
+              "Money Bar",
+              "Gem Bar"
+            ],
+            "item-spacing": 10.0,
+            "clip-content": false
+          },
+          {
+            "id": "setting and per  second",
+            "alignment": {
+              "horizontal": {
+                "attachment": "end",
+                "offset": -9.5
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 10.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "arrangement": "row",
+            "main-axis-align": "end",
+            "children": [
+              "persecond",
+              "gear"
+            ],
+            "item-spacing": 9.0,
+            "clip-content": false
+          },
+          {
+            "id": "Money Bar",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 100.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 36.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "OuterCoin",
+              "bag_of_cash",
+              "coin"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "Gem Bar",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 100.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 36.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "OuterGem",
+              "precious",
+              "gemcount"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "OuterCoin",
+            "border-radius": 5.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "outer_coin.svg"
+          },
+          {
+            "id": "bag_of_cash",
+            "margin": {
+              "left": 3.5,
+              "top": 4.0,
+              "right": 68.5,
+              "bottom": 4.0
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "image-content": "bag_of_cash.png",
+            "scale": "cover"
+          },
+          {
+            "id": "coin",
+            "margin": {
+              "left": 34.5,
+              "top": 1.0,
+              "right": 3.5
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "$Money",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "text-align-vertical": "center",
+            "text-size": 10.0,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "OuterGem",
+            "border-radius": 5.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "outer_gem.svg"
+          },
+          {
+            "id": "precious",
+            "margin": {
+              "left": 3.5,
+              "top": 4.0,
+              "right": 68.5,
+              "bottom": 4.0
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "image-content": "precious.png",
+            "scale": "cover"
+          },
+          {
+            "id": "gemcount",
+            "margin": {
+              "left": 37.5,
+              "top": 1.0,
+              "right": 4.5
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "$Gems",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "text-align-vertical": "center",
+            "text-size": 10.0,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "persecond",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 80.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "$Output",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "right",
+            "text-align-vertical": "center",
+            "text-size": 9.5,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "gear",
+            "tap-handler": "$onGear",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              }
+            },
+            "image-content": "gear.png",
+            "scale": "cover"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "Money": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "Gems": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "Output": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "onGear": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    }
+  },
+  "previews": [
+    {
+      "design": "UpBar",
+      "size": {
+        "width": 360.0,
+        "height": 60.0
+      },
+      "parameters": {
+        "Money": "911.5m",
+        "Gems": "3000",
+        "Output": "120.5k/s"
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}

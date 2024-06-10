@@ -1,0 +1,414 @@
+{
+  "name": "time_warp",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "FwddHdLXifvX1RSAN2MAkb",
+    "node": "211:97",
+    "version": "5951503130",
+    "component-id": "40c65cdbbea0b2142a64a7907c9dbae280a05bcf"
+  },
+  "default": "TimeWarp",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "group",
+        "id": "time"
+      },
+      {
+        "type": "group",
+        "id": "BuyButton"
+      },
+      {
+        "type": "image",
+        "id": "clock_blue"
+      },
+      {
+        "type": "text",
+        "id": "hours"
+      },
+      {
+        "type": "text",
+        "id": "Description"
+      },
+      {
+        "type": "text",
+        "id": "Amount"
+      },
+      {
+        "type": "group",
+        "id": "BuyText"
+      },
+      {
+        "type": "image",
+        "id": "precious"
+      },
+      {
+        "type": "text",
+        "id": "Buy"
+      },
+      {
+        "type": "text",
+        "id": "Price"
+      }
+    ],
+    "modes": {
+      "TimeWarp": {
+        "rules": [
+          {
+            "id": "top_level",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "main-axis-align": "start",
+            "children": [
+              "time",
+              "BuyButton"
+            ],
+            "item-spacing": -20.0,
+            "clip-content": false
+          },
+          {
+            "id": "time",
+            "border-radius": 15.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 150.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 90.0
+              }
+            },
+            "stroke-width": 3.0,
+            "stroke-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1411764705882353
+            },
+            "is-structured": false,
+            "children": [
+              "clock_blue",
+              "hours",
+              "Description",
+              "Amount"
+            ],
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 225.0,
+              "saturation": 0.17391304347826078,
+              "value": 0.27058823529411763
+            }
+          },
+          {
+            "id": "BuyButton",
+            "padding": {
+              "left": 3.0,
+              "top": 5.0,
+              "right": 3.0,
+              "bottom": 5.0
+            },
+            "border-radius": 10.0,
+            "tap-handler": "$onBuy",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 70.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 35.0
+              }
+            },
+            "stroke-width": 2.0,
+            "stroke-color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.1411764705882353
+            },
+            "arrangement": "row",
+            "children": [
+              "BuyText",
+              "precious"
+            ],
+            "item-spacing": 8.0,
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 44.444444444444436,
+              "saturation": 0.8852459016393444,
+              "value": 0.9568627450980393
+            },
+            "clip-content": false
+          },
+          {
+            "id": "clock_blue",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 6.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 0.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 40.0
+              }
+            },
+            "image-content": "clock_blue.png",
+            "scale": "cover"
+          },
+          {
+            "id": "hours",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 46.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 9.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 87.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 25.942378997802734
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "$hours",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "text-size": 9.5,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "Description",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 9.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 41.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 131.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 15.964540481567383
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "$description",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "text-size": 7.5,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "Amount",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": 19.0
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": 60.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 118.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 9.977840423583984
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 1.0
+            },
+            "text-content": "$amount",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "text-size": 7.5,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "BuyText",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 32.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 25.0
+              }
+            },
+            "is-structured": false,
+            "children": [
+              "Buy",
+              "Price"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "precious",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 23.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 23.0
+              }
+            },
+            "image-content": "precious.png",
+            "scale": "cover"
+          },
+          {
+            "id": "Buy",
+            "margin": {
+              "left": 0.5,
+              "right": 1.5,
+              "bottom": 15.0
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "text-content": "Buy",
+            "overflow": "visible",
+            "text-align": "left",
+            "text-size": 10.0,
+            "typeface": "Press Start 2P"
+          },
+          {
+            "id": "Price",
+            "margin": {
+              "top": 12.0
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "text-content": "$price",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "text-size": 9.5,
+            "typeface": "Press Start 2P"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "onBuy": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
+    "hours": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "description": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "amount": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    },
+    "price": {
+      "data-type": "text",
+      "required": false,
+      "description": ""
+    }
+  },
+  "previews": [
+    {
+      "design": "TimeWarp",
+      "size": {
+        "width": 150.0,
+        "height": 105.0
+      },
+      "parameters": {
+        "hours": "1-Day Time Warp",
+        "description": "Get 1 day worth income instantly!",
+        "amount": "That’s 10.36m!",
+        "price": "150"
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}
