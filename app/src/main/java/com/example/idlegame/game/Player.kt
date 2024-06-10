@@ -29,6 +29,7 @@ class Player(money: BigDecimal = BigDecimal("10"), gems: Int = 0, weapons: Mutab
                 currentTimeMillis = currentTime.unixtime * 1000 // Convert to milliseconds
             }
         }
+        Log.d("CurrentTime", "Current time in milliseconds: $currentTimeMillis")
         return currentTimeMillis
     }
 
@@ -77,11 +78,11 @@ class PlayerViewModel : ViewModel() {
     fun getOfflineEarnings(): BigDecimal {
         if (player.lastActiveTime.value != null) {
             val currentTime = player.getCurrentTime()
+            Log.d("LastActiveTime", "Last active time in milliseconds: ${player.lastActiveTime.value}")
             val offlineTimeInSeconds = (currentTime - player.lastActiveTime.value!!) / 1000
             Log.d("OfflineEarnings", "Offline time in seconds: $offlineTimeInSeconds")
             val offlineEarnings = earningsPerSecond.value * BigDecimal(offlineTimeInSeconds)
             player.money.value += offlineEarnings
-            player.lastActiveTime.value = currentTime
 
             // Calculate and return offline earnings per second
             val offlineEarningsPerSecond = if (offlineTimeInSeconds != 0L) {
