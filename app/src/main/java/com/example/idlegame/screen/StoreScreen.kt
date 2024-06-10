@@ -37,7 +37,7 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
         Column {
             Spacer(modifier = Modifier.height(60.dp))
-            Spacer (modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Text(
                 text = "Gem Shop",
@@ -77,7 +77,7 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                 )
             }
 
-            Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 BigGemBuy(
                     onBuy = {
                         playerViewModel.addGems(65)
@@ -100,7 +100,7 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                 )
             }
 
-            Spacer (modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Time Warps",
                 fontFamily = pressStart2P,
@@ -109,42 +109,61 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
-            Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 TimeWarp(
                     onBuy = {
                         if (playerViewModel.player.gems.value >= 50) {
                             playerViewModel.player.gems.value -= 50
-                            val income = playerViewModel.earningsPerSecond.value.multiply(3600.toBigDecimal())
+                            val income =
+                                playerViewModel.earningsPerSecond.value.multiply(3600.toBigDecimal())
                             playerViewModel.player.money.value += income
-                            Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT)
+                                .show()
                         } else {
                             Toast.makeText(context, "Not enough gems!", Toast.LENGTH_SHORT).show()
                         }
                     },
                     hours = "1-Hour Time Warp",
                     description = "Get 1 hour worth income instantly!",
-                    amount = "That’s ${  formatLargeNumber(playerViewModel.earningsPerSecond.value.multiply(3600.toBigDecimal())) }!",
+                    amount = "That’s ${
+                        formatLargeNumber(
+                            playerViewModel.earningsPerSecond.value.multiply(
+                                3600.toBigDecimal()
+                            )
+                        )
+                    }!",
                     price = "50",
-                    modifier = Modifier.padding(6.dp, 6.dp))
+                    modifier = Modifier.padding(6.dp, 6.dp)
+                )
                 TimeWarp(
                     onBuy = {
                         if (playerViewModel.player.gems.value >= 150) {
                             playerViewModel.player.gems.value -= 150
-                            val income = playerViewModel.earningsPerSecond.value.multiply(3600.toBigDecimal()).multiply(6.toBigDecimal())
+                            val income =
+                                playerViewModel.earningsPerSecond.value.multiply(3600.toBigDecimal())
+                                    .multiply(6.toBigDecimal())
                             playerViewModel.player.money.value += income
-                            Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT)
+                                .show()
                         } else {
                             Toast.makeText(context, "Not enough gems!", Toast.LENGTH_SHORT).show()
                         }
                     },
                     hours = "6-Hour Time Warp",
                     description = "Get 6 hour worth income instantly!",
-                    amount = "That’s ${formatLargeNumber(playerViewModel.earningsPerSecond.value.multiply(3600.toBigDecimal()).multiply(6.toBigDecimal()))}!",
+                    amount = "That’s ${
+                        formatLargeNumber(
+                            playerViewModel.earningsPerSecond.value.multiply(
+                                3600.toBigDecimal()
+                            ).multiply(6.toBigDecimal())
+                        )
+                    }!",
                     price = "150",
-                    modifier = Modifier.padding(6.dp, 6.dp))
+                    modifier = Modifier.padding(6.dp, 6.dp)
+                )
             }
 
-            Spacer (modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Multipliers",
                 fontFamily = pressStart2P,
@@ -153,19 +172,43 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
-            Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 IncomeMultiplier(
-                    onBuy = {},
+                    onBuy = {
+                        if (playerViewModel.player.gems.value >= 300) {
+                            playerViewModel.player.gems.value -= 300
+                            if (playerViewModel.player.globalModifier.value == 1.toBigDecimal())
+                                playerViewModel.player.globalModifier.value += 1.toBigDecimal()
+                            else
+                                playerViewModel.player.globalModifier.value += 2.toBigDecimal()
+                            Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            Toast.makeText(context, "Not enough gems!", Toast.LENGTH_SHORT).show()
+                        }
+                    },
                     multiplierTitle = "2x Income\nMultiplier",
                     description = "Applies a 2x Income Multiplier to all weapons! ",
-                    price = "100",
+                    price = "300",
                     modifier = Modifier.padding(6.dp, 6.dp)
                 )
                 IncomeMultiplier(
-                    onBuy = {},
+                    onBuy = {
+                        if (playerViewModel.player.gems.value >= 600) {
+                            playerViewModel.player.gems.value -= 600
+                            if (playerViewModel.player.globalModifier.value == 1.toBigDecimal())
+                                playerViewModel.player.globalModifier.value += 3.toBigDecimal()
+                            else
+                                playerViewModel.player.globalModifier.value += 4.toBigDecimal()
+                            Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            Toast.makeText(context, "Not enough gems!", Toast.LENGTH_SHORT).show()
+                        }
+                    },
                     multiplierTitle = "4x Income\nMultiplier",
                     description = "Applies a 4x Income Multiplier to all weapons! ",
-                    price = "300",
+                    price = "600",
                     modifier = Modifier.padding(6.dp, 6.dp)
                 )
             }

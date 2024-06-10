@@ -1,7 +1,5 @@
 package com.example.idlegame.game
 
-
-
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -16,6 +14,8 @@ class Player(money: BigDecimal = BigDecimal("10"), gems: Int = 0, weapons: Mutab
     var money: MutableState<BigDecimal> = mutableStateOf(money)
     var gems: MutableState<Int> = mutableStateOf(gems)
     var weapons: MutableState<MutableList<WeaponGame>> = mutableStateOf(weapons)
+    var globalModifier: MutableState<BigDecimal> = mutableStateOf(BigDecimal("1"))
+
     fun earnMoney(): BigDecimal {
         var moneyEarned:BigDecimal = BigDecimal("0")
         weapons.value.forEach {
@@ -31,6 +31,7 @@ class Player(money: BigDecimal = BigDecimal("10"), gems: Int = 0, weapons: Mutab
     fun addGems(amount: Int) {
         gems.value += amount
     }
+
 
     fun buyMultiplier(weapon: WeaponGame) {
         if (money.value >= weapon.multiplierCost()) {
@@ -55,6 +56,7 @@ class PlayerViewModel : ViewModel() {
     val player: Player = Player(money = 10.toBigDecimal(), gems = 0)
     val earningsPerSecond: MutableState<BigDecimal> = mutableStateOf(BigDecimal.ZERO)
     val weapons: State<MutableList<WeaponGame>> get() = player.weapons
+
     fun earnMoney(): BigDecimal {
         var moneyEarned:BigDecimal = BigDecimal("0")
         viewModelScope.launch {
