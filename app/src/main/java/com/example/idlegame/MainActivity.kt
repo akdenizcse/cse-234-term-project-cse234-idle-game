@@ -207,8 +207,7 @@ class MainActivity : ComponentActivity() {
             playerViewModel.weapons.value.forEach { weapon ->
                 val weaponData = hashMapOf(
                     "level" to weapon.level.value,
-                    "income" to weapon.formattedDamage(),
-                    "price" to weapon.formattedUpgradeCost()
+                    "material" to weapon.material() //BURASI DUZELTILECEK
                 )
 
                 db.collection("weapons").document("${weapon.title()}_$uid")
