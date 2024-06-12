@@ -83,8 +83,9 @@ class PlayerViewModel : ViewModel() {
             Log.d("LastActiveTime", "Last active time in milliseconds: ${player.lastActiveTime.value}")
             val offlineTimeInSeconds = (currentTime - player.lastActiveTime.value!!) / 1000
             Log.d("OfflineEarnings", "Offline time in seconds: $offlineTimeInSeconds")
-            val offlineEarnings = earningsPerSecond.value * BigDecimal(offlineTimeInSeconds)
+            val offlineEarnings = earnMoney() * BigDecimal(offlineTimeInSeconds)
             player.money.value += offlineEarnings
+            Log.d("OfflineEarnings", "Offline time in earning: $offlineEarnings")
 
             // Calculate and return offline earnings per second
             val offlineEarningsPerSecond = if (offlineTimeInSeconds != 0L) {
@@ -92,7 +93,7 @@ class PlayerViewModel : ViewModel() {
             } else {
                 BigDecimal.ZERO
             }
-            Log.d("OfflineEarnings", "Offline time in seconds: $offlineEarnings")
+
             return offlineEarningsPerSecond
         } else {
             return BigDecimal.ZERO
