@@ -66,7 +66,11 @@ import kotlin.random.Random
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 
 class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
@@ -76,9 +80,6 @@ class MainActivity : ComponentActivity() {
     private val enemyViewModel: EnemyViewModel by viewModels()
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
-    }
-    private val userId: String? by lazy {
-        auth.currentUser?.uid
     }
 
     private val db: FirebaseFirestore by lazy {
@@ -116,10 +117,10 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
     override fun onPause() {
-        runBlocking {
-            saveUserData()
-        }
+        Log.d("Firestore", "ONPAUSE")
+        saveUserData()
         saveCheckState("sound", sound.value)
         saveCheckState("music", music.value)
         saveLastActiveTime("lastActiveTime", playerViewModel.player.getCurrentTime())
@@ -127,13 +128,6 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onStop() {
-        runBlocking {
-            saveUserData()
-        }
-        saveCheckState("sound", sound.value)
-        saveCheckState("music", music.value)
-        saveLastActiveTime("lastActiveTime", playerViewModel.player.getCurrentTime())
-
         if(this::handler.isInitialized && this::runnableCode.isInitialized) {
             handler.removeCallbacks(runnableCode)
         }
@@ -187,7 +181,7 @@ class MainActivity : ComponentActivity() {
             "gems" to playerViewModel.player.gems.value,
             "global modifier" to playerViewModel.player.globalModifier.value.toString()
         )
-        userId?.let { uid ->
+        Firebase.auth.currentUser?.uid?.let { uid ->
             db.collection("users").document(uid)
                 .set(userData)
                 .addOnSuccessListener {
@@ -217,7 +211,7 @@ class MainActivity : ComponentActivity() {
     }
 
     fun loadUserData() {
-        userId?.let { uid ->
+        Firebase.auth.currentUser?.uid?.let { uid ->
             // Load user data
             val userDocRef = db.collection("users").document(uid)
             userDocRef.get()
