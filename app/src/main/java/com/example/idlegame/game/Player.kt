@@ -90,6 +90,7 @@ class PlayerViewModel : ViewModel() {
             } else {
                 BigDecimal.ZERO
             }
+            Log.d("OfflineEarnings", "Offline time in seconds: $offlineEarnings")
             return offlineEarningsPerSecond
         } else {
             return BigDecimal.ZERO
@@ -104,10 +105,10 @@ class PlayerViewModel : ViewModel() {
         earningsPerSecond.value = moneyEarned
         return moneyEarned
     }
+
     fun formattedearningsPerSecond(): String {
         return formatLargeNumber(earningsPerSecond.value)
     }
-
 
     fun addGems(amount: Int) {
         viewModelScope.launch {
@@ -120,12 +121,12 @@ class PlayerViewModel : ViewModel() {
             player.buyMultiplier(weapon)
         }
     }
+
     fun buyWeapon(weapon: WeaponGame) {
         viewModelScope.launch {
             player.buyWeapon(weapon)
         }
     }
-
 
     fun setWeapons(weapons: List<WeaponGame>) {
         player.weapons.value = weapons.toMutableList()
