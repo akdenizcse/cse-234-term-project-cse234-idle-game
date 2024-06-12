@@ -20,9 +20,10 @@ import com.example.idlegame.componentbutton.Check
 fun SettingsPopUp(sound: MutableState<Check>,
                   music: MutableState<Check>,
                   navController: NavController,
-                  onClose: () -> Unit) {
+                  onClose: () -> Unit,
+                  logout: () -> Unit
+                  ) {
     val context = LocalContext.current
-    val maincontext = LocalContext.current as MainActivity
     Box(modifier = Modifier.height(245.dp).width(315.dp)) {
         Settings(
             onCancel = onClose,
@@ -36,7 +37,7 @@ fun SettingsPopUp(sound: MutableState<Check>,
             },
             onLogout = {
                 onClose()
-                maincontext.logout()
+                logout()
 
                 navController.apply {
                     navigate("login")

@@ -86,8 +86,6 @@ class MainActivity : ComponentActivity() {
         FirebaseFirestore.getInstance()
     }
 
-    private lateinit var handler: Handler
-    private lateinit var runnableCode: Runnable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,10 +106,10 @@ class MainActivity : ComponentActivity() {
                     color = Color(0xFF373737)
                 ) {
                     NavHost(navController = navController, startDestination = "login") {
-                        composable("login") { LoginScreen(navController, randomIndex, auth, ::startUserDataSaveTimer, ::loadUserData) }
+                        composable("login") { LoginScreen(navController, randomIndex, auth, ::loadUserData) }
                         composable("reset") { ResetPasswordScreen(navController, randomIndex, auth) }
                         composable("register") { RegisterScreen(navController, randomIndex, auth) }
-                        composable("main") { Main(navController, enemyViewModel, playerViewModel, sound, music, auth) }
+                        composable("main") { Main(navController, enemyViewModel, playerViewModel, sound, music, auth, ::logout) }
                     }
                 }
             }
@@ -127,17 +125,11 @@ class MainActivity : ComponentActivity() {
         super.onPause()
     }
 
-    override fun onStop() {
-        if(this::handler.isInitialized && this::runnableCode.isInitialized) {
-            handler.removeCallbacks(runnableCode)
-        }
-        super.onStop()
-    }
-
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         finish()
     }
+
     private fun saveLastActiveTime(key: String, time: Long) {
         with(sharedPreferences.edit()) {
             putLong(key, time)
@@ -160,20 +152,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun startUserDataSaveTimer() {
-        handler = Handler(Looper.getMainLooper())
-        runnableCode = object : Runnable {
-            override fun run() {
-                // Call the method to save data to Firestore
-                handler.postDelayed(this, 1200000) // Repeat every 20 minutes
-                //saveUserData()
-            }
-        }
-
-        // Start the initial runnable task by posting through the handler
-        handler.post(runnableCode)
-    }
-
     fun saveUserData() {
         val userData = hashMapOf(
             "enemy hp" to enemyViewModel.slimeEnemy.health,
@@ -181,7 +159,7 @@ class MainActivity : ComponentActivity() {
             "gems" to playerViewModel.player.gems.value,
             "global modifier" to playerViewModel.player.globalModifier.value.toString()
         )
-        Firebase.auth.currentUser?.uid?.let { uid ->
+        auth.currentUser?.uid?.let { uid ->
             db.collection("users").document(uid)
                 .set(userData)
                 .addOnSuccessListener {
@@ -211,7 +189,7 @@ class MainActivity : ComponentActivity() {
     }
 
     fun loadUserData() {
-        Firebase.auth.currentUser?.uid?.let { uid ->
+        auth.currentUser?.uid?.let { uid ->
             // Load user data
             val userDocRef = db.collection("users").document(uid)
             userDocRef.get()
@@ -289,16 +267,13 @@ class MainActivity : ComponentActivity() {
     }
 
     fun logout() {
-        if(this::handler.isInitialized && this::runnableCode.isInitialized) {
-            // Stop the runnableCode from being executed again
-            handler.removeCallbacks(runnableCode)
-        }
+        saveUserData()
         auth.signOut()
     }
 }
 
 @Composable
-fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, playerViewModel: PlayerViewModel, sound: MutableState<Check>, music: MutableState<Check>, auth: FirebaseAuth) {
+fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, playerViewModel: PlayerViewModel, sound: MutableState<Check>, music: MutableState<Check>, auth: FirebaseAuth, logout: () -> Unit){
     val navController = rememberNavController()
     val showSettingsDialog = remember { mutableStateOf(false) }
     val design = remember { mutableStateOf(Design.WeaponsTab) }
@@ -326,6 +301,7 @@ fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, play
                     music,
                     onClose = { showSettingsDialog.value = false },
                     navController = loginNavController,
+                    logout = logout
                 )
             }
         }
