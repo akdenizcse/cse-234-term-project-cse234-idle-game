@@ -8,33 +8,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -78,10 +62,13 @@ class MainActivity : ComponentActivity() {
         FirebaseFirestore.getInstance()
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val randomIndex = Random.nextInt(6)
+        playerViewModel.player.lastActiveTime.value = loadLastActiveTime("lastActiveTime")
+        playerViewModel.getOfflineEarnings()
 
         setContent {
             IdleGameTheme {
@@ -110,12 +97,23 @@ class MainActivity : ComponentActivity() {
         saveUserData()
         saveCheckState("sound", sound.value)
         saveCheckState("music", music.value)
+        saveLastActiveTime("lastActiveTime", playerViewModel.player.getCurrentTime())
         super.onPause()
     }
 
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         finish()
+    }
+
+    private fun saveLastActiveTime(key: String, time: Long) {
+        with(sharedPreferences.edit()) {
+            putLong(key, time)
+            apply()
+        }
+    }
+    private fun loadLastActiveTime(key: String): Long {
+        return sharedPreferences.getLong(key, System.currentTimeMillis())
     }
 
     private fun loadCheckState(key: String): Check {
@@ -135,8 +133,7 @@ class MainActivity : ComponentActivity() {
             "enemy hp" to enemyViewModel.slimeEnemy.health,
             "coins" to playerViewModel.player.money.value.setScale(2, BigDecimal.ROUND_HALF_EVEN).toString(),
             "gems" to playerViewModel.player.gems.value,
-            "global modifier" to playerViewModel.player.globalModifier.value.toString(),
-            "last active" to playerViewModel.player.getCurrentTime()
+            "global modifier" to playerViewModel.player.globalModifier.value.toString()
         )
         auth.currentUser?.uid?.let { uid ->
             db.collection("users").document(uid)
@@ -152,7 +149,7 @@ class MainActivity : ComponentActivity() {
             playerViewModel.weapons.value.forEach { weapon ->
                 val weaponData = hashMapOf(
                     "level" to weapon.level.value,
-                    "material" to weapon.multiplier.value
+                    "material" to weapon.multiplier.value // CHECK BACK AT THIS LATER ON
                 )
 
                 db.collection("weapons").document("${weapon.title()}_$uid")
@@ -169,7 +166,45 @@ class MainActivity : ComponentActivity() {
 
     fun loadUserData() {
         auth.currentUser?.uid?.let { uid ->
-            // Load weapons data
+            // Load user data
+            val userDocRef = db.collection("users").document(uid)
+            userDocRef.get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        Log.d("Firestore", "User data successfully loaded!")
+                        val enemyHp = document.getLong("enemy hp")?.toInt()
+                        val coins = document.getString("coins")
+                        val gems = document.getLong("gems")?.toInt()
+                        val globalModifier = document.getString("global modifier")
+                        // Update your local variables or UI with the loaded data
+                        enemyViewModel.slimeEnemy.health = enemyHp ?: 1
+                        playerViewModel.player.money.value = if (coins != null) BigDecimal(coins) else BigDecimal.ZERO
+                        playerViewModel.player.gems.value = gems ?: 0
+                        playerViewModel.player.globalModifier.value = if (globalModifier != null) BigDecimal(globalModifier) else BigDecimal.ZERO
+                    } else {
+                        Log.d("Firestore", "No such document. Creating a new one.")
+                        // Create a new document with default values
+                        val defaultUserData = hashMapOf(
+                            "enemy hp" to 1,
+                            "coins" to "100",
+                            "gems" to 0,
+                            "global modifier" to "1"
+                        )
+                        enemyViewModel.slimeEnemy.health = 1
+                        playerViewModel.player.money.value = BigDecimal("100")
+                        playerViewModel.player.gems.value = 0
+                        playerViewModel.player.globalModifier.value = BigDecimal("1")
+                        userDocRef.set(defaultUserData)
+                            .addOnSuccessListener {
+                                Log.d("Firestore", "New user document successfully created!")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("Firestore", "Error creating new user document", e)
+                            }
+                    }
+                }
+
+            // Load weapons dataasas
             val weaponTitles = listOf("Sword", "Dagger", "Bow", "Spear", "Kunai", "Greatsword", "Axe", "Staff", "Crossbow")
             for (title in weaponTitles) {
                 val docRef = db.collection("weapons").document("${title}_$uid")
@@ -204,47 +239,6 @@ class MainActivity : ComponentActivity() {
                         }
                     }
             }
-
-            // Load user data
-            val userDocRef = db.collection("users").document(uid)
-            userDocRef.get()
-                .addOnSuccessListener { document ->
-                    if (document != null && document.exists()) {
-                        Log.d("Firestore", "User data successfully loaded!")
-                        val enemyHp = document.getLong("enemy hp")?.toInt()
-                        val coins = document.getString("coins")
-                        val gems = document.getLong("gems")?.toInt()
-                        val globalModifier = document.getString("global modifier")
-                        val lastActiveTime = document.getLong("last active")
-                        // Update your local variables or UI with the loaded data
-                        enemyViewModel.slimeEnemy.health = enemyHp ?: 1
-                        playerViewModel.player.money.value = if (coins != null) BigDecimal(coins) else BigDecimal.ZERO
-                        playerViewModel.player.gems.value = gems ?: 0
-                        playerViewModel.player.globalModifier.value = if (globalModifier != null) BigDecimal(globalModifier) else BigDecimal.ZERO
-                        playerViewModel.player.lastActiveTime.value = lastActiveTime ?: playerViewModel.player.getCurrentTime()
-                        playerViewModel.getOfflineEarnings()
-                    } else {
-                        Log.d("Firestore", "No such document. Creating a new one.")
-                        // Create a new document with default values
-                        val defaultUserData = hashMapOf(
-                            "enemy hp" to 1,
-                            "coins" to "10",
-                            "gems" to 0,
-                            "global modifier" to "1"
-                        )
-                        enemyViewModel.slimeEnemy.health = 1
-                        playerViewModel.player.money.value = BigDecimal("10")
-                        playerViewModel.player.gems.value = 0
-                        playerViewModel.player.globalModifier.value = BigDecimal("1")
-                        userDocRef.set(defaultUserData)
-                            .addOnSuccessListener {
-                                Log.d("Firestore", "New user document successfully created!")
-                            }
-                            .addOnFailureListener { e ->
-                                Log.w("Firestore", "Error creating new user document", e)
-                            }
-                    }
-                }
         }
     }
 
@@ -289,7 +283,7 @@ fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, play
         }
 
         NavHost(navController, startDestination = Screen.WeaponsTab.route) {
-            composable(Screen.WeaponsTab.route) { WeaponsScreen(enemyViewModel.slimeEnemy,playerViewModel) }
+            composable(Screen.WeaponsTab.route) { WeaponsScreen(enemyViewModel,playerViewModel) }
             composable(Screen.StoreTab.route) { StoreScreen(playerViewModel) }
             composable(Screen.UpgradesTab.route) { UpgradeScreen(playerViewModel) }
         }

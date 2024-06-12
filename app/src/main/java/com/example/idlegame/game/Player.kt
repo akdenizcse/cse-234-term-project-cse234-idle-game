@@ -34,6 +34,8 @@ class Player(money: BigDecimal = BigDecimal("100"), gems: Int = 0, weapons: Muta
     }
 
 
+
+
     fun earnMoney(): BigDecimal {
         var moneyEarned:BigDecimal = BigDecimal("0")
         weapons.value.forEach {
@@ -96,6 +98,11 @@ class PlayerViewModel : ViewModel() {
             return BigDecimal.ZERO
         }
     }
+    fun earnMoneyForSeconds(seconds: Int) {
+        val moneyEarned = earningsPerSecond.value * BigDecimal(seconds)
+        player.money.value += moneyEarned
+    }
+
 
     fun earnMoney(): BigDecimal {
         var moneyEarned:BigDecimal = BigDecimal("0")
