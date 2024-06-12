@@ -21,7 +21,8 @@ fun SettingsPopUp(sound: MutableState<Check>,
                   music: MutableState<Check>,
                   navController: NavController,
                   onClose: () -> Unit) {
-    val context = LocalContext.current as MainActivity
+    val context = LocalContext.current
+    val maincontext = LocalContext.current as MainActivity
     Box(modifier = Modifier.height(245.dp).width(315.dp)) {
         Settings(
             onCancel = onClose,
@@ -35,7 +36,7 @@ fun SettingsPopUp(sound: MutableState<Check>,
             },
             onLogout = {
                 onClose()
-                context.logout()
+                maincontext.logout()
 
                 navController.apply {
                     navigate("login")

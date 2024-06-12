@@ -1,6 +1,7 @@
 package com.example.idlegame
 
 import EnemyViewModel
+import java.math.RoundingMode
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
@@ -65,6 +66,7 @@ import kotlin.random.Random
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
@@ -90,10 +92,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val randomIndex = Random.nextInt(6)
-        playerViewModel.player.money.value = loadPlayerMoney("playerMoney")
         playerViewModel.player.lastActiveTime.value = loadLastActiveTime("lastActiveTime")
         playerViewModel.getOfflineEarnings()
-        playerViewModel.player.gems.value = loadPlayerGems("playerGems")
 
         setContent {
             IdleGameTheme {
@@ -117,23 +117,26 @@ class MainActivity : ComponentActivity() {
         }
     }
     override fun onPause() {
-        saveUserData()
+        runBlocking {
+            saveUserData()
+        }
         saveCheckState("sound", sound.value)
         saveCheckState("music", music.value)
-        savePlayerMoney("playerMoney", playerViewModel.player.money.value)
-        savePlayerGems("playerGems", playerViewModel.player.gems.value)
         saveLastActiveTime("lastActiveTime", playerViewModel.player.getCurrentTime())
-
         super.onPause()
     }
 
     override fun onStop() {
-        saveUserData()
+        runBlocking {
+            saveUserData()
+        }
+        saveCheckState("sound", sound.value)
+        saveCheckState("music", music.value)
+        saveLastActiveTime("lastActiveTime", playerViewModel.player.getCurrentTime())
 
         if(this::handler.isInitialized && this::runnableCode.isInitialized) {
             handler.removeCallbacks(runnableCode)
         }
-
         super.onStop()
     }
 
@@ -155,28 +158,6 @@ class MainActivity : ComponentActivity() {
         val state = sharedPreferences.getString(key, Check.Enabled.name)
         return Check.valueOf(state ?: Check.Enabled.name)
     }
-    private fun loadPlayerMoney(key: String): BigDecimal {
-        val moneyInString = sharedPreferences.getString(key, "10")
-        return BigDecimal(moneyInString)
-    }
-
-    private fun savePlayerMoney(key: String, money: BigDecimal) {
-        with(sharedPreferences.edit()) {
-            putString(key, money.toString())
-            apply()
-        }
-    }
-
-    private fun loadPlayerGems(key: String): Int {
-        return sharedPreferences.getInt(key, 0)
-    }
-
-    private fun savePlayerGems(key: String, gems: Int) {
-        with(sharedPreferences.edit()) {
-            putInt(key, gems)
-            apply()
-        }
-    }
 
     private fun saveCheckState(key: String, check: Check) {
         with(sharedPreferences.edit()) {
@@ -190,8 +171,8 @@ class MainActivity : ComponentActivity() {
         runnableCode = object : Runnable {
             override fun run() {
                 // Call the method to save data to Firestore
-                saveUserData()
                 handler.postDelayed(this, 1200000) // Repeat every 20 minutes
+                //saveUserData()
             }
         }
 
@@ -202,7 +183,7 @@ class MainActivity : ComponentActivity() {
     fun saveUserData() {
         val userData = hashMapOf(
             "enemy hp" to enemyViewModel.slimeEnemy.health,
-            "coins" to playerViewModel.player.money.value.toString(),
+            "coins" to playerViewModel.player.money.value.setScale(2, BigDecimal.ROUND_HALF_EVEN).toString(),
             "gems" to playerViewModel.player.gems.value,
             "global modifier" to playerViewModel.player.globalModifier.value.toString()
         )
@@ -275,7 +256,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-            // Load weapons data
+            // Load weapons dataasas
             val weaponTitles = listOf("Sword", "Dagger", "Bow", "Spear", "Kunai", "Greatsword", "Axe", "Staff", "Crossbow")
             for (title in weaponTitles) {
                 val docRef = db.collection("weapons").document("${title}_$uid")
