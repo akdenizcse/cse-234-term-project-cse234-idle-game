@@ -13,7 +13,7 @@ import kotlinx.coroutines.runBlocking
 import java.math.BigDecimal
 
 
-class Player(money: BigDecimal = BigDecimal("10"), gems: Int = 0, weapons: MutableList<WeaponGame> = mutableListOf()) {
+class Player(money: BigDecimal = BigDecimal("100"), gems: Int = 0, weapons: MutableList<WeaponGame> = mutableListOf()) {
     var money: MutableState<BigDecimal> = mutableStateOf(money)
     var gems: MutableState<Int> = mutableStateOf(gems)
     var weapons: MutableState<MutableList<WeaponGame>> = mutableStateOf(weapons)
@@ -71,7 +71,7 @@ class Player(money: BigDecimal = BigDecimal("10"), gems: Int = 0, weapons: Mutab
 }
 
 class PlayerViewModel : ViewModel() {
-    val player: Player = Player(money = 10.toBigDecimal(), gems = 0)
+    val player: Player = Player(money = 100.toBigDecimal(), gems = 0)
     val earningsPerSecond: MutableState<BigDecimal> = mutableStateOf(BigDecimal.ZERO)
     val weapons: State<MutableList<WeaponGame>> get() = player.weapons
 

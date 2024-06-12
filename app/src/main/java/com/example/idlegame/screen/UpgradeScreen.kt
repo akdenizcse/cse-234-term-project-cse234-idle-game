@@ -24,11 +24,17 @@ fun UpgradeScreen(playerViewModel: PlayerViewModel) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Spacer(modifier = Modifier.height(60.dp))
-            LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            LazyColumn(modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()) {
                 items(playerViewModel.weapons.value) { upgrade ->
                     Upgrade(
                         title = upgrade.title(),
-                        material = upgrade.material() + if (!upgrade.isUpgradeMaxed()) {" Upgrade"} else {""},
+                        material = upgrade.material() + if (!upgrade.isUpgradeMaxed()) {
+                            " Upgrade"
+                        } else {
+                            ""
+                        },
                         description = "Increase income by 2x",
                         price = if (upgrade.isUpgradeMaxed()) "Maxed" else upgrade.formattedMultiplierCost(),
                         weaponPicture = painterResource(upgrade.picture(1)),

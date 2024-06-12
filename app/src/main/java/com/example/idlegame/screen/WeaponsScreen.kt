@@ -35,18 +35,79 @@ import java.util.Locale
 fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
 
     val weapons = listOf(
-        WeaponGame("Sword",BigDecimal("1.0"), BigDecimal("10.0"), 0.1, 0.1,
-            weaponImages = listOf( R.drawable.sword_wooden , R.drawable.sword_iron,R.drawable.sword_silver,R.drawable.sword_gold,R.drawable.sword_cobalt,R.drawable.sword_mythril,R.drawable.sword_amethyst,R.drawable.sword_stell ),Player = playerViewModel.player),
-        WeaponGame("Dagger",BigDecimal("1.0"), BigDecimal("100.0"), 0.1, 0.1,
-            weaponImages = listOf(R.drawable.dagger_wooden, R.drawable.dagger_iron, R.drawable.dagger_silver, R.drawable.dagger_gold, R.drawable.dagger_cobalt, R.drawable.dagger_myhtril, R.drawable.dagger_amethyst, R.drawable.dagger_stell),Player = playerViewModel.player),
-        WeaponGame("Bow", BigDecimal("1.0"), BigDecimal("200.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.bow_wooden, R.drawable.bow_iron, R.drawable.bow_silver, R.drawable.bow_gold, R.drawable.bow_cobalt, R.drawable.bow_mythril, R.drawable.bow_amethyst, R.drawable.bow_steel),Player = playerViewModel.player),
-        WeaponGame("Spear", BigDecimal("1.0"), BigDecimal("500.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.spear_wooden, R.drawable.spear_iron, R.drawable.spear_silver, R.drawable.spear_gold, R.drawable.spear_cobalt, R.drawable.spear_myhtril, R.drawable.spear_amethyst, R.drawable.spear_stell),Player = playerViewModel.player),
-        WeaponGame("Kunai", BigDecimal("1.0"), BigDecimal("1000.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.kunai_wooden, R.drawable.kunai_iron, R.drawable.kunai_silver, R.drawable.kunai_gold, R.drawable.kunai_cobalt, R.drawable.kunai_myhtril, R.drawable.kunai_amethyst, R.drawable.kunai_stell),Player = playerViewModel.player),
-        WeaponGame("Greatsword", BigDecimal("1.0"), BigDecimal("2000.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.greatsword_wooden, R.drawable.greatsword_iron, R.drawable.greatsword_silver, R.drawable.greatsword_gold, R.drawable.greatsword_cobalt, R.drawable.greatsword_myhtril, R.drawable.greatsword_amethyst, R.drawable.greatsword_stell),Player = playerViewModel.player),
-        WeaponGame("Axe", BigDecimal("1.0"), BigDecimal("5000.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.axe_wooden, R.drawable.axe_iron, R.drawable.axe_silver, R.drawable.axe_gold, R.drawable.axe_cobalt, R.drawable.axe_myhtril, R.drawable.axe_amethyst, R.drawable.axe_stell),Player = playerViewModel.player),
-        WeaponGame("Staff", BigDecimal("1.0"), BigDecimal("10000.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.staff_wooden, R.drawable.staff_iron, R.drawable.staff_silver, R.drawable.staff_gold, R.drawable.staff_cobalt, R.drawable.staff_myhtril, R.drawable.staff_amethyst, R.drawable.staff_stell),Player = playerViewModel.player),
-        WeaponGame("Crossbow", BigDecimal("1.0"), BigDecimal("20000.0"), 0.1, 0.1, weaponImages = listOf(R.drawable.crossbow_wooden, R.drawable.crossbow_iron, R.drawable.crossbow_silver, R.drawable.crossbow_gold, R.drawable.crossbow_cobalt, R.drawable.crossbow_myhtril, R.drawable.crossbow_amethyst, R.drawable.crossbow_stell),Player = playerViewModel.player)
+        WeaponGame(
+            "Sword", BigDecimal("10"), BigDecimal("100"), 1.1,
+            weaponImages = listOf(
+                R.drawable.sword_wooden, R.drawable.sword_iron, R.drawable.sword_silver, R.drawable.sword_gold,
+                R.drawable.sword_cobalt, R.drawable.sword_mythril, R.drawable.sword_amethyst, R.drawable.sword_steel
+            ),
+            player = playerViewModel.player
+        ),
+        WeaponGame(
+            "Dagger", BigDecimal("12"), BigDecimal("150"), 1.12,
+            weaponImages = listOf(
+                R.drawable.dagger_wooden, R.drawable.dagger_iron, R.drawable.dagger_silver, R.drawable.dagger_gold,
+                R.drawable.dagger_cobalt, R.drawable.dagger_mythril, R.drawable.dagger_amethyst, R.drawable.dagger_steel
+            ),
+            player = playerViewModel.player
+        ),
+        WeaponGame(
+            "Bow", BigDecimal("18"), BigDecimal("300"), 1.15,
+            weaponImages = listOf(
+                R.drawable.bow_wooden, R.drawable.bow_iron, R.drawable.bow_silver, R.drawable.bow_gold,
+                R.drawable.bow_cobalt, R.drawable.bow_mythril, R.drawable.bow_amethyst, R.drawable.bow_steel
+            ),
+            player = playerViewModel.player
+        ),
+        WeaponGame(
+            "Spear", BigDecimal("25"), BigDecimal("500"), 1.18,
+            weaponImages = listOf(
+                R.drawable.spear_wooden, R.drawable.spear_iron, R.drawable.spear_silver, R.drawable.spear_gold,
+                R.drawable.spear_cobalt, R.drawable.spear_mythril, R.drawable.spear_amethyst, R.drawable.spear_steel
+            ),
+            player = playerViewModel.player
+        ),
+        WeaponGame(
+            "Kunai", BigDecimal("35"), BigDecimal("750"), 1.2,
+            weaponImages = listOf(
+                R.drawable.kunai_wooden, R.drawable.kunai_iron, R.drawable.kunai_silver, R.drawable.kunai_gold,
+                R.drawable.kunai_cobalt, R.drawable.kunai_mythril, R.drawable.kunai_amethyst, R.drawable.kunai_steel
+            ),
+            player = playerViewModel.player
+        ),
+        WeaponGame(
+            "Greatsword", BigDecimal("50"), BigDecimal("1000"), 1.25,
+            weaponImages = listOf(
+                R.drawable.greatsword_wooden, R.drawable.greatsword_iron, R.drawable.greatsword_silver, R.drawable.greatsword_gold,
+                R.drawable.greatsword_cobalt, R.drawable.greatsword_mythril, R.drawable.greatsword_amethyst, R.drawable.greatsword_steel
+            ),
+            player = playerViewModel.player
+        ),
+        WeaponGame(
+            "Axe", BigDecimal("75"), BigDecimal("2000"), 1.3,
+            weaponImages = listOf(
+                R.drawable.axe_wooden, R.drawable.axe_iron, R.drawable.axe_silver, R.drawable.axe_gold,
+                R.drawable.axe_cobalt, R.drawable.axe_mythril, R.drawable.axe_amethyst, R.drawable.axe_steel
+            ),
+            player = playerViewModel.player
+        ),
+        WeaponGame(
+            "Staff", BigDecimal("100"), BigDecimal("3000"), 1.35,
+            weaponImages = listOf(
+                R.drawable.staff_wooden, R.drawable.staff_iron, R.drawable.staff_silver, R.drawable.staff_gold,
+                R.drawable.staff_cobalt, R.drawable.staff_mythril, R.drawable.staff_amethyst, R.drawable.staff_steel
+            ),
+            player = playerViewModel.player
+        ),
+        WeaponGame(
+            "Crossbow", BigDecimal("150"), BigDecimal("5000"), 1.4,
+            weaponImages = listOf(
+                R.drawable.crossbow_wooden, R.drawable.crossbow_iron, R.drawable.crossbow_silver, R.drawable.crossbow_gold,
+                R.drawable.crossbow_cobalt, R.drawable.crossbow_mythril, R.drawable.crossbow_amethyst, R.drawable.crossbow_steel
+            ),
+            player = playerViewModel.player
         )
+    )
     playerViewModel.setWeapons(weapons)
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -54,27 +115,38 @@ fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
             Spacer(modifier = Modifier.height(60.dp))
 
             Box(modifier = Modifier.fillMaxWidth()) {
-                Image(painter = painterResource(id = R.drawable.weapons_background),
+                Image(
+                    painter = painterResource(id = R.drawable.weapons_background),
                     contentDescription = "Background for the weapon idle tab",
                     modifier = Modifier.fillMaxWidth(),
-                    contentScale = ContentScale.Crop)
-                Box(modifier = Modifier
+                    contentScale = ContentScale.Crop
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter),
+                    contentAlignment = Alignment.Center
+                )
+                { Enemy(enemy) }
+            }
+            Row(
+                modifier = Modifier
                     .fillMaxWidth()
-                    .align(Alignment.BottomCenter),
-                    contentAlignment = Alignment.Center)
-                {Enemy(enemy)}}
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .height(20.dp)) {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xFF252525))){
+                    .height(20.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color(0xFF252525))
+                ) {
                 }
             }
-            LazyColumn(modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()) {
-                items(playerViewModel.weapons.value) {  weapon ->
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
+                items(playerViewModel.weapons.value) { weapon ->
                     Weapon(
                         title = weapon.title(),
                         level = weapon.level.value.toString() + " LVL", // Use the level from the gameWeapon
@@ -82,7 +154,7 @@ fun WeaponsScreen(enemy: Enemy, playerViewModel: PlayerViewModel) {
                         price = weapon.formattedUpgradeCost(), // Use the upgradeCost from the gameWeapon as price
                         weaponPicture = painterResource(weapon.picture()),
                         modifier = Modifier.padding(5.dp, 8.dp),
-                        onBuy = {playerViewModel.buyWeapon(weapon)}
+                        onBuy = { playerViewModel.buyWeapon(weapon) }
                     )
                 }
             }

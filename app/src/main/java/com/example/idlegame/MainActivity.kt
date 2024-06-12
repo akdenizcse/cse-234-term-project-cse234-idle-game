@@ -210,12 +210,12 @@ class MainActivity : ComponentActivity() {
                         // Create a new document with default values
                         val defaultUserData = hashMapOf(
                             "enemy hp" to 1,
-                            "coins" to "10",
+                            "coins" to "100",
                             "gems" to 0,
                             "global modifier" to "1"
                         )
                         enemyViewModel.slimeEnemy.health = 1
-                        playerViewModel.player.money.value = BigDecimal("10")
+                        playerViewModel.player.money.value = BigDecimal("100")
                         playerViewModel.player.gems.value = 0
                         playerViewModel.player.globalModifier.value = BigDecimal("1")
                         userDocRef.set(defaultUserData)
