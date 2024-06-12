@@ -105,7 +105,7 @@ class MainActivity : ComponentActivity() {
                     color = Color(0xFF373737)
                 ) {
                     NavHost(navController = navController, startDestination = "login") {
-                        composable("login") { LoginScreen(navController, randomIndex, auth, ::startUserDataSaveTimer) }
+                        composable("login") { LoginScreen(navController, randomIndex, auth, ::startUserDataSaveTimer, ::loadUserData) }
                         composable("reset") { ResetPasswordScreen(navController, randomIndex, auth) }
                         composable("register") { RegisterScreen(navController, randomIndex, auth) }
                         composable("main") { Main(navController, enemyViewModel, playerViewModel, sound, music, auth) }
@@ -115,21 +115,24 @@ class MainActivity : ComponentActivity() {
         }
     }
     override fun onPause() {
-        super.onPause()
-        enemyViewModel.resetEnemyState()
+        saveUserData()
         saveCheckState("sound", sound.value)
         saveCheckState("music", music.value)
         savePlayerMoney("playerMoney", playerViewModel.player.money.value)
         savePlayerGems("playerGems", playerViewModel.player.gems.value)
+        enemyViewModel.resetEnemyState()
+
+        super.onPause()
     }
 
     override fun onStop() {
-        super.onStop()
+        saveUserData()
+
         if(this::handler.isInitialized && this::runnableCode.isInitialized) {
             handler.removeCallbacks(runnableCode)
         }
-        // Call the method to save user data to Firestore
-        saveUserData()
+
+        super.onStop()
     }
 
     @SuppressLint("MissingSuperCall")
@@ -177,7 +180,7 @@ class MainActivity : ComponentActivity() {
             override fun run() {
                 // Call the method to save data to Firestore
                 saveUserData()
-                handler.postDelayed(this, 300000) // Repeat every 5 minutes
+                handler.postDelayed(this, 1200000) // Repeat every 20 minutes
             }
         }
 
@@ -188,11 +191,10 @@ class MainActivity : ComponentActivity() {
     fun saveUserData() {
         val userData = hashMapOf(
             "enemy hp" to enemyViewModel.slimeEnemy.health,
-            "coins" to playerViewModel.player.money.value,
+            "coins" to playerViewModel.player.money.value.toString(),
             "gems" to playerViewModel.player.gems.value,
-            //"global multiplier" to playerViewModel.globalMultiplier.value
+            "global modifier" to playerViewModel.globalModifier.value.toString()
         )
-
         userId?.let { uid ->
             db.collection("users").document(uid)
                 .set(userData)
@@ -207,7 +209,7 @@ class MainActivity : ComponentActivity() {
             playerViewModel.weapons.value.forEach { weapon ->
                 val weaponData = hashMapOf(
                     "level" to weapon.level.value,
-                    "material" to weapon.material() //BURASI DUZELTILECEK
+                    "material" to weapon.multiplier.value // CHECK BACK AT THIS LATER ON
                 )
 
                 db.collection("weapons").document("${weapon.title()}_$uid")
@@ -217,6 +219,84 @@ class MainActivity : ComponentActivity() {
                     }
                     .addOnFailureListener { e ->
                         Log.w("Firestore", "Error writing weapon data", e)
+                    }
+            }
+        }
+    }
+
+    fun loadUserData() {
+        userId?.let { uid ->
+            // Load user data
+            val userDocRef = db.collection("users").document(uid)
+            userDocRef.get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        Log.d("Firestore", "User data successfully loaded!")
+                        val enemyHp = document.getLong("enemy hp")?.toInt()
+                        val coins = document.getString("coins")
+                        val gems = document.getLong("gems")?.toInt()
+                        val globalModifier = document.getString("global modifier")
+                        // Update your local variables or UI with the loaded data
+                        enemyViewModel.slimeEnemy.health = enemyHp ?: 1
+                        playerViewModel.player.money.value = if (coins != null) BigDecimal(coins) else BigDecimal.ZERO
+                        playerViewModel.player.gems.value = gems ?: 0
+                        playerViewModel.player.globalModifier.value = if (globalModifier != null) BigDecimal(globalModifier) else BigDecimal.ZERO
+                    } else {
+                        Log.d("Firestore", "No such document. Creating a new one.")
+                        // Create a new document with default values
+                        val defaultUserData = hashMapOf(
+                            "enemy hp" to 1,
+                            "coins" to "10",
+                            "gems" to 0,
+                            "global modifier" to "1"
+                        )
+                        enemyViewModel.slimeEnemy.health = 1
+                        playerViewModel.player.money.value = BigDecimal("10")
+                        playerViewModel.player.gems.value = 0
+                        playerViewModel.player.globalModifier.value = BigDecimal("1")
+                        userDocRef.set(defaultUserData)
+                            .addOnSuccessListener {
+                                Log.d("Firestore", "New user document successfully created!")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("Firestore", "Error creating new user document", e)
+                            }
+                    }
+                }
+
+            // Load weapons data
+            val weaponTitles = listOf("Sword", "Dagger", "Bow", "Spear", "Kunai", "Greatsword", "Axe", "Staff", "Crossbow")
+            for (title in weaponTitles) {
+                val docRef = db.collection("weapons").document("${title}_$uid")
+                docRef.get()
+                    .addOnSuccessListener { document ->
+                        if (document != null && document.exists()) {
+                            Log.d("Firestore", "${document.id} => ${document.data}")
+                            val level = document.getLong("level")?.toInt()
+                            val material = document.getLong("material")?.toInt()
+                            // Update your local variables or UI with the loaded data
+                            val weapon = playerViewModel.weapons.value.find { it.title() == title }
+                            weapon?.level?.value = level ?: 0
+                            weapon?.multiplier?.value = material ?: 1
+                        } else {
+                            Log.d("Firestore", "No such document. Creating a new one.")
+                            // Create a new document with default values
+                            val defaultData = hashMapOf(
+                                "level" to 0,
+                                "material" to 1
+                            )
+                            docRef.set(defaultData)
+                                .addOnSuccessListener {
+                                    Log.d("Firestore", "New weapon document successfully created!")
+                                    // Update your local variables or UI with the default data
+                                    val weapon = playerViewModel.weapons.value.find { it.title() == title }
+                                    weapon?.level?.value = 0
+                                    weapon?.multiplier?.value = 1
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.w("Firestore", "Error creating new weapon document", e)
+                                }
+                        }
                     }
             }
         }

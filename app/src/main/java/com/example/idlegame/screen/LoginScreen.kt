@@ -37,7 +37,7 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6), auth: FirebaseAuth, startUserDataSaveTimer: () -> Unit) {
+fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6), auth: FirebaseAuth, startUserDataSaveTimer: () -> Unit, loadUserData: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -173,6 +173,8 @@ fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextI
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 startUserDataSaveTimer()
+                                loadUserData()
+
                                 navController.navigate("main") {
                                     popUpTo("login") { inclusive = true }
                                 }
@@ -182,10 +184,6 @@ fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextI
                             }
                         }
                 }
-//                    navController.navigate("main") {
-//                        popUpTo("login") { inclusive = true }
-//                    }
-
             ) {
                 Text(text = "Sign In", fontFamily = pressStart2P, color = Color.White, modifier = Modifier.align(Alignment.CenterVertically))
             }
