@@ -55,15 +55,14 @@ class EnemyViewModel : ViewModel() {
         },
         imageResource = mutableStateOf(R.drawable.slimeidle1),
         lifeState = lifeState
-
     )
+
     fun resetEnemyState() {
         if (lifeState.value == LifeState.DEAD) {
             lifeState.value = LifeState.ALIVE
             slimeEnemy.health = slimeEnemy.health// Reset health or any other properties as needed
         }
     }
-
 }
 
 val slimeEnemy = Enemy(
@@ -75,7 +74,6 @@ val slimeEnemy = Enemy(
     },
     imageResource = mutableStateOf(R.drawable.slimeidle1), // Initial drawable
     lifeState =mutableStateOf(LifeState.ALIVE)
-
 )
 
 @Composable
