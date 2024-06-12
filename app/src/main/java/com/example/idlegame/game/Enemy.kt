@@ -1,11 +1,8 @@
-import android.annotation.SuppressLint
-import android.content.SharedPreferences
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,18 +12,14 @@ import androidx.compose.ui.unit.dp
 import com.example.idlegame.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.example.idlegame.gembuy.pressStart2P
 import androidx.compose.ui.text.TextStyle
-
+import com.example.idlegame.game.PlayerViewModel
 
 enum class LifeState {
     ALIVE,
@@ -60,21 +53,10 @@ class EnemyViewModel : ViewModel() {
     fun resetEnemyState() {
         if (lifeState.value == LifeState.DEAD) {
             lifeState.value = LifeState.ALIVE
-            slimeEnemy.health = slimeEnemy.health// Reset health or any other properties as needed
+            slimeEnemy.health = slimeEnemy.health // Reset health or any other properties as needed
         }
     }
 }
-
-val slimeEnemy = Enemy(
-    name = "Slime",
-    health = 1,
-    icon = { enemy: Enemy ->
-        val imageResource by enemy.imageResource
-        Image(painterResource(id = imageResource), contentDescription = "Slime picture", modifier = Modifier.size(96.dp))
-    },
-    imageResource = mutableStateOf(R.drawable.slimeidle1), // Initial drawable
-    lifeState =mutableStateOf(LifeState.ALIVE)
-)
 
 @Composable
 fun ProgressBar(currentHealth: Int, maxHealth: Int) {
@@ -116,7 +98,6 @@ fun CustomProgressBar(currentHealth: Int, maxHealth: Int) {
             )
         }
         Text(
-
             text = "$currentHealth",
             modifier = Modifier.align(Alignment.BottomCenter),
             style = TextStyle(fontFamily = pressStart2P, color = Color.White),
@@ -126,8 +107,8 @@ fun CustomProgressBar(currentHealth: Int, maxHealth: Int) {
 }
 
 @Composable
-fun Enemy(enemy: Enemy) {
-    val state = remember { mutableStateOf(enemy.health) }
+fun EnemyView(enemyViewModel: EnemyViewModel, playerViewModel: PlayerViewModel,health: Int=enemyViewModel.slimeEnemy.health) {
+    var state = remember { mutableStateOf(enemyViewModel.slimeEnemy.health) }
     val scope = rememberCoroutineScope()
 
     // Array of drawable resources
@@ -155,8 +136,8 @@ fun Enemy(enemy: Enemy) {
     )
 
     var deathFrameIndex by remember { mutableStateOf(0f) }
-    LaunchedEffect(enemy.lifeState.value) {
-        if (enemy.lifeState.value == LifeState.DEAD) {
+    LaunchedEffect(enemyViewModel.lifeState.value) {
+        if (enemyViewModel.lifeState.value == LifeState.DEAD) {
             deathFrameIndex = 0f
             animate(
                 initialValue = 0f,
@@ -169,19 +150,21 @@ fun Enemy(enemy: Enemy) {
     }
 
     // Update image resource based on animation frame
-    if (enemy.lifeState.value == LifeState.ALIVE) {
-        enemy.imageResource.value = drawableResources[frameIndex.toInt()]
-    } else if (enemy.lifeState.value == LifeState.DEAD) {
-        enemy.imageResource.value = deathDrawableResources[deathFrameIndex.toInt()]
+    if (enemyViewModel.lifeState.value == LifeState.ALIVE) {
+        enemyViewModel.slimeEnemy.imageResource.value = drawableResources[frameIndex.toInt()]
+    } else if (enemyViewModel.lifeState.value == LifeState.DEAD) {
+        enemyViewModel.slimeEnemy.imageResource.value = deathDrawableResources[deathFrameIndex.toInt()]
     }
 
     DisposableEffect(Unit) {
         val listener: (EnemyHitEvent) -> Unit = { event ->
-            if (event.enemy == enemy) {
+            if (event.enemy == enemyViewModel.slimeEnemy) {
                 state.value = Math.max(0, state.value - event.damage)
-                if (state.value == 0 && enemy.lifeState.value == LifeState.ALIVE) {
-                    enemy.lifeState.value = LifeState.DEAD
-                    enemy.imageResource.value = R.drawable.slimedeath1
+                if (state.value == 0 && enemyViewModel.lifeState.value == LifeState.ALIVE) {
+                    enemyViewModel.lifeState.value = LifeState.DEAD
+                    enemyViewModel.slimeEnemy.imageResource.value = R.drawable.slimedeath1
+                    // Reward the player with 100 seconds worth of money
+                    playerViewModel.earnMoneyForSeconds(100)
                 }
             }
         }
@@ -193,28 +176,28 @@ fun Enemy(enemy: Enemy) {
         modifier = Modifier.padding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = enemy.name, style = TextStyle(fontFamily = pressStart2P, color = Color.White))
-        CustomProgressBar(currentHealth = state.value, maxHealth = enemy.health)
+        Text(text = enemyViewModel.slimeEnemy.name, style = TextStyle(fontFamily = pressStart2P, color = Color.White))
+        CustomProgressBar(currentHealth = state.value, maxHealth = enemyViewModel.slimeEnemy.health)
         Box(
             modifier = Modifier
                 .clickable {
-                    if (enemy.lifeState.value == LifeState.ALIVE) {
-                        damageEnemy(enemy, 1)
+                    if (enemyViewModel.lifeState.value == LifeState.ALIVE) {
+                        damageEnemy(enemyViewModel.slimeEnemy, 1)
                         scope.launch {
-                            if (enemy.lifeState.value == LifeState.DEAD) {
-                                if (!enemy.isRespawning.value) {
-                                    enemy.isRespawning.value = true
+                            if (enemyViewModel.lifeState.value == LifeState.DEAD) {
+                                if (!enemyViewModel.slimeEnemy.isRespawning.value) {
+                                    enemyViewModel.slimeEnemy.isRespawning.value = true
                                     delay(1000)
-                                    enemy.lifeState.value = LifeState.RESPAWNING
-                                    enemy.imageResource.value =
+                                    enemyViewModel.lifeState.value = LifeState.RESPAWNING
+                                    enemyViewModel.slimeEnemy.imageResource.value =
                                         R.drawable.slimedeath4 // death animation
-                                    if (enemy.lifeState.value == LifeState.RESPAWNING) {
-                                        state.value = enemy.health + 2
-                                        enemy.health = state.value
-                                        enemy.imageResource.value =
+                                    if (enemyViewModel.lifeState.value == LifeState.RESPAWNING) {
+                                        state.value = enemyViewModel.slimeEnemy.health + 2
+                                        enemyViewModel.slimeEnemy.health = state.value
+                                        enemyViewModel.slimeEnemy.imageResource.value =
                                             drawableResources[frameIndex.toInt()] // back to idle animation
-                                        enemy.lifeState.value = LifeState.ALIVE
-                                        enemy.isRespawning.value = false
+                                        enemyViewModel.lifeState.value = LifeState.ALIVE
+                                        enemyViewModel.slimeEnemy.isRespawning.value = false
                                     }
                                 }
                             }
@@ -223,20 +206,11 @@ fun Enemy(enemy: Enemy) {
                 }
                 .wrapContentSize()
         ) {
-            enemy.icon(enemy)
-        }
-    }
-}
-@Composable
-fun Enemies(enemies: MutableList<Enemy>) {
-    Column {
-        enemies.forEach { enemy ->
-            Enemy(enemy = enemy)
+            enemyViewModel.slimeEnemy.icon(enemyViewModel.slimeEnemy)
         }
     }
 }
 
-val enemyList = mutableStateOf(mutableListOf(slimeEnemy))
 
 data class EnemyHitEvent(val enemy: Enemy, val damage: Int)
 
