@@ -91,6 +91,8 @@ class MainActivity : ComponentActivity() {
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val randomIndex = Random.nextInt(6)
         playerViewModel.player.money.value = loadPlayerMoney("playerMoney")
+        playerViewModel.player.lastActiveTime.value = loadLastActiveTime("lastActiveTime")
+        playerViewModel.getOfflineEarnings()
         playerViewModel.player.gems.value = loadPlayerGems("playerGems")
 
         setContent {
@@ -120,7 +122,7 @@ class MainActivity : ComponentActivity() {
         saveCheckState("music", music.value)
         savePlayerMoney("playerMoney", playerViewModel.player.money.value)
         savePlayerGems("playerGems", playerViewModel.player.gems.value)
-        enemyViewModel.resetEnemyState()
+        saveLastActiveTime("lastActiveTime", playerViewModel.player.getCurrentTime())
 
         super.onPause()
     }
@@ -138,6 +140,15 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         finish()
+    }
+    private fun saveLastActiveTime(key: String, time: Long) {
+        with(sharedPreferences.edit()) {
+            putLong(key, time)
+            apply()
+        }
+    }
+    private fun loadLastActiveTime(key: String): Long {
+        return sharedPreferences.getLong(key, System.currentTimeMillis())
     }
 
     private fun loadCheckState(key: String): Check {
@@ -193,7 +204,7 @@ class MainActivity : ComponentActivity() {
             "enemy hp" to enemyViewModel.slimeEnemy.health,
             "coins" to playerViewModel.player.money.value.toString(),
             "gems" to playerViewModel.player.gems.value,
-            "global modifier" to playerViewModel.globalModifier.value.toString()
+            "global modifier" to playerViewModel.player.globalModifier.value.toString()
         )
         userId?.let { uid ->
             db.collection("users").document(uid)

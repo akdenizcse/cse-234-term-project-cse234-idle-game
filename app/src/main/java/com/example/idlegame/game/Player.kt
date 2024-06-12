@@ -1,12 +1,15 @@
 package com.example.idlegame.game
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
+import com.example.idlegame.TimeAPI.WorldTime
 import com.example.idlegame.game.NumberFormatter.formatLargeNumber
+import kotlinx.coroutines.runBlocking
 import java.math.BigDecimal
 
 
@@ -15,6 +18,21 @@ class Player(money: BigDecimal = BigDecimal("10"), gems: Int = 0, weapons: Mutab
     var gems: MutableState<Int> = mutableStateOf(gems)
     var weapons: MutableState<MutableList<WeaponGame>> = mutableStateOf(weapons)
     var globalModifier: MutableState<BigDecimal> = mutableStateOf(BigDecimal("1"))
+    var worldTime: WorldTime = WorldTime()
+    var lastActiveTime: MutableState<Long> = mutableStateOf(System.currentTimeMillis())
+
+    fun getCurrentTime(): Long {
+        var currentTimeMillis: Long = 0
+        runBlocking {
+            val currentTime = worldTime.getCurrentTime()
+            if (currentTime != null) {
+                currentTimeMillis = currentTime.unixtime * 1000 // Convert to milliseconds
+            }
+        }
+        Log.d("CurrentTime", "Current time in milliseconds: $currentTimeMillis")
+        return currentTimeMillis
+    }
+
 
     fun earnMoney(): BigDecimal {
         var moneyEarned:BigDecimal = BigDecimal("0")
@@ -56,7 +74,27 @@ class PlayerViewModel : ViewModel() {
     val player: Player = Player(money = 10.toBigDecimal(), gems = 0)
     val earningsPerSecond: MutableState<BigDecimal> = mutableStateOf(BigDecimal.ZERO)
     val weapons: State<MutableList<WeaponGame>> get() = player.weapons
-    var globalModifier: MutableState<BigDecimal> = mutableStateOf(BigDecimal("0"))
+
+    fun getOfflineEarnings(): BigDecimal {
+        if (player.lastActiveTime.value != null) {
+            val currentTime = player.getCurrentTime()
+            Log.d("LastActiveTime", "Last active time in milliseconds: ${player.lastActiveTime.value}")
+            val offlineTimeInSeconds = (currentTime - player.lastActiveTime.value!!) / 1000
+            Log.d("OfflineEarnings", "Offline time in seconds: $offlineTimeInSeconds")
+            val offlineEarnings = earningsPerSecond.value * BigDecimal(offlineTimeInSeconds)
+            player.money.value += offlineEarnings
+
+            // Calculate and return offline earnings per second
+            val offlineEarningsPerSecond = if (offlineTimeInSeconds != 0L) {
+                offlineEarnings / BigDecimal(offlineTimeInSeconds)
+            } else {
+                BigDecimal.ZERO
+            }
+            return offlineEarningsPerSecond
+        } else {
+            return BigDecimal.ZERO
+        }
+    }
 
     fun earnMoney(): BigDecimal {
         var moneyEarned:BigDecimal = BigDecimal("0")

@@ -8,7 +8,7 @@ import kotlin.math.pow
 
 object NumberFormatter {
     fun formatLargeNumber(number: BigDecimal): String {
-        val suffix = arrayOf("", "k", "m", "b", "t")
+        val suffix = arrayOf("", "k", "m", "b", "t", "a","b","c","d","e","f")
         val value = number.toDouble()
         val magnitude = value.takeIf { it != 0.0 }?.let { floor(log10(it.absoluteValue)).toInt() } ?: 0
         val tier = (magnitude / 3).takeIf { it < suffix.size } ?: suffix.size - 1
