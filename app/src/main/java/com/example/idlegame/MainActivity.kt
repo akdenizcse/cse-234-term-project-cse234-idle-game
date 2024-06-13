@@ -47,6 +47,9 @@ import kotlinx.coroutines.delay
 import java.math.BigDecimal
 import kotlin.random.Random
 import android.util.Log
+import androidx.navigation.NavHostController
+import com.example.idlegame.game.WeaponGame
+import java.util.concurrent.CountDownLatch
 
 class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
@@ -67,6 +70,81 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val randomIndex = Random.nextInt(6)
+        val weapons = listOf(
+            WeaponGame(
+                "Sword", BigDecimal("10"), BigDecimal("100"), 1.1,
+                weaponImages = listOf(
+                    R.drawable.sword_wooden, R.drawable.sword_iron, R.drawable.sword_silver, R.drawable.sword_gold,
+                    R.drawable.sword_cobalt, R.drawable.sword_mythril, R.drawable.sword_amethyst, R.drawable.sword_steel
+                ),
+                player = playerViewModel.player
+            ),
+            WeaponGame(
+                "Dagger", BigDecimal("15"), BigDecimal("500"), 1.15,
+                weaponImages = listOf(
+                    R.drawable.dagger_wooden, R.drawable.dagger_iron, R.drawable.dagger_silver, R.drawable.dagger_gold,
+                    R.drawable.dagger_cobalt, R.drawable.dagger_mythril, R.drawable.dagger_amethyst, R.drawable.dagger_steel
+                ),
+                player = playerViewModel.player
+            ),
+            WeaponGame(
+                "Bow", BigDecimal("25"), BigDecimal("1000"), 1.2,
+                weaponImages = listOf(
+                    R.drawable.bow_wooden, R.drawable.bow_iron, R.drawable.bow_silver, R.drawable.bow_gold,
+                    R.drawable.bow_cobalt, R.drawable.bow_mythril, R.drawable.bow_amethyst, R.drawable.bow_steel
+                ),
+                player = playerViewModel.player
+            ),
+            WeaponGame(
+                "Spear", BigDecimal("40"), BigDecimal("2500"), 1.25,
+                weaponImages = listOf(
+                    R.drawable.spear_wooden, R.drawable.spear_iron, R.drawable.spear_silver, R.drawable.spear_gold,
+                    R.drawable.spear_cobalt, R.drawable.spear_mythril, R.drawable.spear_amethyst, R.drawable.spear_steel
+                ),
+                player = playerViewModel.player
+            ),
+            WeaponGame(
+                "Kunai", BigDecimal("60"), BigDecimal("5000"), 1.3,
+                weaponImages = listOf(
+                    R.drawable.kunai_wooden, R.drawable.kunai_iron, R.drawable.kunai_silver, R.drawable.kunai_gold,
+                    R.drawable.kunai_cobalt, R.drawable.kunai_mythril, R.drawable.kunai_amethyst, R.drawable.kunai_steel
+                ),
+                player = playerViewModel.player
+            ),
+            WeaponGame(
+                "Greatsword", BigDecimal("100"), BigDecimal("10000"), 1.35,
+                weaponImages = listOf(
+                    R.drawable.greatsword_wooden, R.drawable.greatsword_iron, R.drawable.greatsword_silver, R.drawable.greatsword_gold,
+                    R.drawable.greatsword_cobalt, R.drawable.greatsword_mythril, R.drawable.greatsword_amethyst, R.drawable.greatsword_steel
+                ),
+                player = playerViewModel.player
+            ),
+            WeaponGame(
+                "Axe", BigDecimal("150"), BigDecimal("20000"), 1.4,
+                weaponImages = listOf(
+                    R.drawable.axe_wooden, R.drawable.axe_iron, R.drawable.axe_silver, R.drawable.axe_gold,
+                    R.drawable.axe_cobalt, R.drawable.axe_mythril, R.drawable.axe_amethyst, R.drawable.axe_steel
+                ),
+                player = playerViewModel.player
+            ),
+            WeaponGame(
+                "Staff", BigDecimal("250"), BigDecimal("50000"), 1.45,
+                weaponImages = listOf(
+                    R.drawable.staff_wooden, R.drawable.staff_iron, R.drawable.staff_silver, R.drawable.staff_gold,
+                    R.drawable.staff_cobalt, R.drawable.staff_mythril, R.drawable.staff_amethyst, R.drawable.staff_steel
+                ),
+                player = playerViewModel.player
+            ),
+            WeaponGame(
+                "Crossbow", BigDecimal("500"), BigDecimal("100000"), 1.5,
+                weaponImages = listOf(
+                    R.drawable.crossbow_wooden, R.drawable.crossbow_iron, R.drawable.crossbow_silver, R.drawable.crossbow_gold,
+                    R.drawable.crossbow_cobalt, R.drawable.crossbow_mythril, R.drawable.crossbow_amethyst, R.drawable.crossbow_steel
+                ),
+                player = playerViewModel.player
+            )
+        )
+        playerViewModel.setWeapons(weapons)
 
         setContent {
             IdleGameTheme {
@@ -153,10 +231,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun loadUserData() {
+    fun loadUserData(navController: NavHostController, isLoading: MutableState<Boolean>) {
         auth.currentUser?.uid?.let { uid ->
             // Load weapons data
             val weaponTitles = listOf("Sword", "Dagger", "Bow", "Spear", "Kunai", "Greatsword", "Axe", "Staff", "Crossbow")
+            val countDownLatch = CountDownLatch(weaponTitles.size)
             for (title in weaponTitles) {
                 val docRef = db.collection("weapons").document("${title}_$uid")
                 docRef.get()
@@ -169,6 +248,7 @@ class MainActivity : ComponentActivity() {
                             val weapon = playerViewModel.weapons.value.find { it.title() == title }
                             weapon?.level?.value = level ?: 0
                             weapon?.multiplier?.value = material ?: 1
+                            countDownLatch.countDown()
                         } else {
                             Log.d("Firestore", "No such document. Creating a new one.")
                             // Create a new document with default values
@@ -187,48 +267,63 @@ class MainActivity : ComponentActivity() {
                                 .addOnFailureListener { e ->
                                     Log.w("Firestore", "Error creating new weapon document", e)
                                 }
+                            countDownLatch.countDown()
                         }
                     }
             }
-            val userDocRef = db.collection("users").document(uid)
-            userDocRef.get()
-                .addOnSuccessListener { document ->
-                    if (document != null && document.exists()) {
-                        Log.d("Firestore", "User data successfully loaded!")
-                        val enemyHp = document.getLong("enemy hp")?.toInt()
-                        val coins = document.getString("coins")
-                        val gems = document.getLong("gems")?.toInt()
-                        val globalModifier = document.getString("global modifier")
-                        val lastActiveTime = document.getLong("last active")
-                        // Update your local variables or UI with the loaded data
-                        enemyViewModel.slimeEnemy.health = enemyHp ?: 1
-                        playerViewModel.player.money.value = if (coins != null) BigDecimal(coins) else BigDecimal.ZERO
-                        playerViewModel.player.gems.value = gems ?: 0
-                        playerViewModel.player.globalModifier.value = if (globalModifier != null) BigDecimal(globalModifier) else BigDecimal.ZERO
-                        playerViewModel.player.lastActiveTime.value = lastActiveTime ?: playerViewModel.player.getCurrentTime()
-                        playerViewModel.getOfflineEarnings()
-                    } else {
-                        Log.d("Firestore", "No such document. Creating a new one.")
-                        // Create a new document with default values
-                        val defaultUserData = hashMapOf(
-                            "enemy hp" to 1,
-                            "coins" to "100",
-                            "gems" to 0,
-                            "global modifier" to "1"
-                        )
-                        enemyViewModel.slimeEnemy.health = 1
-                        playerViewModel.player.money.value = BigDecimal("100")
-                        playerViewModel.player.gems.value = 0
-                        playerViewModel.player.globalModifier.value = BigDecimal("1")
-                        userDocRef.set(defaultUserData)
-                            .addOnSuccessListener {
-                                Log.d("Firestore", "New user document successfully created!")
+
+            Thread {
+                countDownLatch.await()
+
+                val userDocRef = db.collection("users").document(uid)
+                userDocRef.get()
+                    .addOnSuccessListener { document ->
+                        if (document != null && document.exists()) {
+                            Log.d("Firestore", "User data successfully loaded!")
+                            val enemyHp = document.getLong("enemy hp")?.toInt()
+                            val coins = document.getString("coins")
+                            val gems = document.getLong("gems")?.toInt()
+                            val globalModifier = document.getString("global modifier")
+                            val lastActiveTime = document.getLong("last active")
+                            // Update your local variables or UI with the loaded data
+                            enemyViewModel.slimeEnemy.health = enemyHp ?: 1
+                            playerViewModel.player.money.value = if (coins != null) BigDecimal(coins) else BigDecimal.ZERO
+                            playerViewModel.player.gems.value = gems ?: 0
+                            playerViewModel.player.globalModifier.value = if (globalModifier != null) BigDecimal(globalModifier) else BigDecimal.ZERO
+                            playerViewModel.player.lastActiveTime.value = lastActiveTime ?: playerViewModel.player.getCurrentTime()
+                            playerViewModel.getOfflineEarnings()
+
+                            navController.navigate("main") {
+                                popUpTo("login") { inclusive = true }
                             }
-                            .addOnFailureListener { e ->
-                                Log.w("Firestore", "Error creating new user document", e)
+                            isLoading.value = false
+                        } else {
+                            Log.d("Firestore", "No such document. Creating a new one.")
+                            // Create a new document with default values
+                            val defaultUserData = hashMapOf(
+                                "enemy hp" to 1,
+                                "coins" to "100",
+                                "gems" to 0,
+                                "global modifier" to "1"
+                            )
+                            enemyViewModel.slimeEnemy.health = 1
+                            playerViewModel.player.money.value = BigDecimal("100")
+                            playerViewModel.player.gems.value = 0
+                            playerViewModel.player.globalModifier.value = BigDecimal("1")
+                            navController.navigate("main") {
+                                popUpTo("login") { inclusive = true }
                             }
+                            isLoading.value = false
+                            userDocRef.set(defaultUserData)
+                                .addOnSuccessListener {
+                                    Log.d("Firestore", "New user document successfully created!")
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.w("Firestore", "Error creating new user document", e)
+                                }
+                        }
                     }
-                }
+            }.start()
         }
     }
 

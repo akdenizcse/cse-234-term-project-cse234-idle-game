@@ -38,7 +38,7 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6), auth: FirebaseAuth, loadUserData: () -> Unit) {
+fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextInt(0, 6), auth: FirebaseAuth, loadUserData: (NavHostController, MutableState<Boolean>) -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -176,12 +176,7 @@ fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextI
                         auth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
-                                    isLoading.value = false
-                                    loadUserData()
-
-                                    navController.navigate("main") {
-                                        popUpTo("login") { inclusive = true }
-                                    }
+                                    loadUserData(navController, isLoading)
                                     Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
                                 } else {
                                     isLoading.value = false
