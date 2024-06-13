@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -41,6 +42,7 @@ fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextI
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val isLoading = remember { mutableStateOf(false) } // Track loading state
 
     val backgroundImages = listOf(
         R.drawable.background0,
@@ -167,24 +169,33 @@ fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextI
             Spacer(modifier = Modifier.height(6.dp))
 
             Button(
-                modifier = Modifier.fillMaxWidth(0.8f),
+                modifier = Modifier.fillMaxWidth(0.8f),enabled = !isLoading.value,
                 onClick = {
-                    auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                loadUserData()
+                    if (!isLoading.value){
+                        isLoading.value = true
+                        auth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    isLoading.value = false
+                                    loadUserData()
 
-                                navController.navigate("main") {
-                                    popUpTo("login") { inclusive = true }
+                                    navController.navigate("main") {
+                                        popUpTo("login") { inclusive = true }
+                                    }
+                                    Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    isLoading.value = false
+                                    Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
                                 }
-                                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
                             }
-                        }
+                    }
                 }
             ) {
-                Text(text = "Sign In", fontFamily = pressStart2P, color = Color.White, modifier = Modifier.align(Alignment.CenterVertically))
+                if (isLoading.value) {
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(20.dp))
+                } else {
+                    Text(text = "Sign In", fontFamily = pressStart2P, color = Color.White, modifier = Modifier.align(Alignment.CenterVertically))
+                }
             }
         }
 
