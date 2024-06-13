@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.window.Dialog
 import com.example.idlegame.R
 import com.example.idlegame.biggembuy.BigGemBuy
 import com.example.idlegame.game.NumberFormatter.formatLargeNumber
@@ -33,6 +37,17 @@ import com.example.idlegame.ui.theme.IdleGameTheme
 @Composable
 fun StoreScreen(playerViewModel: PlayerViewModel) {
     val context = LocalContext.current
+    val showPurchaseDialogue = remember { mutableStateOf(false) }
+    val gems: MutableState<Int> = remember { mutableStateOf(0) }
+    if (showPurchaseDialogue.value) {
+        Dialog(onDismissRequest = { showPurchaseDialogue.value = false }) {
+            PurchasePopUp(
+                onClose = { showPurchaseDialogue.value = false },
+                playerViewModel = playerViewModel,
+                gems = gems
+            )
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
         Column {
@@ -50,8 +65,8 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 GemBuy(
                     onBuy = {
-                        playerViewModel.addGems(2)
-                        Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
+                        gems.value = 2
+                        showPurchaseDialogue.value = true
                     },
                     gemCount = "2 Gem",
                     price = "TRY 5",
@@ -59,8 +74,8 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                 )
                 GemBuy(
                     onBuy = {
-                        playerViewModel.addGems(10)
-                        Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
+                        gems.value = 10
+                        showPurchaseDialogue.value = true
                     },
                     gemCount = "10 Gem",
                     price = "TRY 10",
@@ -68,8 +83,8 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                 )
                 GemBuy(
                     onBuy = {
-                        playerViewModel.addGems(25)
-                        Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
+                        gems.value = 25
+                        showPurchaseDialogue.value = true
                     },
                     gemCount = "25 Gem",
                     price = "TRY 20",
@@ -80,8 +95,8 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 BigGemBuy(
                     onBuy = {
-                        playerViewModel.addGems(65)
-                        Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
+                        gems.value = 65
+                        showPurchaseDialogue.value = true
                     },
                     preciousPearl = painterResource(R.drawable.big_gem_buy_precious_pearl_4),
                     gemCount = "65 Gem",
@@ -90,8 +105,8 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
                 )
                 BigGemBuy(
                     onBuy = {
-                        playerViewModel.addGems(150)
-                        Toast.makeText(context, "Purchase successful!", Toast.LENGTH_SHORT).show()
+                        gems.value = 150
+                        showPurchaseDialogue.value = true
                     },
                     preciousPearl = painterResource(R.drawable.big_gem_buy_precious_pearl_4),
                     gemCount = "150 Gem",
