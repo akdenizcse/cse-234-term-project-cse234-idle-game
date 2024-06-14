@@ -161,7 +161,7 @@ class MainActivity : ComponentActivity() {
                         composable("login") { LoginScreen(navController, randomIndex, auth, ::loadUserData) }
                         composable("reset") { ResetPasswordScreen(navController, randomIndex, auth) }
                         composable("register") { RegisterScreen(navController, randomIndex, auth) }
-                        composable("main") { Main(navController, enemyViewModel, playerViewModel, sound, music, auth, ::logout) }
+                        composable("main") { Main(navController, enemyViewModel, playerViewModel, sound, music, auth, ::logout, ::saveUserData) }
                     }
                 }
             }
@@ -334,15 +334,22 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, playerViewModel: PlayerViewModel, sound: MutableState<Check>, music: MutableState<Check>, auth: FirebaseAuth, logout: () -> Unit){
+fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, playerViewModel: PlayerViewModel, sound: MutableState<Check>, music: MutableState<Check>, auth: FirebaseAuth, logout: () -> Unit,saveUserData: () -> Unit){
     val navController = rememberNavController()
     val showSettingsDialog = remember { mutableStateOf(false) }
     val design = remember { mutableStateOf(Design.WeaponsTab) }
+    val counter: MutableState<Int> = remember { mutableStateOf(0) }
 
     LaunchedEffect(key1 = "earnMoney") {
         while (true) {
             playerViewModel.earnMoney()
-            delay(1000) // delay for 1 second
+            delay(1000)
+            counter.value++
+            if(counter.value ==30)
+            {
+                saveUserData()
+                counter.value = 0
+            }
         }
     }
 
