@@ -1,9 +1,11 @@
 package com.example.idlegame
 
 import EnemyViewModel
+import PlayerViewModelFactory
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -53,10 +55,12 @@ import java.util.concurrent.CountDownLatch
 
 class MainActivity : ComponentActivity() {
     private lateinit var sharedPreferences: SharedPreferences // is the thing that holds these values when the app is closed
-    private lateinit var sound: MutableState<Check>
-    private lateinit var music: MutableState<Check>
-    private val playerViewModel: PlayerViewModel by viewModels()
+    private lateinit var sound: MutableState<Boolean>
+    private lateinit var music: MutableState<Boolean>
+    private lateinit var mediaPlayer: MediaPlayer
+
     private val enemyViewModel: EnemyViewModel by viewModels()
+    val playerViewModel: PlayerViewModel by viewModels { PlayerViewModelFactory(this,sound) }
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
     }
@@ -69,6 +73,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
+        sound = mutableStateOf(loadCheckState("sound"))
+        music = mutableStateOf(loadCheckState("music"))
+        mediaPlayer = MediaPlayer.create(this, R.raw.song)
+        mediaPlayer.setVolume(0.1f, 0.1f)
+        mediaPlayer.isLooping = true
+        if (music.value) {             // Start playing if music setting is on
+            mediaPlayer.start()
+        }
         val randomIndex = Random.nextInt(6)
         val weapons = listOf(
             WeaponGame(
@@ -161,7 +173,7 @@ class MainActivity : ComponentActivity() {
                         composable("login") { LoginScreen(navController, randomIndex, auth, ::loadUserData) }
                         composable("reset") { ResetPasswordScreen(navController, randomIndex, auth) }
                         composable("register") { RegisterScreen(navController, randomIndex, auth) }
-                        composable("main") { Main(navController, enemyViewModel, playerViewModel, sound, music, auth, ::logout, ::saveUserData) }
+                        composable("main") { Main(navController, enemyViewModel, playerViewModel, sound, music, auth, ::logout, ::saveUserData, ::toggleMusic) }
                     }
                 }
             }
@@ -175,6 +187,18 @@ class MainActivity : ComponentActivity() {
         saveCheckState("music", music.value)
         super.onPause()
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release()
+    }
+    private fun toggleMusic() {
+        music.value = !music.value
+        if (music.value && mediaPlayer != null) { // Check if mediaPlayer is not null
+            mediaPlayer.start()
+        } else if (!music.value && mediaPlayer != null) { // Check if mediaPlayer is not null
+            mediaPlayer.pause()
+        }
+    }
 
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
@@ -182,17 +206,26 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    private fun loadCheckState(key: String): Check {
-        val state = sharedPreferences.getString(key, Check.Enabled.name)
-        return Check.valueOf(state ?: Check.Enabled.name)
+    private fun loadCheckState(key: String): Boolean {
+        val sharedPrefs = sharedPreferences
+        // Check if the key exists and its type is String
+        val allPrefs = sharedPrefs.all
+        return if (allPrefs.containsKey(key) && allPrefs[key] is String) {
+            // Convert the stored String value to Boolean
+            sharedPrefs.getString(key, "true")!!.toBoolean()
+        } else {
+            // Read it as Boolean
+            sharedPrefs.getBoolean(key, true) // Default to true if the key is not found
+        }
     }
 
-    private fun saveCheckState(key: String, check: Check) {
+    private fun saveCheckState(key: String, check: Boolean) {
         with(sharedPreferences.edit()) {
-            putString(key, check.name)
+            putBoolean(key, check)
             apply()
         }
     }
+
 
     fun saveUserData() {
         val userData = hashMapOf(
@@ -334,7 +367,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, playerViewModel: PlayerViewModel, sound: MutableState<Check>, music: MutableState<Check>, auth: FirebaseAuth, logout: () -> Unit,saveUserData: () -> Unit){
+fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, playerViewModel: PlayerViewModel,
+         sound: MutableState<Boolean>, music: MutableState<Boolean>, auth: FirebaseAuth,
+         logout: () -> Unit,saveUserData: () -> Unit,
+         toggleMusic: () -> Unit){
     val navController = rememberNavController()
     val showSettingsDialog = remember { mutableStateOf(false) }
     val design = remember { mutableStateOf(Design.WeaponsTab) }
@@ -369,7 +405,9 @@ fun Main(loginNavController: NavController, enemyViewModel: EnemyViewModel, play
                     music,
                     onClose = { showSettingsDialog.value = false },
                     navController = loginNavController,
-                    logout = logout
+                    logout = logout,
+                    playerViewModel = playerViewModel,
+                    toggleMusic = toggleMusic
                 )
             }
         }

@@ -233,10 +233,3 @@ fun StoreScreen(playerViewModel: PlayerViewModel) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun StoreScreenPreview() {
-    IdleGameTheme {
-        StoreScreen(playerViewModel = PlayerViewModel())
-    }
-}

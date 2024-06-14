@@ -52,10 +52,3 @@ fun UpgradeScreen(playerViewModel: PlayerViewModel) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun UpgradeScreenPreview() {
-    IdleGameTheme {
-        UpgradeScreen(playerViewModel = PlayerViewModel())
-    }
-}
