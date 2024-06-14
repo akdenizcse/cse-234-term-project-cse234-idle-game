@@ -13,9 +13,6 @@ User authentication is done through firebase and user data is stored with firest
    - Batuhan Yılmaz - 20220808068 - BatY0
    - Emre Kemal Aksel - 20220808065 - Cherub26
 
-## Task Allocation
-//Finish this later
-
 ## Screens
 Our Idle Game app has these screens:
 
