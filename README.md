@@ -2,7 +2,7 @@
 
 
 # Idle Game
-This is an idle game made with Kotlin using composables, the app includes weapons with levels, materials(upgrades) that earn coins for you, but you also have the option to deal damage to the slime enemy on the weapons tab to earn even more money.
+This is an idle game made with Kotlin using composables, we have also used Google's Relay plugin to be able to use some the designs we made in figma, the app includes weapons with levels, materials(upgrades) that earn coins for you, but you also have the option to deal damage to the slime enemy on the weapons tab to earn even more money.
 
 User authentication is done through firebase and user data is stored with firestore database.
 
