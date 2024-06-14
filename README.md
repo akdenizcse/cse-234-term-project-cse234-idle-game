@@ -10,8 +10,8 @@ User authentication is done through firebase and user data is stored with firest
    - If you would like to register an account use a password longer than 5 characters as that is what firebase authentication desires.
 
 ## Authors
-Batuhan Yılmaz - 20220808068 - BatY0
-Emre Kemal Aksel - 20220808065 - Cherub26
+   - Batuhan Yılmaz - 20220808068 - BatY0
+   - Emre Kemal Aksel - 20220808065 - Cherub26
 
 ## Task Allocation
 //Finish this later
