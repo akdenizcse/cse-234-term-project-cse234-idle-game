@@ -26,7 +26,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.idlegame.componentbutton.Check
 import com.example.idlegame.ui.theme.IdleGameTheme
 import com.example.idlegame.downbar.Design
 import com.example.idlegame.downbar.DownBar
@@ -249,7 +248,7 @@ class MainActivity : ComponentActivity() {
             playerViewModel.weapons.value.forEach { weapon ->
                 val weaponData = hashMapOf(
                     "level" to weapon.level.value,
-                    "material" to weapon.multiplier.value // CHECK BACK AT THIS LATER ON
+                    "material" to weapon.multiplier.value
                 )
 
                 db.collection("weapons").document("${weapon.title()}_$uid")

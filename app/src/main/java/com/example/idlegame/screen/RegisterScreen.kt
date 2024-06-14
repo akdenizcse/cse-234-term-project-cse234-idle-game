@@ -4,9 +4,9 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -124,7 +125,8 @@ fun RegisterScreen(navController: NavHostController,randomIndex: Int = Random.ne
                 textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.Black.copy(alpha = 0.5f)
-                )
+                ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -138,7 +140,8 @@ fun RegisterScreen(navController: NavHostController,randomIndex: Int = Random.ne
                 textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.Black.copy(alpha = 0.5f)
-                )
+                ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
             Spacer(modifier = Modifier.height(4.dp))
 

@@ -2,13 +2,12 @@ package com.example.idlegame.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -23,13 +22,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.idlegame.MainActivity
 import com.example.idlegame.R
 import com.example.idlegame.gembuy.pressStart2P
 import com.example.idlegame.ui.theme.IdleGameTheme
@@ -128,9 +126,10 @@ fun LoginScreen(navController: NavHostController,randomIndex: Int = Random.nextI
                 textStyle = TextStyle(fontFamily = pressStart2P, color = Color.White),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.Black.copy(alpha = 0.5f),
-                )
-
+                ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
+
             Spacer(modifier = Modifier.height(16.dp))
 
             Box { // Center within the Box
